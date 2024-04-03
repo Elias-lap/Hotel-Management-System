@@ -1,0 +1,9 @@
+.auth-cotainer{
+    background-image: url(./assets/images/bg3.png);
+    background-size: cover;
+    background-position: center center;
+}
+
+.login-container{
+    background-color: #3f5e58;
+}
