@@ -16,7 +16,7 @@ interface DecodedTokenType {
   role: string;
 }
 
-export let AuthContext = createContext<IAuth | any>(null);
+export const AuthContext = createContext<IAuth |null >(null);
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -41,7 +41,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const contextValue: IAuth = {
+  const contextValue: IAuth |null= {
     loginData,
     userRole,
     savLoginData,
