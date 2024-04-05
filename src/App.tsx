@@ -20,7 +20,8 @@ function App() {
       element:  <AuthLayout/>,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Layout  /> },
+        { index: true, element: <Layout /> },
+        { path: 'layout', element: <Layout  /> },
         { path: 'login', element: <Login  /> },
         { path: 'forgot-Pass', element: <ForgotPassword /> },
         { path: 'reset-Pass', element: <ResetPassword/> },

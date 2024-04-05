@@ -1,118 +1,77 @@
-import React from "react";
-import { Box, Button, FormGroup , FormHelperText, Grid, Input, InputLabel, Paper, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+// import React from "react";
+// import { Box, Button, FormGroup, FormHelperText, Grid, Input, InputLabel, Paper, TextField, Typography } from "@mui/material";
+// import { Link, useFormAction } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../Context/Components/AuthContext";
 
 export default function Login() {
+  const { loginData, savLoginData,baseUrl } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data:any) => {
+   
+    await axios.post (`${baseUrl}/v0/admin/users/login`, data)
+      .then((response) => {
+        localStorage.setItem("token", response.data.data.token);
+           navigate("/layout");
+           savLoginData();
+
+        // console.log("token", response.data.data.token);
+        console.log(loginData); 
+        // console.log(baseUrl); 
+
+      })
+      .catch((error) => {
+        console.log(error );
+     
+      });
+  };
+ 
   return (
     <>
-      <div className="auth-cotainer vh-100 d-flex justify-content-center align-items-center">
-        <div className="w-50 h-50 bg-info">
-        <Grid container component="main" className=''>
-      <Grid item xs={12} sm={12} md={6} className=''>
-        <Paper elevation={0} className=''>
-          <Paper elevation={0} sx={{ mx: 4, pt: 1, mb: 2 }}>
-            <img src='' />
-          </Paper>
-          {/* *******container of left side******* */}
-          <Box
-            sx={{
-              // my: 2,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              // mt: 3, maxWidth: '400px', margin: 'auto'
-            }}
-          >
-            <Typography component="h2" variant="h5">
-              Sign in
-            </Typography>
-            <Typography sx={{ my: 2 }} component="body" variant="body1">
-              If you don’t have an account register
-              <br />
-              You can
-              <Link to="/register"> Register here !</Link>
-            </Typography>
-            {/* **********form inputs*********** */}
-            <Box
-              component="form"
-              noValidate
-            
-              sx={{ mt: 3 }}
-            >
-              <TextField 
-                // {...register("email", {
-                //   required: true,
-                //   pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                // })}
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              {/* {errors.email && errors.email.type === "required" && (
-                <span className="errorMsg">Email is required</span>
-              )} */}
 
-              {/* {errors.email && errors.email.type === "pattern" && (
-                <span className="errorMsg">Email is invalid</span>
-              )} */}
-
-              <TextField
-                // {...register("password", {
-                //   required: true,
-                //   pattern:
-                //     /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                // })}
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              {/* {errors.password && errors.password.type === "required" && (
-                <span className="errorMsg">Password is required</span>
-              )}
-              {errors.password && errors.password.type === "pattern" && (
-                <span className="errorMsg">password is invalid</span>
-              )} */}
-
-              <Grid container>
-                <Grid item xs sx={{ mb: 5, pb: 5, pt: 2 }}>
-                  <Link to="/forget-password">Forgot password?</Link>
-                </Grid>
-              </Grid>
-
-              <Button
-                className=''
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                sx={{ mt: 5, mb: 2, py: 1 }}
-              >
-                Login
-              </Button>
-            </Box>
-          </Box>
-        </Paper>
-      </Grid>
-      <Grid item xs={false} sm={false} md={6} className=''>
-        <img src='' alt="Login Image" className='' />
-        <Typography variant="h4" className=''>
-          Sign in to Roamhome
-          <h6>Homes as unique as you.</h6>
-        </Typography>
-      </Grid>
-    </Grid>
-        </div>
+<div className="auth-cotainer vh-100 d-flex justify-content-center align-items-center">
+  <div className="w-50 h-50 bg-info">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-3 px-5">
+        <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        {...register("email", {
+          required: "email is required",
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: "email is not valid ",
+          },
+        })}
+       />
+          <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
       </div>
+      <div className="mb-3 px-5">
+        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+        <input type="password" className="form-control" id="exampleInputPassword1"
+        {...register("password", {
+          required: "password is required ",
+          // pattern: {
+          //   value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+          //   message:
+          //     "Password must contain at least 8 characters, including upper and lowercase letters, and numbers",
+          // },
+        })}
+        />
+      </div>
+    
+      <button type="submit" className="btn btn-primary px-5">Submit</button>
+    </form>
+  </div>
+</div>
     </>
   );
 }
