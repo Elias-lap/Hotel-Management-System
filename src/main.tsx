@@ -9,12 +9,15 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { AuthContextProvider } from './Context/Components/AuthContext.tsx'
+import { ToastContextProvider } from './Context/Components/TousterContext.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <ToastContextProvider>
     <AuthContextProvider>
     <App />
     </AuthContextProvider>
+    </ToastContextProvider>
   </React.StrictMode>,
 )
