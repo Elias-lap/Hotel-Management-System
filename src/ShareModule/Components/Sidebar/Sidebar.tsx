@@ -12,13 +12,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import UsersIcon from "@mui/icons-material/People";
-import { ListItemButton } from "@mui/material";
+import {  Dialog,  DialogContent, DialogTitle, ListItemButton } from "@mui/material";
 import RoomsIcon from "@mui/icons-material/Hotel";
 import AdsIcon from "@mui/icons-material/LocalOffer";
 import BookingsIcon from "@mui/icons-material/Event";
 import FacilitiesIcon from "@mui/icons-material/LocationCity";
 import ChangePasswordIcon from "@mui/icons-material/Lock";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
+import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
 
 const drawerWidth = 240;
 
@@ -71,19 +72,47 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
-
+  const [openDialog, setOpenDialog] = React.useState(false);
+//  open close SideBar ///////////////
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
+////////////////////////////////////
+const handleClickOpenDialog = () => {
+  setOpenDialog(true);
+};
+
+const handleCloseDialog = () => {
+  setOpenDialog(false);
+};
+
+
 
   return (
+    // Modal Dialog for change Password 
+  
+    <>
+      <Dialog
+    open={openDialog}
+    onClose={handleCloseDialog}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">
+      {"change Password "}
+    </DialogTitle>
+    <DialogContent>
+      <ChangePassword/>
+    
+    </DialogContent>
+
+  </Dialog>
+
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-
       <Drawer variant="permanent" open={open} sx={{ "& .MuiDrawer-paper": { backgroundColor: "blue" } }} >
         <DrawerHeader>
           {open ? (
@@ -146,9 +175,9 @@ export default function MiniDrawer() {
             </ListItemIcon>
             <ListItemText primary="Facilities"  sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton onClick={ ()=>{handleClickOpenDialog()}}>
             <ListItemIcon>
-              <IconButton>
+              <IconButton >
               <ChangePasswordIcon sx={{color : "white" }} />
               </IconButton>
             </ListItemIcon>
@@ -166,5 +195,7 @@ export default function MiniDrawer() {
         </List>
       </Drawer>
     </Box>
+
+    </>
   );
 }
