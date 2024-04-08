@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 interface IToastTypes {
   showToast: (message: string) => void;
   showSuccessToast: (message: string) => void;
-  showErrorToast: (message: string) => void;
+  showErrorToast: (message: string) => void ;
 }
 
 const Toast = createContext<IToastTypes | undefined>(undefined);
