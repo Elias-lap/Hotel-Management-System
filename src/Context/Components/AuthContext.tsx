@@ -16,11 +16,13 @@ interface DecodedTokenType {
   role: string;
 }
 
+<<<<<<< HEAD
+export let AuthContext = createContext<IAuth | null>(null);
+=======
 export const AuthContext = createContext<IAuth |null >(null);
+>>>>>>> 7eaf27871fefda29014ec51687af394031456aff
 
-export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [loginData, setloginData] = useState<DecodedTokenType | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const baseUrl="https://upskilling-egypt.com:3000/api";
@@ -41,7 +43,11 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
+<<<<<<< HEAD
+  const contextValue: IAuth | null = {
+=======
   const contextValue: IAuth |null= {
+>>>>>>> 7eaf27871fefda29014ec51687af394031456aff
     loginData,
     userRole,
     savLoginData,
