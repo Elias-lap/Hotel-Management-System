@@ -7,7 +7,7 @@ export interface IAuth {
   savLoginData: () => void;
   userRole: string | null;
   requestHeaders: { Authorization:string},
-  baseUrl: string;
+  baseUrl: string | undefined;
   // updateUserData: () => void;
   // setUserRole: () => void;
 }

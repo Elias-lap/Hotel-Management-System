@@ -105,7 +105,7 @@ const handleCloseDialog = () => {
       {"change Password "}
     </DialogTitle>
     <DialogContent>
-      <ChangePassword/>
+      <ChangePassword handleCloseDialog ={handleCloseDialog}/>
     
     </DialogContent>
 
