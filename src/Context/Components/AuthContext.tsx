@@ -7,7 +7,7 @@ export interface IAuth {
   savLoginData: () => void;
   userRole: string | null;
   requestHeaders: { Authorization:string},
-  baseUrl: string;
+  baseUrl: string | undefined;
   // updateUserData: () => void;
   // setUserRole: () => void;
 }
@@ -16,11 +16,7 @@ interface DecodedTokenType {
   role: string;
 }
 
-<<<<<<< HEAD
 export let AuthContext = createContext<IAuth | null>(null);
-=======
-export const AuthContext = createContext<IAuth |null >(null);
->>>>>>> 7eaf27871fefda29014ec51687af394031456aff
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [loginData, setloginData] = useState<DecodedTokenType | null>(null);
@@ -43,11 +39,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children
     }
   }, []);
 
-<<<<<<< HEAD
   const contextValue: IAuth | null = {
-=======
-  const contextValue: IAuth |null= {
->>>>>>> 7eaf27871fefda29014ec51687af394031456aff
     loginData,
     userRole,
     savLoginData,

@@ -4,22 +4,13 @@ import App from './App.tsx'
 import './index.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import { AuthContextProvider } from './Context/Components/AuthContext.tsx'
-import { ToastContextProvider } from './Context/Components/TousterContext.tsx'
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ToastContextProvider>
     <AuthContextProvider>
-    <App />
+      <App />
     </AuthContextProvider>
-    <ToastContainer/>
-    </ToastContextProvider>
   </React.StrictMode>,
 )

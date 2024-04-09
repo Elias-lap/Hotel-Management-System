@@ -37,6 +37,7 @@ export default function Login() {
       .post(`${baseUrl}/v0/admin/users/login`, data)
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
+        
         navigate("/layout");
         savLoginData();
 
