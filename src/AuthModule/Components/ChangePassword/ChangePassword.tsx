@@ -7,13 +7,14 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
+  createTheme,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Context/Components/AuthContext";
 import axios from "axios";
 import { SubmitHandler } from "react-hook-form";
-import { Toast } from "../../../Context/Components/TousterContext";
+import { toast } from "react-toastify";
 type FormValues = {
   oldPassword: string;
   newPassword: string;
@@ -22,13 +23,26 @@ type FormValues = {
 type Props ={
   handleCloseDialog : ()=>void
 }
+
+
 export default function ChangePassword({ handleCloseDialog }: Props) {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#00000021',
+      },
+      secondary: {
+        main: '#bdb8b891',
+      },
+      // Add more colors as needed
+    },
+  });
   // Inside your component function
   const authContextValue = useContext(AuthContext); // Get the context value
   const baseUrl: string | undefined = authContextValue
     ? authContextValue.baseUrl
     : undefined;
-const {showSuccessToast , showErrorToast}= useContext(Toast)
+
 const [spinner, setSpinner] = useState<boolean>(false);
   const {
     register,
@@ -76,12 +90,12 @@ const [spinner, setSpinner] = useState<boolean>(false);
         }
       );
       console.log(response.data.message);
-      showSuccessToast?.("Password has been updated successfully");
+      toast.success("Password has been updated successfully");
       handleCloseDialog()
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message);
+        toast.error(error.response.data.message);
       }
     }finally{
       setSpinner(false)
@@ -95,7 +109,7 @@ const [spinner, setSpinner] = useState<boolean>(false);
         <FormLabel sx={{ color: "black" }}>Current Password</FormLabel>
         <TextField
           variant="filled"
-          sx={{ backgroundColor: "#bdb8b891", color: "#00000021" }}
+          sx={{ backgroundColor: theme.palette.secondary.main ,  color: theme.palette.primary.main }}
           autoFocus
           margin="dense"
           label="Current Password"
@@ -123,7 +137,7 @@ const [spinner, setSpinner] = useState<boolean>(false);
         <FormLabel sx={{ color: "black" }}>New Password</FormLabel>
         <TextField
           variant="filled"
-          sx={{ backgroundColor: "#bdb8b891", color: "#00000021" }}
+          sx={{ backgroundColor: theme.palette.secondary.main, color: theme.palette.primary.main}}
           margin="dense"
           label="New Password"
           type={showNewPassword ? "text" : "password"}
@@ -151,7 +165,7 @@ const [spinner, setSpinner] = useState<boolean>(false);
         <FormLabel sx={{ color: "black" }}>Confirm Password </FormLabel>
         <TextField
           variant="filled"
-          sx={{ backgroundColor: "#bdb8b891", color: "#00000021" }}
+          sx={{ backgroundColor: theme.palette.secondary.main, color: theme.palette.primary.main}}
           margin="dense"
           label="Confirm New Password"
           type={showConfirmNewPassword ? "text" : "password"}
@@ -182,10 +196,9 @@ const [spinner, setSpinner] = useState<boolean>(false);
           mt: 1,
           width: "100%",
           marginLeft: "auto",
-          backgroundColor: "#e770706c",
         }}
-        color="error"
-        variant="outlined"
+      
+        variant="contained"
         type="submit"
       >
          {spinner ? <CircularProgress size={24} color="inherit" /> : 'Change'}
