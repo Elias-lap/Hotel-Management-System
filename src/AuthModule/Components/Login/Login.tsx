@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -20,6 +21,7 @@ import Styles from "./Login.module.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import img from "../../../assets/images/login0.png";
 import logo from "../../../assets/images/Staycation.png";
+import { toast } from "react-toastify";
 
 export default function Login() {
 
@@ -36,6 +38,7 @@ export default function Login() {
   const { loginData, savLoginData, baseUrl } = authContext;
 
   const [showPassword, setShowPassword] = useState("password");
+  const [spinner, setSpinner] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const {
@@ -46,7 +49,8 @@ export default function Login() {
 
   const onSubmit = async (data: FormData) => {
     // console.log(data);
-    
+    setSpinner(true)
+
     await axios
       .post(`${baseUrl}/v0/admin/users/login`, data)
       .then((response) => {
@@ -57,9 +61,18 @@ export default function Login() {
         // console.log("token", response.data.data.token);
         console.log(loginData);
         // console.log(baseUrl);
+        setSpinner(false)
+        toast.success("Login  successfully");
+
+
       })
       .catch((error) => {
+        if (axios.isAxiosError(error) && error.response) {
+          toast.error(error.response.data.message);
+        }
         console.log(error);
+        setSpinner(false)
+
       });
   };
 
@@ -182,7 +195,9 @@ export default function Login() {
                   color="primary"
                   sx={{ mt: 2, mb: 2, py: 1 }}
                 >
-                  Login
+                           {spinner ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+
+                  
                 </Button>
               </Box>
             </Grid>

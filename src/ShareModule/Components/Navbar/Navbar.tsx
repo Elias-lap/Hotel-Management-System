@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // /////////////////////
 import styles from "./NavBar.module.css";
 import logo from "../../../assets/images/Staycation.png";
@@ -30,7 +30,7 @@ interface Props {
 export default function Navbar(props: Props) {
 
   const authContext = useContext(AuthContext);
-
+ const navigate =useNavigate()
   if (!authContext) {
     // Handle the case where AuthContext is null
     return null;
@@ -38,7 +38,10 @@ export default function Navbar(props: Props) {
 
   const { loginData } = authContext;
 
-
+  let logOut = () => {
+    localStorage.removeItem("token");
+    navigate("/login")
+  }
   const drawerWidth = 240;
   const navItems = ["Home", "Explore", "Reviews", "Favorites"];
   const { window } = props;
@@ -113,22 +116,28 @@ export default function Navbar(props: Props) {
               >
                 Reviews
               </Link>
-
-              <Link
+              {loginData?
+               <Link  onClick={logOut}   >
+               <Button
                
-                to="/login"
-              >
-                {!loginData?
-                 <Button
-                 className={styles.bottom}
-                 sx={{ bgcolor: "primary" }}
-                 color={"inherit"}
-               >
-                 Login Now
-               </Button>
-                :""}
-              
-              </Link>
+               sx={{ bgcolor: "info"  }}
+               color={"inherit"}
+             >
+               Log Out
+             </Button>
+            </Link>
+             
+              : <Link  to="/login"  >
+              <Button
+              className={styles.bottom}
+              sx={{ bgcolor: "primary" }}
+              color={"inherit"}
+            >
+              Login Now
+            </Button>
+           </Link>
+             
+              }
               {/* <Button
                 className={styles.bottom}
                 sx={{ bgcolor: "primary" }}
