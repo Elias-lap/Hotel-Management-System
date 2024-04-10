@@ -12,6 +12,11 @@ import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> log-in
 
 
 function App() {
@@ -52,6 +57,10 @@ function App() {
     <>
      < RouterProvider router={routes} /> 
      <ToastContainer/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> log-in
     </>
   )
 }

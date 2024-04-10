@@ -23,7 +23,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children
   const [userRole, setUserRole] = useState<string | null>(null);
   const baseUrl="https://upskilling-egypt.com:3000/api";
   const requestHeaders = {
-    Authorization: ` ${localStorage.getItem("userToken")}`,
+    Authorization: ` ${localStorage.getItem("token")}`,
   };
 
   const savLoginData = () => {
