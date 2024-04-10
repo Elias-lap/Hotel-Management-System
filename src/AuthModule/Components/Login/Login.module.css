@@ -1,19 +1,4 @@
 
-<<<<<<< HEAD
-.background{
-    background-color: rgb(196, 215, 17);
-}
-.backgroun{
-    background-color: rgb(219, 33, 79);
-    /* height: 100dvh; */
-}
-.backgrou{
-    background-color: rgb(229, 195, 203);
-    /* height: 100dvh; */
-}
-
-
-=======
 
   @media (max-width: 960px) {
     .imageContainer {
@@ -67,4 +52,3 @@
     color: rgba(21, 44, 91, 1) !important;
     text-decoration: none !important;
   }
->>>>>>> log-in

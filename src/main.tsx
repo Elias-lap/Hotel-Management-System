@@ -5,8 +5,6 @@ import './index.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
 import { AuthContextProvider } from './Context/Components/AuthContext.tsx'
-<<<<<<< HEAD
-=======
 import { ToastContextProvider } from './Context/Components/TousterContext.tsx'
 <link
   rel="stylesheet"
@@ -17,7 +15,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
->>>>>>> log-in
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
