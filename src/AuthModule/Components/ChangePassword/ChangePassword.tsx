@@ -73,12 +73,12 @@ const [spinner, setSpinner] = useState<boolean>(false);
   };
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // Handle password change logic here
-    // const token = localStorage.getItem("userToken");
-    // if (!token) {
-    //   throw new Error("User is not authenticated");
-    // }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
     setSpinner(true)
-    const token ="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjEzZWZlZTZlYmJiZWZiYzE5ZjAwZmYiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMjU4MjY4NCwiZXhwIjoxNzEzNzkyMjg0fQ.M887Vp9SsT7OzO_fbw0acuL1PzADMB4v03Tf0DdD9Vo"
+    // const token ="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjEzZWZlZTZlYmJiZWZiYzE5ZjAwZmYiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMjU4MjY4NCwiZXhwIjoxNzEzNzkyMjg0fQ.M887Vp9SsT7OzO_fbw0acuL1PzADMB4v03Tf0DdD9Vo"
     try {
       const response = await axios.post(
         `${baseUrl}/v0/admin/users/change-password`,

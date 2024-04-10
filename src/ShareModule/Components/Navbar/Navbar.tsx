@@ -26,16 +26,10 @@ interface Props {
 }
 
 export default function Navbar(props: Props) {
-  const authContext = useContext(AuthContext);
-  const navigate = useNavigate();
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
 
-  const { loginData } = authContext;
+  
 
-  let logOut = () => {
+  const logOut = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
@@ -48,6 +42,14 @@ export default function Navbar(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { loginData } = authContext;
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 5 }}>
@@ -101,7 +103,7 @@ export default function Navbar(props: Props) {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex",  width:"100%"}}>
         <CssBaseline />
         <AppBar component="nav" className={styles.nav}>
           <Toolbar>

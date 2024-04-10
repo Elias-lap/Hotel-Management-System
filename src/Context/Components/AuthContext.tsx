@@ -16,7 +16,7 @@ interface DecodedTokenType {
   role: string;
 }
 
-export let AuthContext = createContext<IAuth | null>(null);
+export const AuthContext = createContext<IAuth | null>(null);
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [loginData, setloginData] = useState<DecodedTokenType | null>(null);

@@ -12,6 +12,7 @@ import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserList from './DshboardModule/Components/Dashboard/Users/UserList';
 
 
 
@@ -42,7 +43,7 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },
-
+        { path: 'UserList', element: <UserList/> },
         
         
         
