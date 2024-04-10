@@ -1,15 +1,8 @@
 
 
 
-.linkStyle {
-    color: #000 !important;
-    text-decoration: none;
-    cursor: pointer;
-    margin-left: 25px;
-}
-.linkStyle:hover{
-    color: #21499a !important;
-}
+
+
 
 .nav{
     background-color: #ffffff !important; 
@@ -17,11 +10,11 @@
     box-shadow: none !important;
 }
 .bottom{
-    background-color: rgb(61, 10, 229) !important;
+    /* background-color: rgb(61, 10, 229) !important; */
     padding: 20px;
     margin:0% 15px !important;
     width: 200px;
-    color: #fff !important;
+    color: #e01010 !important;
 }
 
 @media (max-width: 760px) {

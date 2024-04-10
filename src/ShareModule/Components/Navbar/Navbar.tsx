@@ -1,23 +1,21 @@
-import  React, { useContext } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
+import Link from "@mui/material/Link";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 // /////////////////////
-import styles from "./NavBar.module.css";
+import { AuthContext } from "../../../Context/Components/AuthContext";
 import logo from "../../../assets/images/Staycation.png";
-import { AuthContext, IAuth } from "../../../Context/Components/AuthContext";
+import styles from "./NavBar.module.css";
 
 interface Props {
   /**
@@ -28,9 +26,8 @@ interface Props {
 }
 
 export default function Navbar(props: Props) {
-
   const authContext = useContext(AuthContext);
- const navigate =useNavigate()
+  const navigate = useNavigate();
   if (!authContext) {
     // Handle the case where AuthContext is null
     return null;
@@ -40,10 +37,10 @@ export default function Navbar(props: Props) {
 
   let logOut = () => {
     localStorage.removeItem("token");
-    navigate("/login")
-  }
+    navigate("/login");
+  };
   const drawerWidth = 240;
-  const navItems = ["Home", "Explore", "Reviews", "Favorites"];
+  // const navItems = ["Home", "Explore", "Reviews", "Favorites"];
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -53,19 +50,49 @@ export default function Navbar(props: Props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        <img src={logo}  />
+      <Typography variant="h6" sx={{ my: 5 }}>
+        <img src={logo} />
       </Typography>
       <Divider />
-      <List>
-        {navItems.map((item) => (
+      <Box>
+        {/* {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
+        ))} */}
+        <Box sx={{ display: { xs: "flex",flexDirection:"column", sm: "block" } }} >
+          <Link href="#" underline="hover" color="common.black" mb={2}>
+            Home
+          </Link>
+          <Link href="#" underline="hover" color="common.black"  mb={2}>
+            Explore
+          </Link>
+          <Link href="#" underline="hover" color="common.black"  mb={2}>
+            Reviews
+          </Link>
+          {loginData ? (
+            <Button
+              onClick={logOut}
+             
+              sx={{ p:1, width:"50%", m:"auto" ,alignItems:"center",  backgroundColor: "primary.dark", color: "common.black", }}
+             
+            >
+              Log Out
+            </Button>
+          ) : (
+            <Button
+              onClick={logOut}
+              sx={{ p:1, width:"50%", m:"auto" ,alignItems:"center",  backgroundColor: "primary.dark", color: "common.black", }}
+             
+              color={"inherit"}
+            >
+              Login Now
+            </Button>
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 
@@ -95,61 +122,42 @@ export default function Navbar(props: Props) {
               <img src={logo} className={styles.logoimg} />
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Link
-                style={{ color: "#3252DF" }}
-                className={styles.linkStyle}
-                to="/user/home"
-              >
+              <Link href="#" underline="hover" color="common.black" ml={2}>
                 Home
               </Link>
-              <Link
-                style={{ color: "#3252DF" }}
-                className={styles.linkStyle}
-                to="/user/home"
-              >
+              <Link href="#" underline="hover" color="common.black" ml={2}>
                 Explore
               </Link>
-              <Link
-                style={{ color: "#3252DF" }}
-                className={styles.linkStyle}
-                to="/user/home"
-              >
+              <Link href="#" underline="hover" color="common.black" ml={2}>
                 Reviews
               </Link>
-              {loginData?
-               <Link  onClick={logOut}   >
-               <Button
-               
-               sx={{ bgcolor: "info"  }}
-               color={"inherit"}
-             >
-               Log Out
-             </Button>
-            </Link>
-             
-              : <Link  to="/login"  >
-              <Button
-              className={styles.bottom}
-              sx={{ bgcolor: "primary" }}
-              color={"inherit"}
-            >
-              Login Now
-            </Button>
-           </Link>
-             
-              }
-              {/* <Button
-                className={styles.bottom}
-                sx={{ bgcolor: "primary" }}
-                color={"inherit"}
-              >
-                Login Now */}
-              {/* </Button> */}
-              {/* {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
-              </Button>
-            ))} */}
+              {loginData ? (
+                <Button
+                  className={styles.linkStyle}
+                  onClick={logOut}
+                  sx={{
+                    color: "common.black",
+                    backgroundColor: "primary.dark",
+                    marginLeft: "30px",
+                  }}
+                  color={"inherit"}
+                >
+                  Log Out
+                </Button>
+              ) : (
+                <Button
+                  className={styles.linkStyle}
+                  onClick={logOut}
+                  sx={{
+                    color: "common.black",
+                    backgroundColor: "primary.dark",
+                    marginLeft: "30px",
+                  }}
+                  color={"inherit"}
+                >
+                  Login Now
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
