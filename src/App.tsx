@@ -10,6 +10,8 @@ import AuthLayout from './ShareModule/Components/AuthLayout/AuthLayout';
 import MasterLayout from './ShareModule/Components/MasterLayout/MasterLayout';
 import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -49,6 +51,8 @@ function App() {
   return (
     <>
      < RouterProvider router={routes} /> 
+     <ToastContainer/>
+
     </>
   )
 }
