@@ -111,9 +111,9 @@ export default function ForgotPassword() {
                       },
                     })}
                   />
-                  {errors.phoneNumber && (
+                  {errors.email && (
                     <Alert className=" mt-1" severity="error">
-                      {errors.phoneNumber.message?.toString()}
+                      {errors.email.message?.toString()}
                     </Alert>
                   )}
                 </FormControl>
