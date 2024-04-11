@@ -37,6 +37,8 @@ export interface FormDataRegister {
   profileImage: FileList;
 }
 
+
+
 export default function Register() {
   const navigate = useNavigate();
   const [loadingBtn, setLoadingBtn] = useState(false);
