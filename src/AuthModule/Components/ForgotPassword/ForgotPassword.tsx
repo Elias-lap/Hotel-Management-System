@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
-import { SubmitHandler, FieldValues } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import StyleForgotPass from "./ForgotPassword.module.css";
 import imgForgotPass from "../../../Img/forgotPass.png";
 
@@ -14,13 +14,10 @@ import {
   FormControl,
   TextField,
   Typography,
-  FilledInput,
-  InputAdornment,
-  IconButton,
+
   Alert,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 
 export interface FormDataRegister {
   email: string;
