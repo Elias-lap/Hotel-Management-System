@@ -21,7 +21,6 @@ import {
 
 export interface FormDataRegister {
   email: string;
-  code: string;
 }
 
 export default function ForgotPassword() {
@@ -38,15 +37,14 @@ export default function ForgotPassword() {
     setloadingBtn(true);
 
     try {
-      let DtaApi = await axios.post(
+      let response = await axios.post(
         "https://upskilling-egypt.com:3000/api/v0/admin/users/forgot-password",
         data
       );
-      // console.log(DtaApi.data.token)
-      let ResultToen = DtaApi.data.token;
-      console.log(ResultToen);
+  
+      console.log(response);
 
-      toast.success("Your request is being processed, please check your email");
+      toast.success("Password reset request, already sent successfully ,check your email");
 
       navigate("/reset-Pass");
     } catch (error: any) {
