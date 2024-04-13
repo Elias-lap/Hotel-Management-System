@@ -44,11 +44,12 @@ export default function UserList() {
   const dateTime = new Date(dateTimeString);
 
   const formattedDate = dateTime.toLocaleDateString(); // Format the date portion
-  const formattedTime = dateTime.toLocaleTimeString(); // Format the time portion
+  const formattedTime = dateTime.toLocaleTimeString(); // Format the time portion                                                                                                            
 
   console.log("Formatted Date:", formattedDate);
   console.log("Formatted Time:", formattedTime);
   // handel user detail
+  
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
