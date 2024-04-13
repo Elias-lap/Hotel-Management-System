@@ -20,6 +20,8 @@ import FacilitiesIcon from "@mui/icons-material/LocationCity";
 import ChangePasswordIcon from "@mui/icons-material/Lock";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
+// import { Link } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -159,7 +161,7 @@ const handleCloseDialog = () => {
             </ListItemIcon>
             <ListItemText primary="Ads"  sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton >
             <ListItemIcon>
               <IconButton>
               <BookingsIcon sx={{color : "white" }}/>
@@ -167,7 +169,7 @@ const handleCloseDialog = () => {
             </ListItemIcon>
             <ListItemText primary="Bookings" sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton  component={Link} to="FacilitiesList">
             <ListItemIcon>
               <IconButton>
               <FacilitiesIcon  sx={{color : "white" }}/>
