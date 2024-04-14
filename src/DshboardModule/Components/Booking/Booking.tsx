@@ -19,6 +19,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Visibility } from "@mui/icons-material";
 import { CircularProgress,  IconButton,  Typography } from "@mui/material";
+import './Booking.css'
 
 interface IUser {
   _id: string;
@@ -153,6 +154,18 @@ export default function Booking() {
           </Button>
         </DialogActions>
       </Dialog>
+      <div className="Booking">
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "20px", fontWeight: "bolder"  , margin :2}}
+          >
+            ADS Table Details{" "}
+          </Typography>
+          <Typography variant="body1" color="initial">
+            You can check all details{" "}
+          </Typography>
+        </div>
       {loading ? ( // Display the spinner while loading is true
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <CircularProgress size={60} />
