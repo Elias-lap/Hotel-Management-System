@@ -12,7 +12,9 @@ import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UserList from './DshboardModule/Components/Dashboard/Users/UserList';
+import UserList from './DshboardModule/Components/Users/UserList';
+import ADS from './DshboardModule/Components/ADS/ADS';
+import Booking from './DshboardModule/Components/Booking/Booking';
 
 
 
@@ -44,6 +46,8 @@ function App() {
       children: [
         { index: true, element: <Dashboard /> },
         { path: 'UserList', element: <UserList/> },
+        { path: 'ADS', element: <ADS/> },
+        { path: 'Booking', element: <Booking/> },
         
         
         
