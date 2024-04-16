@@ -52,8 +52,12 @@ export default function FacilitiesList() {
   // menu for Edit / update /
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+     id:string
+  ) => {
     setAnchorEl(event.currentTarget);
+    setFacilitiesId(id)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -407,7 +411,7 @@ export default function FacilitiesList() {
                       aria-controls={open ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
+                      onClick={(e)=>handleClick(e,facil._id)}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -444,7 +448,7 @@ export default function FacilitiesList() {
                     <Menu
                       id="basic-menu"
                       anchorEl={anchorEl}
-                      open={open}
+                      open={Boolean(anchorEl)&&FacilitiesId==facil._id}
                       onClose={handleClose}
                       MenuListProps={{
                         "aria-labelledby": "basic-button",
