@@ -1,23 +1,32 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {
+  Button, CircularProgress, FormControl, Grid, IconButton,
+  ListItemIcon,
+  ListItemText,
+  TableBody, TextField, Typography, useTheme
+} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import { Visibility } from "@mui/icons-material";
-import { CircularProgress, IconButton, Typography } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/Components/AuthContext";
+import "./FacilitiesList.css";
+import noData1  from '../../../assets/images/noData.png'
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 
 interface IFacilities {
@@ -26,251 +35,297 @@ interface IFacilities {
   createdBy:any;
   name: string;
   updatedAt: string;
+  // dateTime: string;
 
-  createdAt: string; 
+  createdAt: string | any;
   role : string
 }
-interface IFacilDetails {
-  createdAt: string;
-  role: string;
-}
 export default function FacilitiesList() {
-
-    const authContext = useContext (AuthContext);
-    if (!authContext) {
-      // Handle the case where AuthContext is null
-      return null;
-    }
-    const { baseUrl } = authContext;
-
+  const [facilitiesList, setFacilitiesList] = useState<IFacilities[]>([]);
   const [loading, setLoading] = useState(false); // Add the loading state variable
-  const [UserList, setUserList] = useState<IFacilities[]>([]);
-  const [UserListDetails, setUserListDetails] = useState<IFacilDetails>({
-    createdAt: "",
-    role: "",
-  });
- // Updated state declaration
-
-//   const dateTimeString = UserListDetails.createdAt;
-//   const dateTime = new Date(dateTimeString);
-
-//   const formattedDate = dateTime.toLocaleDateString(); // Format the date portion
-//   const formattedTime = dateTime.toLocaleTimeString(); // Format the time portion                                                                                                            
-
-//   console.log("Formatted Date:", formattedDate);
-//   console.log("Formatted Time:", formattedTime);
-
-//   handel user detail
-  
-  const [open, setOpen] = useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  // menu for Edit / update /
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
+  };
+  const theme = useTheme();
+  // Dialog for Add Or Edit
+  const [openDialog, setOpenDialog] = React.useState("false");
+  const [FacilitiesId, setFacilitiesId] = useState<string|null>(null);
+
+  const handleOpenAddDialo = () => {
+    setOpenDialog("add-modal");;
+    
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.grey[500],
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&": {
-      borderBottom: "none",
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+  const handleOpenDeleteDialo = (id:string|null) => {
+    setOpenDialog("delete");
+    setFacilitiesId(id);
+  };
+  const handleCloseDilaog = () => {
+    setOpenDialog("false");
+  };
 
-  const fetchData = async () => {
+  interface IFacility {
+    name: string;
+    requestHeaders: string |null |undefined
+  }
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IFacility>();
+
+  // getAllFacilities Data
+  const getAllFacilities = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       throw new Error("User is not authenticated");
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await axios.get(
-        // `${baseUrl}/v0/admin/room-facilities`,
-
-        `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-
-      console.log(response.data.data.facilities);
-      setUserList(response.data.data.facilities);
+      const response = await axios.get(`${baseUrl}/v0/admin/room-facilities`,{ headers: requestHeaders });;
+      
+      setFacilitiesList(response.data.data.facilities);
     } catch (error) {
-    //   console.log("ssssssssss");
-    }finally{
-      setLoading(false)
+      console.log("ssssssssss");
+    } finally {
+      setLoading(false);
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
 
+
+    // ************Add Facility
+    const onSubmit = async (data: IFacility) => {
+    
+      
+     
+      try {
+        const response = await axios.post(`${baseUrl}/v0/admin/room-facilities`,data, 
+          { headers: requestHeaders });
+          // console.log("5666666665");
+          // console.log(response);
+          getAllFacilities();
+          handleCloseDilaog();
+          toast.success("Add facilities success ")
+          
+      } catch (error) {
+        console.log('reeeeee');
+        
+      }
+      
+    
+    };
   useEffect(() => {
-    fetchData();
+    getAllFacilities();
   }, []);
- 
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { baseUrl , requestHeaders } = authContext;
 
   return (
     <>
+      {/* Dialog for  ////////////////////Update  */}
       <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
+        open={openDialog==="add-modal"}
+        onClose={handleCloseDilaog}
+        maxWidth="sm"
+        fullWidth
       >
-        <DialogTitle id="responsive-dialog-title">
-          <Typography
-            variant="body1"
-            color="initial"
-            sx={{
-              fontSize: "30px",
-              textAlign: "center",
-              color: theme.palette.primary.dark,
-            }}
-          >
-            User Details
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                <StyledTableRow>
-                  <StyledTableCell>
-                    <Typography
-                      variant="body2"
-                      color="initial"
-                      sx={{ color: theme.palette.primary.dark }}
-                    >
-                      Created At:
-                    </Typography>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <Typography variant="body2" color="initial">
-                      {/* {formattedDate} */}  
-                    </Typography>
-                  </StyledTableCell>
-                </StyledTableRow>
-                <StyledTableRow>
-                  <StyledTableCell>
-                    <Typography
-                      variant="body2"
-                      color="initial"
-                      sx={{ color: theme.palette.primary.dark }}
-                    >
-                      Time:
-                    </Typography>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <Typography variant="body2" color="initial">
-                      {/* {formattedTime} */}dddd
-                    </Typography>
-                  </StyledTableCell>
-                </StyledTableRow>
-                <StyledTableRow>
-                  <StyledTableCell>
-                    <Typography
-                      variant="body2"
-                      color="initial"
-                      sx={{ color: theme.palette.primary.dark }}
-                    >
-                      UserRole:
-                    </Typography>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <Typography variant="body2" color="initial">
-                      {UserListDetails.role}
-                    </Typography>
-                  </StyledTableCell>
-                </StyledTableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <DialogTitle sx={{mb:4,mt:1}}>Add Facility</DialogTitle>
+        <DialogContent  sx={{ mt: 1 , mb:5 }}>
+          <form style={{ width: "100%" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="filled" sx={{ m: 1 }}>     
+
+                  
+                    <Grid  container spacing={2}>
+                      <TextField
+                        {...register("name", {
+                          required: true,
+                        })}
+                        margin="normal"
+                        fullWidth
+                        id="name"
+                        label="name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                      />
+                      {errors.name && errors.name.type === "required" && (
+                  <span className="errorMsg">Name is required</span>
+                )}
+                    </Grid>
+            
+                 
+                </FormControl>
+              </Grid>
+              {/* You can add more Grid items for additional form elements */}
+            </Grid>
+          </form>
         </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleClose}
-            autoFocus
-            sx={{ color: theme.palette.primary.dark }}
+        <DialogActions >
+          {/* <Button onClick={handleCloseDilaog}>Cancel</Button> */}
+          
+          {/* <DialogContent dividers></DialogContent> */}
+          <Button 
+            variant="contained"
+            color="secondary"     
+            sx={{ mb:2,mt:1,px: 4,backgroundColor: theme.palette.primary.dark }}
+            onClick= {handleSubmit(onSubmit)}
+            type="submit"
           >
-            Close
+            Save
           </Button>
         </DialogActions>
       </Dialog>
-      {loading ? ( // Display the spinner while loading is true
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-        <CircularProgress size={60} />
-      </div>
-    ) : (
-      <TableContainer component={Paper} sx={{ paddingX: 2, width: "100%" }}>
-        <Table sx={{ minWidth: 400 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>id</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>CreatedBy</StyledTableCell>
 
-              <StyledTableCell>CreatedAt</StyledTableCell>
-              <StyledTableCell>Details</StyledTableCell>
-              {/* <StyledTableCell>
-                {" "}
-                <Visibility />
-              </StyledTableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {UserList?.map((facil , index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
-                  {facil._id}
-                </StyledTableCell>
-                <StyledTableCell>{facil.name}</StyledTableCell>
-                <StyledTableCell>{facil.updatedAt}</StyledTableCell>
-              
-                <StyledTableCell>{facil.createdAt}</StyledTableCell>
-                <StyledTableCell>
-                  {" "}
-                  <IconButton
-                    onClick={() => {
-                      handleClickOpen(),
-                        setUserListDetails({
-                          createdAt: facil.createdAt,
-                          role: facil.role,
-                        }); //
-                    }}
-                    // onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    <Visibility />
-                  </IconButton>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )}
-   
-    
+      {/* DELETE  */}
+      <Dialog
+        open={openDialog==="delete"}
+        onClose={handleCloseDilaog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{mb:4,mt:1}}></DialogTitle>
+        <DialogContent  sx={{ mt: 1 , mb:5 ,display:"flex",justifyContent:"center", alignItems:"center" ,flexDirection:"column"}}>
+        <img src={noData1} alt="Delete" />
+          <Typography sx={{ my: 2}} variant="h6">Delete This facility  Room ?</Typography>
+          <p>Are you sure you want to delete this facility ? </p>
+        </DialogContent>
+        <DialogActions >
+          <Button onClick={handleCloseDilaog}>Cancel</Button>
+          
+          {/* <DialogContent dividers></DialogContent> */}
+          <Button 
+            variant="contained"
+            color="secondary"     
+            sx={{ mb:2,mt:1,px: 4,backgroundColor: theme.palette.error.dark }}
+            onClick={() => {
+              handleOpenAddDialo();
+            }}
+            type="submit"
+          >
+            Delelte
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* //// end Dialog  */}
+      <div className="Header">
+        <div>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "20px", fontWeight: "bolder" }}
+          >
+           Facilities Table Details{" "}
+          </Typography>
+          <Typography  variant="body1" color="initial">
+            You can check all details{" "}
+          </Typography>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ backgroundColor: theme.palette.primary.dark }}
+            onClick={() => {
+              handleOpenAddDialo();
+            }}
+          >
+            ADD New Facilities
+          </Button>
+        </div>
+      </div>
+      {loading ? ( // Display the spinner while loading is true
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress size={60} />
+        </div>
+      ) : (
+        <TableContainer component={Paper} sx={{ paddingX: 3, width: "100%" }}>
+          <Table sx={{ minWidth: 400 }} aria-label="simple table">
+            <TableHead>
+              <TableRow sx={{ backgroundColor: theme.palette.grey[400] }}>
+                <TableCell> Name</TableCell>
+                <TableCell>UpdatedAt</TableCell>
+                <TableCell>createdAt</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {facilitiesList.map((facil) => (
+                <TableRow key={facil._id}>
+                  <TableCell component="th" scope="row">
+                    {facil.name}
+                  </TableCell>
+                  {/* <TableCell>{facil.updatedAt}</TableCell>
+                  <TableCell>{facil.createdAt}</TableCell> */}
+                  {/* <TableCell>{dateTime}</TableCell> */}
+                  {/* <TableCell>{facil.}</TableCell> */}
+                  <TableCell>{new Date(facil?.updatedAt).toLocaleDateString()}</TableCell>
+                  <TableCell>{new Date(facil?.createdAt).toLocaleDateString()}</TableCell>
+                          
+                 
+
+                  <TableCell>
+                    <IconButton
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                    
+                      <MenuItem onClick={() => {}}>
+                        <ListItemIcon   sx={{color:theme.palette.primary.dark}}  >
+                          <EditIcon fontSize="small" />
+                        </ListItemIcon >
+                        <ListItemText  >Edit</ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={()=>handleOpenDeleteDialo(facil._id)}>
+                        <ListItemIcon  sx={{color:"error.main"}}>
+                          <DeleteIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Delete</ListItemText>
+                      </MenuItem>
+                    </Menu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   );
 }

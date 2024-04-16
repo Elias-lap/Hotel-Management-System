@@ -21,9 +21,12 @@ export let AuthContext = createContext<IAuth | null>(null);
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [loginData, setloginData] = useState<DecodedTokenType | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const baseUrl="api/v0/admin/room-facilities";
-  const requestHeaders = {
+  const baseUrl="https://upskilling-egypt.com:3000/api";
+  // const baseUrl="api/v0/admin/room-facilities";
+  const requestHeaders =
+   {
     Authorization: ` ${localStorage.getItem("token")}`,
+    
   };
 
   const savLoginData = () => {

@@ -169,7 +169,7 @@ const handleCloseDialog = () => {
             </ListItemIcon>
             <ListItemText primary="Bookings" sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton  component={Link} to="FacilitiesList">
+          <ListItemButton  component={Link} to="facilitiesList">
             <ListItemIcon>
               <IconButton>
               <FacilitiesIcon  sx={{color : "white" }}/>

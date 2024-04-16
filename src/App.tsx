@@ -43,7 +43,7 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },
-        { path: 'FacilitiesList', element: <FacilitiesList /> },
+        { path: 'facilitiesList', element: <FacilitiesList /> },
         
 
         
