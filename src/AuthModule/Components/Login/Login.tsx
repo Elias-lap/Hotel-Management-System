@@ -120,7 +120,7 @@ export default function Login() {
               component="form" noValidate autoComplete="off">
                 <TextField
                  {...register("email", {
-                  required: "Email is required jhhkhkjhkj",
+                  required: "Email is required ",
                   pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
                 })}
                   margin="normal"

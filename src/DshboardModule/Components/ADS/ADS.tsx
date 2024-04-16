@@ -1,4 +1,3 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,14 +11,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Grid } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import ImageDelete from "../../../assets/images/noData.png";
+import { Grid, TextField } from "@mui/material";
 import "./ADS.css";
 import axios from "axios";
 import {
   CircularProgress,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
   TableBody,
   useTheme,
   Typography,
@@ -27,11 +26,12 @@ import {
   FormControl,
   InputLabel,
   Select,
-  
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Menu from "@mui/material/Menu";
+
 import MenuItem from "@mui/material/MenuItem";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 interface ADS {
   isActive: boolean;
   _id: string;
@@ -42,31 +42,101 @@ interface ADS {
     discount: number;
   };
 }
+interface IRooms {
+  _id: string;
+  roomNumber: string;
+}
+
+interface FormValues {
+  room: string;
+  discount: number;
+  isActive: string;
+}
 export default function ADS() {
   const [ADSList, setADSList] = useState<ADS[]>([]);
+  const [RoomsList, setRoomsList] = useState<IRooms[]>([]);
+  const [idAds, setIdads] = useState<string>("");
+  console.log(idAds);
+  const [TotalCountNumberRooms, setTotalCountNumberRooms] = useState<number>();
   const [loading, setLoading] = useState(false); // Add the loading state variable
-  // menu for Edit / update /
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const theme = useTheme();
-  // Dialog for Add Or Edit
-  const [openDialog, setOpenDialog] = React.useState(false);
-
-  const handleClickOpenDialo = () => {
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [dialogMode, setDialogMode] = useState<"add" | "update">("add");
+  const [selectedADS, setSelectedADS] = useState<ADS | null>(null); 
+  // Function to handle opening the dialog for updating
+  const handleClickOpenDialogForUpdate = (id: string) => {
+     // Find the selected ADS item based on its ID
+  const selectedADS = ADSList.find(ad => ad._id === id);
+  if (!selectedADS) {
+    return;
+  }
+    setSelectedADS(selectedADS)
+    setIdads(id); // Set the ID of the ADS to be updated
+    setDialogMode("update");
+    reset({
+      discount: selectedADS.room.discount,
+      isActive: selectedADS.isActive ? "true" : "false",
+    });
     setOpenDialog(true);
   };
+  // 1 -menu for Edit / update /
+  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const [openPopover, setOpenPopover] = React.useState(false);
+  // // Function to handle opening the menu
+  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  //   setOpenPopover(true);
+  // };
+
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  //   setOpenPopover(false);
+  // };
+  const theme = useTheme();
+  //2- Dialog for Add Or Edit
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+    setSelectedADS(null); // Reset selectedADS to null
+    setDialogMode("add"); // Set dialogMode to "add"
+    reset({
+      discount: 0,
+      isActive: "",
+    });
+  };
+  
 
   const handleCloseDilaog = () => {
     setOpenDialog(false);
   };
-
-  // fetching Data
+  // 3- Modal for Delete
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "none",
+    boxShadow: 24,
+    p: 4,
+  };
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+  //  Reat Hook form for submiting Data
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormValues>();
+  // const defaultValues: FormValues = {
+  //   room: "", // Set default room value
+  //   discount: 0, // Set default discount value
+  //   isActive: "true", // Set default isActive value
+  // };
+  const { control } = useForm<FormValues>();
+  // 1- fetching Data Get All ADS
   const fetchData = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -79,7 +149,6 @@ export default function ADS() {
           Authorization: token,
         },
       });
-
       console.log(response.data.data.ads);
       setADSList(response.data.data.ads);
     } catch (error) {
@@ -88,9 +157,125 @@ export default function ADS() {
       setLoading(false);
     }
   };
+
+  //2- send Data to Add
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setLoadingSubmit(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+    try {
+      const response = await axios.post(`${baseUrl}/v0/admin/ads`, data, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(response.data.message);
+      toast.success("Advertisement has been added successfully.");
+      handleCloseDilaog();
+      fetchData();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message);
+      }
+    } finally {
+      setLoadingSubmit(false);
+    }
+    reset();
+  };
+  //3- get All room for select
+  const totalRooms = String(TotalCountNumberRooms);
+  const fetchDataAllRooms = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseUrl}/v0/admin/rooms?page=1&size=${totalRooms}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data.data);
+      setRoomsList(response.data.data.rooms);
+      setTotalCountNumberRooms(response.data.data.totalCount);
+    } catch (error) {
+      console.log("ssssssssss");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 4 Delete Ads ///////🐱‍🚀🐱‍🚀🐱‍🚀
+  const DeleteData = async (id: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+    setLoadingSubmit(true);
+    try {
+      const response = await axios.delete(`${baseUrl}/v0/admin/ads/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(response);
+      toast.success("Advertisement has been Deleted successfully.");
+      fetchData();
+      handleCloseModal();
+    } catch (error) {
+      toast.error("error");
+    } finally {
+      setLoadingSubmit(false);
+    }
+  };
+
+  // 5 Update the Ads
+  const updateAds: SubmitHandler<FormValues> = async (data) => {
+    setLoadingSubmit(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+    try {
+      const payload = {
+        discount: data.discount, // Include the discount field from the form data
+        isActive: data.isActive// Get the original isActive value for the updated ad
+      };
+      const response = await axios.put(
+        `${baseUrl}/v0/admin/ads/${idAds}`,
+        payload, // Send the payload with discount and isActive
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data.message);
+      toast.success("Advertisement has been updated successfully.");
+      handleCloseDilaog();
+      fetchData();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message);
+      }
+    } finally {
+      setLoadingSubmit(false);
+    }
+    reset();
+  };
+  
+
   useEffect(() => {
     fetchData();
+    fetchDataAllRooms();
   }, []);
+
   const authContext = useContext(AuthContext);
   if (!authContext) {
     // Handle the case where AuthContext is null
@@ -100,40 +285,150 @@ export default function ADS() {
 
   return (
     <>
+      {/* Modal For Delete  */}
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+              marginY: "40px",
+            }}
+          >
+            <img src={ImageDelete} alt="" style={{ width: "30%" }} />
+          </Box>
+
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 3, textAlign: "center" }}
+          >
+            Delete This Ads Room ?
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 3, textAlign: "center" }}
+          >
+            are you sure you want to delete this item ? if you are sure just
+            click on delete it
+          </Typography>
+          <Box sx={{ textAlign: "end", m: 2 }}>
+            {loadingSubmit ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Button
+                onClick={() => {
+                  DeleteData(idAds);
+                }}
+                variant="contained"
+              >
+                Delete
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* end Modal Dialog */}
       {/* Dialog for ADD ////////////////////Update  */}
-      <Dialog open={openDialog} onClose={handleCloseDilaog} maxWidth="sm" fullWidth>
-  <DialogTitle>ADS</DialogTitle>
-  <DialogContent sx={{ mt: 1 }}>
-    <form style={{ width: "100%" }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-        <FormControl fullWidth variant="filled" sx={{ m: 1}}>
-        <InputLabel id="demo-simple-select-filled-label">RooM Name</InputLabel>
-        <Select
-        sx={{borderBottom :"none"}}
-          labelId="demo-simple-select-filled-label"
-          id="demo-simple-select-filled"
-          value={''}
-          onChange={()=>{}}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-        </Grid>
-        {/* You can add more Grid items for additional form elements */}
-      </Grid>
-    </form>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseDilaog}>Cancel</Button>
-    <Button type="submit">Subscribe</Button>
-  </DialogActions>
-</Dialog>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDilaog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ m: 2 }}>ADS</DialogTitle>
+        <DialogContent sx={{ mt: 1 }}>
+          <form onSubmit={handleSubmit(dialogMode === "add" ? onSubmit : updateAds)} style={{ width: "100%" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                 {dialogMode === "add" ?
+                  <FormControl fullWidth variant="filled" sx={{ m: 1 }}>
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Room Name
+                  </InputLabel>
+
+                  <Controller
+                    name="room" // Specify the name of the field
+                    control={control} // Pass the control object
+                    render={(
+                      { field } // Render the Select component
+                    ) => (
+                      <Select
+                        {...field} // Spread the field object to bind onChange and value
+                        {...register("room")}
+                        sx={{ borderBottom: "none" }}
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                      >
+                        {RoomsList.map((room) => (
+                          <MenuItem key={room._id} value={room._id}>
+                            {room.roomNumber}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </FormControl> :''
+                
+                }
+
+                
+
+                <TextField
+                  {...register("discount", { required: true })}
+                  error={errors.discount ? true : false}
+                  helperText={errors.discount && "discount is required"}
+                  fullWidth
+                  label="Discount"
+                  variant="filled"
+                  sx={{ m: 1 }}
+                />
+                <FormControl fullWidth variant="filled" sx={{ m: 1 }}>
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Active
+                  </InputLabel>
+                  <Controller
+                    name="isActive"
+                    control={control}
+                    defaultValue={selectedADS ? selectedADS.isActive.toString() : ""}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        {...register("isActive")}
+                        value={selectedADS ? selectedADS.isActive.toString() : ""}
+                        sx={{ borderBottom: "none" }}
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        // value={field.value} // Bind the value to the field value
+                        // onChange={(e) => field.onChange(e.target.value)} // Bind the onChange event to field.onChange
+                      >
+                        <MenuItem value={"true"}>Yes</MenuItem>
+                        <MenuItem value={"false"}>No</MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <DialogActions>
+              {loadingSubmit ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Button variant="contained" type="submit" sx={{ m: 1 }}>
+                  {dialogMode === "add" ? "Add" : "Save"}
+                </Button>
+              )}
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
       {/* //// end Dialog  */}
       <div className="Header-ADS">
         <div>
@@ -154,7 +449,8 @@ export default function ADS() {
             color="secondary"
             sx={{ backgroundColor: theme.palette.primary.dark }}
             onClick={() => {
-              handleClickOpenDialo();
+              handleClickOpenDialog();
+              setDialogMode("add");
             }}
           >
             ADD New Ads
@@ -177,7 +473,7 @@ export default function ADS() {
           <Table sx={{ minWidth: 400 }} aria-label="simple table">
             <TableHead>
               <TableRow sx={{ backgroundColor: theme.palette.grey[400] }}>
-                <TableCell>Room Number</TableCell>
+                <TableCell>Room Name</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Discount</TableCell>
                 <TableCell>Capacity</TableCell>
@@ -195,41 +491,84 @@ export default function ADS() {
                   <TableCell>{room.room.price}</TableCell>
                   <TableCell>{room.room.discount}</TableCell>
                   <TableCell>{room.room.capacity}</TableCell>
-                  <TableCell>{room.isActive === true ? "Yes" : "No"}</TableCell>
+                  <TableCell>{room.isActive ? "Yes" : "No"}</TableCell>
 
                   <TableCell>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <Button
+                        onClick={() => {
+                          handleClickOpenDialogForUpdate(room._id);
+                          
+                        }}
+                        startIcon={<EditIcon />}
+                        variant="text"
+                        size="small"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          handleOpenModal();
+                          setIdads(room._id);
+                        }}
+                        startIcon={<DeleteIcon />}
+                        variant="text"
+                        size="small"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </TableCell>
+
+                  {/* <TableCell>
                     <IconButton
                       id="basic-button"
-                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-describedby={
+                        openPopover ? "basic-popover" : undefined
+                      }
                       aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
                       onClick={handleClick}
                     >
                       <MoreVertIcon />
                     </IconButton>
-                    <Menu
-                      id="basic-menu"
+                    <Popover
+                      id="basic-popover"
                       anchorEl={anchorEl}
-                      open={open}
+                      open={openPopover}
                       onClose={handleClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
                       }}
                     >
-                      <MenuItem onClick={() => {}}>
+                      <MenuItem
+                        onClick={() => {
+                          // Handle edit action
+                        }}
+                      >
                         <ListItemIcon>
                           <EditIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Edit</ListItemText>
                       </MenuItem>
-                      <MenuItem onClick={() => {}}>
+                      <MenuItem
+                        onClick={() => {
+                          handleOpenModal();
+                          setIdads(room._id)
+                        
+                        }}
+                      >
                         <ListItemIcon>
                           <DeleteIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Delete</ListItemText>
                       </MenuItem>
-                    </Menu>
-                  </TableCell>
+                    </Popover>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
