@@ -1,12 +1,19 @@
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
-  Button, CircularProgress, FormControl, Grid, IconButton,
+  Button,
+  CircularProgress,
+  FormControl,
+  Grid,
+  IconButton,
   ListItemIcon,
   ListItemText,
-  TableBody, TextField, Typography, useTheme
+  TableBody,
+  TextField,
+  Tooltip,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -24,21 +31,20 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/Components/AuthContext";
 import "./FacilitiesList.css";
-import noData1  from '../../../assets/images/noData.png'
+import noData1 from "../../../assets/images/noData.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-
 
 interface IFacilities {
   _id: string;
   id: string;
-  createdBy:any;
+  createdBy: any;
   name: string;
   updatedAt: string;
   // dateTime: string;
 
   createdAt: string | any;
-  role : string
+  role: string;
 }
 export default function FacilitiesList() {
   const [facilitiesList, setFacilitiesList] = useState<IFacilities[]>([]);
@@ -55,17 +61,21 @@ export default function FacilitiesList() {
   const theme = useTheme();
   // Dialog for Add Or Edit
   const [openDialog, setOpenDialog] = React.useState("false");
-  const [FacilitiesId, setFacilitiesId] = useState<string|null>(null);
+  const [FacilitiesId, setFacilitiesId] = useState<string>("");
 
   const handleOpenAddDialo = () => {
-    setOpenDialog("add-modal");;
-    
+    setOpenDialog("add-modal");
   };
 
-
-  const handleOpenDeleteDialo = (id:string|null) => {
+  const handleOpenDeleteDialo = () => {
     setOpenDialog("delete");
-    setFacilitiesId(id);
+    setAnchorEl(null); 
+    // console.log(FacilitiesId);
+  };
+  const handleOpenUpdateDialo = () => {
+    setOpenDialog("update");
+    setAnchorEl(null); 
+   
   };
   const handleCloseDilaog = () => {
     setOpenDialog("false");
@@ -73,7 +83,6 @@ export default function FacilitiesList() {
 
   interface IFacility {
     name: string;
-    requestHeaders: string |null |undefined
   }
   const {
     register,
@@ -84,14 +93,12 @@ export default function FacilitiesList() {
 
   // getAllFacilities Data
   const getAllFacilities = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("User is not authenticated");
-    }
     setLoading(true);
     try {
-      const response = await axios.get(`${baseUrl}/v0/admin/room-facilities`,{ headers: requestHeaders });;
-      
+      const response = await axios.get(`${baseUrl}/v0/admin/room-facilities`, {
+        headers: requestHeaders,
+      });
+      console.log(response.data.data.facilities);
       setFacilitiesList(response.data.data.facilities);
     } catch (error) {
       console.log("ssssssssss");
@@ -99,30 +106,67 @@ export default function FacilitiesList() {
       setLoading(false);
     }
   };
-  const [isLoading, setIsLoading] = useState(false);
 
+  // ************Add Facility
+  const onSubmit = async (data: IFacility) => {
+    try {
+      await axios.post(`${baseUrl}/v0/admin/room-facilities`, data, {
+        headers: requestHeaders,
+      });
+      // console.log("5666666665");
+      // console.log(response);
+      getAllFacilities();
+      handleCloseDilaog();
+      toast.success("Add facilities success ");
+    } catch (error) {
+      console.log("reeeeee");
+    }
+  };
+  /////// update
+  const updateFacility = async (data: IFacility) => {
+    try {
+      await axios.put(`${baseUrl}/v0/admin/room-facilities/${FacilitiesId}`, data, {
+        headers: requestHeaders,
+      });
+      // console.log("5666666665");
+      // console.log(response);
+      getAllFacilities();
+      handleCloseDilaog();
+      toast.success("Add facilities success ");
+    } catch (error) {
+      console.log("reeeeee");
+    }
+  };
 
-    // ************Add Facility
-    const onSubmit = async (data: IFacility) => {
-    
-      
-     
-      try {
-        const response = await axios.post(`${baseUrl}/v0/admin/room-facilities`,data, 
-          { headers: requestHeaders });
-          // console.log("5666666665");
-          // console.log(response);
-          getAllFacilities();
-          handleCloseDilaog();
-          toast.success("Add facilities success ")
-          
-      } catch (error) {
-        console.log('reeeeee');
-        
-      }
-      
-    
-    };
+  const deleteFacility = async (Id: string) => {
+    setLoading(true);
+    console.log(FacilitiesId);
+
+    await axios
+      // .delete(`${baseUrl}/v0/admin/room-facilities/${FacilitiesId}`, {
+      .delete(
+        `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities/${Id}`,
+        {
+          headers: requestHeaders,
+        }
+      )
+      .then((response) => {
+        toast.success("Facility Delete Successfully");
+        console.log(response);
+
+        // setRoomsList(response.data.data.totalCount);
+        // setRoomId(roomId);
+        handleCloseDilaog();
+        getAllFacilities();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getAllFacilities();
   }, []);
@@ -131,59 +175,115 @@ export default function FacilitiesList() {
     // Handle the case where AuthContext is null
     return null;
   }
-  const { baseUrl , requestHeaders } = authContext;
+  const { baseUrl, requestHeaders } = authContext;
 
   return (
     <>
       {/* Dialog for  ////////////////////Update  */}
       <Dialog
-        open={openDialog==="add-modal"}
+        open={openDialog === "update"}
         onClose={handleCloseDilaog}
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{mb:4,mt:1}}>Add Facility</DialogTitle>
-        <DialogContent  sx={{ mt: 1 , mb:5 }}>
+        <DialogTitle sx={{ mb: 4, mt: 1 }}>Update Facility</DialogTitle>
+        <DialogContent sx={{ mt: 1, mb: 5 }}>
           <form style={{ width: "100%" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <FormControl fullWidth variant="filled" sx={{ m: 1 }}>     
-
-                  
-                    <Grid  container spacing={2}>
-                      <TextField
-                        {...register("name", {
-                          required: true,
-                        })}
-                        margin="normal"
-                        fullWidth
-                        id="name"
-                        label="name"
-                        name="name"
-                        autoComplete="name"
-                        autoFocus
-                      />
-                      {errors.name && errors.name.type === "required" && (
-                  <span className="errorMsg">Name is required</span>
-                )}
-                    </Grid>
-            
-                 
+                <FormControl fullWidth variant="filled" sx={{ m: 1 }}>
+                  <Grid container spacing={2}>
+                    <TextField
+                      {...register("name", {
+                        required: true,
+                      })}
+                      margin="normal"
+                      fullWidth
+                      id="name"
+                      label="name"
+                      name="name"
+                      autoComplete="name"
+                      autoFocus
+                    />
+                    {errors.name && errors.name.type === "required" && (
+                      <span className="errorMsg">Name is required</span>
+                    )}
+                  </Grid>
                 </FormControl>
               </Grid>
               {/* You can add more Grid items for additional form elements */}
             </Grid>
           </form>
         </DialogContent>
-        <DialogActions >
+        <DialogActions>
           {/* <Button onClick={handleCloseDilaog}>Cancel</Button> */}
-          
+
           {/* <DialogContent dividers></DialogContent> */}
-          <Button 
+          <Button
             variant="contained"
-            color="secondary"     
-            sx={{ mb:2,mt:1,px: 4,backgroundColor: theme.palette.primary.dark }}
-            onClick= {handleSubmit(onSubmit)}
+            color="secondary"
+            sx={{
+              mb: 2,
+              mt: 1,
+              px: 4,
+              backgroundColor: theme.palette.primary.dark,
+            }}
+            onClick={handleSubmit(updateFacility)}
+            type="submit"
+          >
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openDialog === "add-modal"}
+        onClose={handleCloseDilaog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ mb: 4, mt: 1 }}>Add Facility</DialogTitle>
+        <DialogContent sx={{ mt: 1, mb: 5 }}>
+          <form style={{ width: "100%" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="filled" sx={{ m: 1 }}>
+                  <Grid container spacing={2}>
+                    <TextField
+                      {...register("name", {
+                        required: true,
+                      })}
+                      margin="normal"
+                      fullWidth
+                      id="name"
+                      label="name"
+                      name="name"
+                      autoComplete="name"
+                      autoFocus
+                    />
+                    {errors.name && errors.name.type === "required" && (
+                      <span className="errorMsg">Name is required</span>
+                    )}
+                  </Grid>
+                </FormControl>
+              </Grid>
+              {/* You can add more Grid items for additional form elements */}
+            </Grid>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={handleCloseDilaog}>Cancel</Button> */}
+
+          {/* <DialogContent dividers></DialogContent> */}
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{
+              mb: 2,
+              mt: 1,
+              px: 4,
+              backgroundColor: theme.palette.primary.dark,
+            }}
+            onClick={handleSubmit(onSubmit)}
             type="submit"
           >
             Save
@@ -193,27 +293,43 @@ export default function FacilitiesList() {
 
       {/* DELETE  */}
       <Dialog
-        open={openDialog==="delete"}
+        open={openDialog === "delete"}
         onClose={handleCloseDilaog}
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{mb:4,mt:1}}></DialogTitle>
-        <DialogContent  sx={{ mt: 1 , mb:5 ,display:"flex",justifyContent:"center", alignItems:"center" ,flexDirection:"column"}}>
-        <img src={noData1} alt="Delete" />
-          <Typography sx={{ my: 2}} variant="h6">Delete This facility  Room ?</Typography>
+        <DialogTitle sx={{ mb: 4, mt: 1 }}></DialogTitle>
+        <DialogContent
+          sx={{
+            mt: 1,
+            mb: 5,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <img src={noData1} alt="Delete" />
+          <Typography sx={{ my: 2 }} variant="h6">
+            Delete This facility Room ?
+          </Typography>
           <p>Are you sure you want to delete this facility ? </p>
         </DialogContent>
-        <DialogActions >
+        <DialogActions>
           <Button onClick={handleCloseDilaog}>Cancel</Button>
-          
+
           {/* <DialogContent dividers></DialogContent> */}
-          <Button 
+          <Button
             variant="contained"
-            color="secondary"     
-            sx={{ mb:2,mt:1,px: 4,backgroundColor: theme.palette.error.dark }}
+            color="secondary"
+            sx={{
+              mb: 2,
+              mt: 1,
+              px: 4,
+              backgroundColor: theme.palette.error.dark,
+            }}
             onClick={() => {
-              handleOpenAddDialo();
+              deleteFacility(FacilitiesId);
             }}
             type="submit"
           >
@@ -229,9 +345,9 @@ export default function FacilitiesList() {
             color="initial"
             sx={{ fontSize: "20px", fontWeight: "bolder" }}
           >
-           Facilities Table Details{" "}
+            Facilities Table Details{" "}
           </Typography>
-          <Typography  variant="body1" color="initial">
+          <Typography variant="body1" color="initial">
             You can check all details{" "}
           </Typography>
         </div>
@@ -277,14 +393,13 @@ export default function FacilitiesList() {
                   <TableCell component="th" scope="row">
                     {facil.name}
                   </TableCell>
-                  {/* <TableCell>{facil.updatedAt}</TableCell>
-                  <TableCell>{facil.createdAt}</TableCell> */}
-                  {/* <TableCell>{dateTime}</TableCell> */}
-                  {/* <TableCell>{facil.}</TableCell> */}
-                  <TableCell>{new Date(facil?.updatedAt).toLocaleDateString()}</TableCell>
-                  <TableCell>{new Date(facil?.createdAt).toLocaleDateString()}</TableCell>
-                          
-                 
+
+                  <TableCell>
+                    {new Date(facil?.updatedAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(facil?.createdAt).toLocaleDateString()}
+                  </TableCell>
 
                   <TableCell>
                     <IconButton
@@ -296,6 +411,36 @@ export default function FacilitiesList() {
                     >
                       <MoreVertIcon />
                     </IconButton>
+                    {/* <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                      <MenuItem
+                      // onClick={() => showViewModal(facility?._id)}
+                      >
+                        <Tooltip title="View" arrow>
+                          <IconButton color="primary">
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </MenuItem>
+                      <MenuItem>
+                        <Tooltip title="Update" arrow>
+                          <IconButton color="warning">
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleOpenDeleteDialo();
+                          setFacilitiesId(facil._id);
+                        }}
+                      >
+                        <Tooltip title="Delete" arrow>
+                          <IconButton color="error">
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </MenuItem>
+                    </Menu> */}
                     <Menu
                       id="basic-menu"
                       anchorEl={anchorEl}
@@ -305,15 +450,19 @@ export default function FacilitiesList() {
                         "aria-labelledby": "basic-button",
                       }}
                     >
-                    
-                      <MenuItem onClick={() => {}}>
-                        <ListItemIcon   sx={{color:theme.palette.primary.dark}}  >
+                      <MenuItem onClick={() => {handleOpenUpdateDialo(); setFacilitiesId(facil._id)}}>
+                        <ListItemIcon
+                          sx={{ color: theme.palette.primary.dark }}
+                        >
                           <EditIcon fontSize="small" />
-                        </ListItemIcon >
-                        <ListItemText  >Edit</ListItemText>
+                        </ListItemIcon>
+                        <ListItemText>Edit</ListItemText>
                       </MenuItem>
-                      <MenuItem onClick={()=>handleOpenDeleteDialo(facil._id)}>
-                        <ListItemIcon  sx={{color:"error.main"}}>
+                      <MenuItem
+                        onClick={() => {handleOpenDeleteDialo();
+                          setFacilitiesId(facil._id)}}
+                      >
+                        <ListItemIcon sx={{ color: "error.main" }}>
                           <DeleteIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Delete</ListItemText>
