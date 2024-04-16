@@ -102,7 +102,7 @@ export default function FacilitiesList() {
       const response = await axios.get(`${baseUrl}/v0/admin/room-facilities`, {
         headers: requestHeaders,
       });
-      console.log(response.data.data.facilities);
+      // console.log(response.data.data.facilities);
       setFacilitiesList(response.data.data.facilities);
     } catch (error) {
       console.log("ssssssssss");
@@ -204,7 +204,7 @@ export default function FacilitiesList() {
                       margin="normal"
                       fullWidth
                       id="name"
-                      label="name"
+                      label="New name"
                       name="name"
                       autoComplete="name"
                       autoFocus
@@ -411,7 +411,7 @@ export default function FacilitiesList() {
                       aria-controls={open ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
-                      onClick={(e)=>handleClick(e,facil._id)}
+                      onClick={(event)=>handleClick(event,facil._id)}
                     >
                       <MoreVertIcon />
                     </IconButton>
