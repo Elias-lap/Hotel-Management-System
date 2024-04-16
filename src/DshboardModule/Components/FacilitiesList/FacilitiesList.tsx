@@ -58,6 +58,8 @@ export default function FacilitiesList() {
   ) => {
     setAnchorEl(event.currentTarget);
     setFacilitiesId(id)
+    // console.log(event.currentTarget);
+    
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -79,6 +81,7 @@ export default function FacilitiesList() {
   const handleOpenUpdateDialo = () => {
     setOpenDialog("update");
     setAnchorEl(null); 
+    getAllFacilitiesById()
    
   };
   const handleCloseDilaog = () => {
@@ -110,6 +113,21 @@ export default function FacilitiesList() {
       setLoading(false);
     }
   };
+  // ////////// getAllFacilities By Id to set in input
+  const getAllFacilitiesById = async () => { 
+  // console.log("test");
+  
+    try {
+      const response = await axios.get(`${baseUrl}/v0/admin/room-facilities/${FacilitiesId?FacilitiesId:""}`, {
+        headers: requestHeaders,
+      });
+      console.log(response.data.data.facility.name);
+      setValue("name",response.data.data.facility.name);
+    } catch (error) {
+      console.log(error);
+   
+  };
+}
 
   // ************Add Facility
   const onSubmit = async (data: IFacility) => {
@@ -173,6 +191,7 @@ export default function FacilitiesList() {
 
   useEffect(() => {
     getAllFacilities();
+    
   }, []);
   const authContext = useContext(AuthContext);
   if (!authContext) {
@@ -204,10 +223,10 @@ export default function FacilitiesList() {
                       margin="normal"
                       fullWidth
                       id="name"
-                      label="New name"
+                      label=" name"
                       name="name"
                       autoComplete="name"
-                      autoFocus
+                      // autoFocus
                     />
                     {errors.name && errors.name.type === "required" && (
                       <span className="errorMsg">Name is required</span>
