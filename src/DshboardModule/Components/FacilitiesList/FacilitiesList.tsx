@@ -32,7 +32,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/Components/AuthContext";
 import "./FacilitiesList.css";
 import noData1 from "../../../assets/images/noData.png";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 interface IFacilities {
