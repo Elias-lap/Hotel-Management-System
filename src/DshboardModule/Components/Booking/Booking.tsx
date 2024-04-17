@@ -160,7 +160,7 @@ export default function Booking() {
             color="initial"
             sx={{ fontSize: "20px", fontWeight: "bolder"  , margin :2}}
           >
-            ADS Table Details{" "}
+           Booking Table Details{" "}
           </Typography>
           <Typography variant="body1" color="initial">
             You can check all details{" "}
@@ -182,7 +182,8 @@ export default function Booking() {
               <StyledTableCell>User</StyledTableCell>
               <StyledTableCell>
                 {" "}
-                <Visibility />
+                View
+                {/* <Visibility /> */}
               </StyledTableCell>
             </TableRow>
           </TableHead>

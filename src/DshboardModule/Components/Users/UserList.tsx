@@ -223,8 +223,7 @@ export default function UserList() {
               <StyledTableCell>Image</StyledTableCell>
               <StyledTableCell>Country</StyledTableCell>
               <StyledTableCell>
-            
-                Action
+              View
               </StyledTableCell>
             </TableRow>
           </TableHead>

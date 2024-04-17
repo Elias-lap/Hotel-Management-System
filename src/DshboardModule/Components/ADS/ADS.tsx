@@ -489,7 +489,7 @@ export default function ADS() {
                 <TableCell>Discount</TableCell>
                 <TableCell>Capacity</TableCell>
                 <TableCell>Active</TableCell>
-                <TableCell></TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
 
@@ -562,7 +562,7 @@ export default function ADS() {
                           setIdads(room._id);
                         }}
                       >
-                        <ListItemIcon>
+                        <ListItemIcon  sx={{ color: "primary.main" }}>
                           <EditIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Edit</ListItemText>
@@ -573,7 +573,7 @@ export default function ADS() {
                           setIdads(room._id);
                         }}
                       >
-                        <ListItemIcon>
+                        <ListItemIcon  sx={{ color: "error.main" }}>
                           <DeleteIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Delete</ListItemText>

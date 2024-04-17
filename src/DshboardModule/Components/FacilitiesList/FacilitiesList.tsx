@@ -405,7 +405,7 @@ export default function FacilitiesList() {
                 <TableCell> Name</TableCell>
                 <TableCell>UpdatedAt</TableCell>
                 <TableCell>createdAt</TableCell>
-                <TableCell></TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
 
