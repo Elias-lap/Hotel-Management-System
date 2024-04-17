@@ -121,7 +121,7 @@ export default function FacilitiesList() {
       const response = await axios.get(`${baseUrl}/v0/admin/room-facilities/${FacilitiesId?FacilitiesId:""}`, {
         headers: requestHeaders,
       });
-      console.log(response.data.data.facility.name);
+      // console.log(response.data.data.facility);
       setValue("name",response.data.data.facility.name);
     } catch (error) {
       console.log(error);
