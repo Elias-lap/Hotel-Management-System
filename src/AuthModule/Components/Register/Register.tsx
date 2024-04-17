@@ -16,15 +16,20 @@ import {
   InputAdornment,
   IconButton,
   Alert,
+  CircularProgress,
+  Container,
+  Box,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { createTheme } from '@mui/material/styles';
 
 // Import CSS module
 import styleRegister from "./Register.module.css";
 
 // Import image
 import imgRegister from "../../../Img/Group 33@2x.png";
+import { purple } from "@mui/material/colors";
 
 export interface FormDataRegister {
   userName: string;
@@ -46,6 +51,24 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [dataApi, setdataApi] = useState([]);
 
+
+  // mui color
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: '#757ce8',
+        main: '#3f50b5',
+        dark: '#002884',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#eb5048 ',
+        contrastText: '#000',
+      },
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -59,6 +82,7 @@ export default function Register() {
     return value === password || "Confirm Password doesn't match Password"; 
   };
   const onSubmit: SubmitHandler<FormDataRegister> = async (data) => {
+    console.log(data.profileImage)
     setLoadingBtn(true);
 
     try {
@@ -87,35 +111,36 @@ export default function Register() {
       navigate("/verifyAccount");
     } catch (error:any) {
       // console.log(error);
+            // console.log(error.response.data.message);
 
-      // console.log(error.response.data.message);
-    
-      if (error.response.data.message == "email or userName  is already exists") {
-        toast.error("Email or username already exists");
-      } else {
-        toast.error("Error creating user");
-      }
+      toast.error(error.response.data.message);
+    } finally {
+      setLoadingBtn(false); 
     }
-
-    setLoadingBtn(false);
   };
-
-
 
 
   return (
     <>
-      <div className="container my-4">
+      <Container>
         <div className="row">
           <div className="col-12 col-md-6">
             <Typography
+            
               className={`${styleRegister.ConStay}`}
               variant="h5"
               component="h5"
             >
-              <span className={`${styleRegister.wordStay}`}> Stay</span>
+              {/* <span className={`${styleRegister.wordStay}`}> Stay</span> */}
+              <Box component="span" color="primary.main" >
+              Stay
+    </Box>
+
+
               cation.
             </Typography>
+
+       
 
             <div className="mt-4">
               <Typography variant="h6" component="h6">
@@ -125,8 +150,11 @@ export default function Register() {
                 If you already have an account register <br />
                 You can{" "}
                 <span className={`${styleRegister.wordLogin}`}>
-                  Login here !
                 </span>
+                <Box component="span" color="#EB5148">
+    Login here !
+</Box>
+
               </Typography>
 
               <form onSubmit={handleSubmit(onSubmit as SubmitHandler<FormDataRegister>)}>
@@ -232,7 +260,7 @@ export default function Register() {
                           required: "email is required",
                           pattern: {
                             value:
-                              /[A-Za-z0-9._%+-]+@(gmail|yahoo|email)\.com/,
+                            /^[A-Za-z0-9._%+-]+@(gmail|yahoo|email)\.com$/,
                             message: "Email must be a valid email",
                           },
                         })}
@@ -341,43 +369,23 @@ export default function Register() {
                   />
                    
                 </div>
-                {errors.phoneNumber && (
+                {errors.profileImage && (
                     <Alert className=" mb-2 mt-1" severity="error"> 
-                                                            {errors.phoneNumber.message?.toString()}
+                                                            {errors.profileImage.message?.toString()}
 
                     
                    </Alert>
                  
                   )}
 
-                {/* Role */}
-                <div className="input-group mb-3  d-none">
-                  <input
-                    className={`${styleRegister.inputs} form-control`}
-                    type="text"
-                    value="user"
-                    {...register("role")}
-                  />
-                </div>
+              
 
-                {/* Submit Button */}
-                {/* <Button className=" w-100" variant="contained" type="submit">
-                  Sign up
-                </Button> */}
+            
                 <Button className=" w-100" variant="contained" type="submit">
                       {" "}
                       {loadingBtn ? (
-                        <RotatingLines
-                          visible={true}
-                          height="20"
-                          width="20"
-                          color="white"
-                          strokeWidth="5"
-                          animationDuration="0.75"
-                          ariaLabel="rotating-lines-loading"
-                          wrapperStyle={{}}
-                          wrapperClass=""
-                        />
+                      <CircularProgress  color="inherit" />
+
                       ) : (
                         "                  Sign up                        "
                       )}
@@ -394,7 +402,7 @@ export default function Register() {
             />
           </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 }
