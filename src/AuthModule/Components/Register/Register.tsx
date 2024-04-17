@@ -149,9 +149,8 @@ export default function Register() {
               <Typography variant="body1" gutterBottom>
                 If you already have an account register <br />
                 You can{" "}
-                <span className={`${styleRegister.wordLogin}`}>
-                </span>
-                <Box component="span" color="#EB5148">
+               
+                <Box  className={`${styleRegister.wordLogin}`} component="span" color="#EB5148">
     Login here !
 </Box>
 

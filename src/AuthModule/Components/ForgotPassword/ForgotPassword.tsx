@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 import { SubmitHandler } from "react-hook-form";
@@ -14,10 +14,10 @@ import {
   FormControl,
   TextField,
   Typography,
-
   Alert,
+  Box,
 } from "@mui/material";
-
+import { createTheme } from "@mui/material/styles";
 
 export interface FormDataRegister {
   email: string;
@@ -41,10 +41,12 @@ export default function ForgotPassword() {
         "https://upskilling-egypt.com:3000/api/v0/admin/users/forgot-password",
         data
       );
-  
+
       console.log(response);
 
-      toast.success("Password reset request, already sent successfully ,check your email");
+      toast.success(
+        "Password reset request, already sent successfully ,check your email"
+      );
 
       navigate("/reset-Pass");
     } catch (error: any) {
@@ -56,21 +58,39 @@ export default function ForgotPassword() {
     setloadingBtn(false);
   };
 
+  // mui color
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: "#757ce8",
+        main: "#3f50b5",
+        dark: "#002884",
+        contrastText: "#fff",
+      },
+      secondary: {
+        light: "#ff7961",
+        main: "#f44336",
+        dark: "#eb5048 ",
+        contrastText: "#000",
+      },
+    },
+  });
+
   return (
     <>
       <div className="container my-4">
         <div className="row">
-       
           <div className="col-12 col-md-6">
-
-          <Typography
-            className={`${StyleForgotPass.ConStay} mb-5`}
-            variant="h5"
-            component="h5"
-          >
-            <span className={`${StyleForgotPass.wordStay}`}> Stay</span>
-            cation.
-          </Typography>
+            <Typography
+              className={`${StyleForgotPass.ConStay} mb-5`}
+              variant="h5"
+              component="h5"
+            >
+              <Box component="span" color="primary.main">
+                Stay
+              </Box>
+              cation.
+            </Typography>
             <div className="mt-4 ">
               <Typography variant="h6" component="h6">
                 Forgot password{" "}
@@ -78,9 +98,16 @@ export default function ForgotPassword() {
               <Typography variant="body1" gutterBottom>
                 If you already have an account register <br />
                 You can{" "}
-                <span className={`${StyleForgotPass.wordLogin}`}>
+                {/* <span className={`${StyleForgotPass.wordLogin}`}>
                   Login here !
-                </span>
+                </span> */}
+                <Box
+                  className={`${StyleForgotPass.wordLogin}`}
+                  component="span"
+                  color="#EB5148"
+                >
+                  Login here !
+                </Box>
               </Typography>
 
               <form

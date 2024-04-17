@@ -19,12 +19,14 @@ import {
   InputAdornment,
   IconButton,
   Alert,
+  Box,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // Import CSS module
 import styleResetPass from "./ResetPassword.module.css";
+import { createTheme } from "@mui/material/styles";
 
 export interface FormDataRegister {
   email: string;
@@ -32,6 +34,24 @@ export interface FormDataRegister {
   confirmPassword: string;
   seed: string;
 }
+
+// mui color
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#eb5048 ",
+      contrastText: "#000",
+    },
+  },
+});
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [loadingBtn, setLoadingBtn] = useState(false);
@@ -54,8 +74,6 @@ export default function ResetPassword() {
     setLoadingBtn(true);
 
     try {
- 
-  
       const response = await axios.post(
         "https://upskilling-egypt.com:3000/api/v0/admin/users/reset-password",
         data
@@ -64,11 +82,9 @@ export default function ResetPassword() {
       console.log(response);
       toast.success("Verification successful. Password reset initiated.");
       navigate("/login");
-
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message);
-  
     }
 
     setLoadingBtn(false);
@@ -84,20 +100,23 @@ export default function ResetPassword() {
               variant="h5"
               component="h5"
             >
-              <span className={`${styleResetPass.wordStay}`}> Stay</span>
+              {/* <span className={`${styleRegister.wordStay}`}> Stay</span> */}
+              <Box component="span" color="primary.main">
+                Stay
+              </Box>
               cation.
             </Typography>
 
             <div className="mt-4 ">
               <Typography className=" mb-3" variant="h6" component="h6">
-                Reset Password {" "}
+                Reset Password{" "}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 If you already have an account register <br />
                 You can{" "}
-                <span className={`${styleResetPass.wordLogin}`}>
-                  Login here !
-                </span>
+                <Box  className={`${styleResetPass.wordLogin}`} component="span" color="#EB5148">
+    Login here !
+</Box>
               </Typography>
 
               <form
@@ -119,7 +138,6 @@ export default function ResetPassword() {
                     type="email"
                     {...register("email", {
                       required: "email is required",
-                  
                     })}
                   />
                   {errors.email && (
@@ -129,11 +147,10 @@ export default function ResetPassword() {
                   )}
                 </FormControl>
 
-
-                   {/*OTP */}
-                   <FormControl className="mt-4 d-block" variant="standard">
+                {/*OTP */}
+                <FormControl className="mt-4 d-block" variant="standard">
                   <label className="mb-3 d-block" htmlFor="seed">
-                  OTP
+                    OTP
                   </label>
                   <TextField
                     className={`${styleResetPass.textField} `}
@@ -144,7 +161,6 @@ export default function ResetPassword() {
                     type="text"
                     {...register("seed", {
                       required: "OTP is required",
-                  
                     })}
                   />
                   {errors.seed && (
