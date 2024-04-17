@@ -14,15 +14,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ImageDelete from "../../../assets/images/noData.png";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Grid,
-  // ListItemIcon,
-  // ListItemText,
-  // Popover,
+  ListItemIcon,
+  ListItemText,
+  Popover,
   TextField,
 } from "@mui/material";
-// import IconButton from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import "./ADS.css";
 import axios from "axios";
 import {
@@ -72,7 +72,7 @@ export default function ADS() {
   const [selectedADS, setSelectedADS] = useState<ADS | null>(null);
   console.log(selectedADS);
   // Function to handle opening the dialog for updating
-  const handleClickOpenDialogForUpdate = (id: string) => {
+  const handleClickOpenDialogForUpdate = (   id: string) => {
     // Find the selected ADS item based on its ID
     const selectedADS = ADSList.find((ad) => ad._id === id);
     if (!selectedADS) {
@@ -89,30 +89,36 @@ export default function ADS() {
     setOpenDialog(true);
   };
   // 1 -menu for Edit / update /
-  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  // const [openPopover, setOpenPopover] = React.useState(false);
-  // // Function to handle opening the menu
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  //   setOpenPopover(true);
-  // };
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [openPopover, setOpenPopover] = React.useState(false);
+  // Function to handle opening the menu
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement> , id : string) => {
+    setAnchorEl(event.currentTarget);
+    setIdads(id)
+    setOpenPopover(true);
+  };
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  //   setOpenPopover(false);
-  // };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpenPopover(false);
+  };
   const theme = useTheme();
   //2- Dialog for Add Or Edit
   const [openDialog, setOpenDialog] = React.useState(false);
   const handleClickOpenDialog = () => {
+    handleClose()
     setOpenDialog(true);
-    reset({
-      discount: 0,
-      isActive: "", // Reset the isActive field
-    });
+    reset(
+      {
+        discount: 0,
+        isActive: "true"
+
+      }
+    );
   };
 
   const handleCloseDilaog = () => {
+    handleClose()
     setOpenDialog(false);
   };
   // 3- Modal for Delete
@@ -180,6 +186,7 @@ export default function ADS() {
       toast.success("Advertisement has been added successfully.");
       handleCloseDilaog();
       fetchData();
+      reset();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message);
@@ -187,7 +194,7 @@ export default function ADS() {
     } finally {
       setLoadingSubmit(false);
     }
-    reset();
+    
   };
   //3- get All room for select
   const totalRooms = String(TotalCountNumberRooms);
@@ -410,8 +417,8 @@ export default function ADS() {
                         sx={{ borderBottom: "none" }}
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
-                        // value={field.value} // Bind the value to the field value
-                        // value={selectedADS?.isActive ? "true" : "false"}
+                        value={field.value} // Bind the value to the field value
+                        defaultValue={selectedADS?.isActive ? "true" : "false"}
                       >
                         <MenuItem value={"true"}>Yes</MenuItem>
                         <MenuItem value={"false"}>No</MenuItem>
@@ -497,7 +504,7 @@ export default function ADS() {
                   <TableCell>{room.room.capacity}</TableCell>
                   <TableCell>{room.isActive ? "Yes" : "No"}</TableCell>
 
-                  <TableCell>
+                  {/* <TableCell>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <Button
                         onClick={() => {
@@ -521,24 +528,24 @@ export default function ADS() {
                         Delete
                       </Button>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                 
 
-                  {/* <TableCell>
+                  <TableCell>
                     <IconButton
                       id="basic-button"
                       aria-describedby={
                         openPopover ? "basic-popover" : undefined
                       }
                       aria-haspopup="true"
-                      onClick={handleClick}
+                      onClick={(e)=> handleClick( e , room._id)}
                     >
                       <MoreVertIcon />
                     </IconButton>
                     <Popover
                       id="basic-popover"
                       anchorEl={anchorEl}
-                      open={openPopover}
+                      open={Boolean(anchorEl) && room._id == idAds }
                       onClose={handleClose}
                       anchorOrigin={{
                         vertical: "bottom",
@@ -551,7 +558,8 @@ export default function ADS() {
                     >
                       <MenuItem
                         onClick={() => {
-                          handleClickOpenDialogForUpdate(room._id);
+                          handleClickOpenDialogForUpdate( room._id);
+                          setIdads(room._id);
                         }}
                       >
                         <ListItemIcon>
@@ -571,7 +579,7 @@ export default function ADS() {
                         <ListItemText>Delete</ListItemText>
                       </MenuItem>
                     </Popover>
-                  </TableCell> */}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
