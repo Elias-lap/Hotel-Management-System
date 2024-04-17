@@ -12,11 +12,8 @@ import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-<<<<<<< HEAD
-import FacilitiesList from './DshboardModule/Components/FacilitiesList/FacilitiesList';
-=======
 import UserList from './DshboardModule/Components/Dashboard/Users/UserList';
->>>>>>> Ads/UserList
+import FacilitiesList from './DshboardModule/Components/FacilitiesList/FacilitiesList';
 
 
 
@@ -47,13 +44,10 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },
-<<<<<<< HEAD
         { path: 'facilitiesList', element: <FacilitiesList /> },
         
 
-=======
         { path: 'UserList', element: <UserList/> },
->>>>>>> Ads/UserList
         
         
         

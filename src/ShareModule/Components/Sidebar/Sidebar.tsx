@@ -20,10 +20,7 @@ import FacilitiesIcon from "@mui/icons-material/LocationCity";
 import ChangePasswordIcon from "@mui/icons-material/Lock";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
-<<<<<<< HEAD
 // import { Link } from "@mui/icons-material";
-=======
->>>>>>> Ads/UserList
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
