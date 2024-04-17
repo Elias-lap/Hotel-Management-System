@@ -30,12 +30,8 @@ export default function Login() {
     password: string;
    
   }
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
-  const { loginData, savLoginData, baseUrl } = authContext;
+  
+
 
   const [showPassword, setShowPassword] = useState("password");
   const [spinner, setSpinner] = useState<boolean>(false);
@@ -75,7 +71,12 @@ export default function Login() {
 
       });
   };
-
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { loginData, savLoginData, baseUrl } =authContext ;
   return (
     <>
      
