@@ -66,6 +66,7 @@ export default function UserList() {
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.grey[500],
       color: theme.palette.common.white,
+      
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -217,13 +218,13 @@ export default function UserList() {
           <TableHead>
             <TableRow>
               <StyledTableCell>userName</StyledTableCell>
-              <StyledTableCell>email</StyledTableCell>
-              <StyledTableCell>phoneNumber</StyledTableCell>
+              <StyledTableCell sx={ {paddingRight :0}}>email</StyledTableCell>
+              <StyledTableCell sx={ {paddingLeft :0}}>Phone Number</StyledTableCell>
               <StyledTableCell>Image</StyledTableCell>
               <StyledTableCell>Country</StyledTableCell>
               <StyledTableCell>
-                {" "}
-                <Visibility />
+            
+                Action
               </StyledTableCell>
             </TableRow>
           </TableHead>
@@ -233,8 +234,8 @@ export default function UserList() {
                 <StyledTableCell component="th" scope="row">
                   {user.userName}
                 </StyledTableCell>
-                <StyledTableCell>{user.email}</StyledTableCell>
-                <StyledTableCell>{user.phoneNumber}</StyledTableCell>
+                <StyledTableCell sx={ {paddingRight :0}}>{user.email}</StyledTableCell>
+                <StyledTableCell sx={ {paddingLeft :0}}>{user.phoneNumber}</StyledTableCell>
                 <StyledTableCell>
                   {
                     <img

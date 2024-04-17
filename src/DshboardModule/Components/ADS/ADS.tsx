@@ -14,7 +14,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import ImageDelete from "../../../assets/images/noData.png";
-import { Grid, TextField } from "@mui/material";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {
+  Grid,
+  // ListItemIcon,
+  // ListItemText,
+  // Popover,
+  TextField,
+} from "@mui/material";
+// import IconButton from "@mui/material/IconButton";
 import "./ADS.css";
 import axios from "axios";
 import {
@@ -48,7 +56,7 @@ interface IRooms {
 }
 
 interface FormValues {
-  room: string;
+  room?: string;
   discount: number;
   isActive: string;
 }
@@ -61,15 +69,17 @@ export default function ADS() {
   const [loading, setLoading] = useState(false); // Add the loading state variable
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [dialogMode, setDialogMode] = useState<"add" | "update">("add");
-  const [selectedADS, setSelectedADS] = useState<ADS | null>(null); 
+  const [selectedADS, setSelectedADS] = useState<ADS | null>(null);
+  console.log(selectedADS);
   // Function to handle opening the dialog for updating
   const handleClickOpenDialogForUpdate = (id: string) => {
-     // Find the selected ADS item based on its ID
-  const selectedADS = ADSList.find(ad => ad._id === id);
-  if (!selectedADS) {
-    return;
-  }
-    setSelectedADS(selectedADS)
+    // Find the selected ADS item based on its ID
+    const selectedADS = ADSList.find((ad) => ad._id === id);
+    if (!selectedADS) {
+      return;
+    }
+
+    setSelectedADS(selectedADS);
     setIdads(id); // Set the ID of the ADS to be updated
     setDialogMode("update");
     reset({
@@ -96,14 +106,11 @@ export default function ADS() {
   const [openDialog, setOpenDialog] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
-    setSelectedADS(null); // Reset selectedADS to null
-    setDialogMode("add"); // Set dialogMode to "add"
     reset({
       discount: 0,
-      isActive: "",
+      isActive: "", // Reset the isActive field
     });
   };
-  
 
   const handleCloseDilaog = () => {
     setOpenDialog(false);
@@ -121,7 +128,9 @@ export default function ADS() {
     p: 4,
   };
   const [openModal, setOpenModal] = React.useState(false);
-  const handleOpenModal = () => setOpenModal(true);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
   const handleCloseModal = () => setOpenModal(false);
   //  Reat Hook form for submiting Data
   const {
@@ -130,11 +139,7 @@ export default function ADS() {
     formState: { errors },
     reset,
   } = useForm<FormValues>();
-  // const defaultValues: FormValues = {
-  //   room: "", // Set default room value
-  //   discount: 0, // Set default discount value
-  //   isActive: "true", // Set default isActive value
-  // };
+
   const { control } = useForm<FormValues>();
   // 1- fetching Data Get All ADS
   const fetchData = async () => {
@@ -245,7 +250,7 @@ export default function ADS() {
     try {
       const payload = {
         discount: data.discount, // Include the discount field from the form data
-        isActive: data.isActive// Get the original isActive value for the updated ad
+        isActive: data.isActive, // Get the original isActive value for the updated ad
       };
       const response = await axios.put(
         `${baseUrl}/v0/admin/ads/${idAds}`,
@@ -269,7 +274,6 @@ export default function ADS() {
     }
     reset();
   };
-  
 
   useEffect(() => {
     fetchData();
@@ -345,41 +349,43 @@ export default function ADS() {
       >
         <DialogTitle sx={{ m: 2 }}>ADS</DialogTitle>
         <DialogContent sx={{ mt: 1 }}>
-          <form onSubmit={handleSubmit(dialogMode === "add" ? onSubmit : updateAds)} style={{ width: "100%" }}>
+          <form
+            onSubmit={handleSubmit(dialogMode === "add" ? onSubmit : updateAds)}
+            style={{ width: "100%" }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                 {dialogMode === "add" ?
+                {dialogMode === "add" ? (
                   <FormControl fullWidth variant="filled" sx={{ m: 1 }}>
-                  <InputLabel id="demo-simple-select-filled-label">
-                    Room Name
-                  </InputLabel>
+                    <InputLabel id="demo-simple-select-filled-label">
+                      Room Name
+                    </InputLabel>
 
-                  <Controller
-                    name="room" // Specify the name of the field
-                    control={control} // Pass the control object
-                    render={(
-                      { field } // Render the Select component
-                    ) => (
-                      <Select
-                        {...field} // Spread the field object to bind onChange and value
-                        {...register("room")}
-                        sx={{ borderBottom: "none" }}
-                        labelId="demo-simple-select-filled-label"
-                        id="demo-simple-select-filled"
-                      >
-                        {RoomsList.map((room) => (
-                          <MenuItem key={room._id} value={room._id}>
-                            {room.roomNumber}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    )}
-                  />
-                </FormControl> :''
-                
-                }
-
-                
+                    <Controller
+                      name="room" // Specify the name of the field
+                      control={control} // Pass the control object
+                      render={(
+                        { field } // Render the Select component
+                      ) => (
+                        <Select
+                          {...field} // Spread the field object to bind onChange and value
+                          {...register("room")}
+                          sx={{ borderBottom: "none" }}
+                          labelId="demo-simple-select-filled-label"
+                          id="demo-simple-select-filled"
+                        >
+                          {RoomsList.map((room) => (
+                            <MenuItem key={room._id} value={room._id}>
+                              {room.roomNumber}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                ) : (
+                  ""
+                )}
 
                 <TextField
                   {...register("discount", { required: true })}
@@ -397,17 +403,15 @@ export default function ADS() {
                   <Controller
                     name="isActive"
                     control={control}
-                    defaultValue={selectedADS ? selectedADS.isActive.toString() : ""}
                     render={({ field }) => (
                       <Select
                         {...field}
                         {...register("isActive")}
-                        value={selectedADS ? selectedADS.isActive.toString() : ""}
                         sx={{ borderBottom: "none" }}
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
                         // value={field.value} // Bind the value to the field value
-                        // onChange={(e) => field.onChange(e.target.value)} // Bind the onChange event to field.onChange
+                        // value={selectedADS?.isActive ? "true" : "false"}
                       >
                         <MenuItem value={"true"}>Yes</MenuItem>
                         <MenuItem value={"false"}>No</MenuItem>
@@ -498,7 +502,6 @@ export default function ADS() {
                       <Button
                         onClick={() => {
                           handleClickOpenDialogForUpdate(room._id);
-                          
                         }}
                         startIcon={<EditIcon />}
                         variant="text"
@@ -519,6 +522,7 @@ export default function ADS() {
                       </Button>
                     </div>
                   </TableCell>
+                
 
                   {/* <TableCell>
                     <IconButton
@@ -547,7 +551,7 @@ export default function ADS() {
                     >
                       <MenuItem
                         onClick={() => {
-                          // Handle edit action
+                          handleClickOpenDialogForUpdate(room._id);
                         }}
                       >
                         <ListItemIcon>
@@ -558,8 +562,7 @@ export default function ADS() {
                       <MenuItem
                         onClick={() => {
                           handleOpenModal();
-                          setIdads(room._id)
-                        
+                          setIdads(room._id);
                         }}
                       >
                         <ListItemIcon>
