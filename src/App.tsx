@@ -13,7 +13,6 @@ import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserList from './DshboardModule/Components/Dashboard/Users/UserList';
-import FacilitiesList from './DshboardModule/Components/FacilitiesList/FacilitiesList';
 
 
 
@@ -48,6 +47,8 @@ function App() {
         
 
         { path: 'UserList', element: <UserList/> },
+        { path: 'ADS', element: <ADS/> },
+        { path: 'Booking', element: <Booking/> },
         
         
         
