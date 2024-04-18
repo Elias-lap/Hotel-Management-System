@@ -61,7 +61,7 @@ export default function Login() {
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
         savLoginData();
-        console.log(response.data.data.user);
+        // console.log(response.data.data.user);
         const userRole= (response.data.data.user.role);
 
         if (userRole=="admin") {
