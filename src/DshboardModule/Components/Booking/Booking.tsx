@@ -158,7 +158,7 @@ export default function Booking() {
           <Typography
             variant="body1"
             color="initial"
-            sx={{ fontSize: "20px", fontWeight: "bolder"  , margin :2}}
+            sx={{ fontSize: "20px", fontWeight: "bolder"  , marginTop :2}}
           >
            Booking Table Details{" "}
           </Typography>
