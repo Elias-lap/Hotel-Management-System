@@ -304,16 +304,6 @@ export default function Register() {
 
             <FormControl sx={{ mb: 2 }} fullWidth>
               {/* <InputLabel htmlFor="profile-image">Profile Image</InputLabel> */}
-              {/* <Input
-                id="profile-image"
-                type="file"
-                inputProps={{ accept: "image/*" }}
-                {...register("profileImage", {
-                  required: "profileImage is required",
-                })}
-                /> */}
-               
-
 
                 <label className="custum-file-upload" htmlFor="file">
                 <div className="icon">
