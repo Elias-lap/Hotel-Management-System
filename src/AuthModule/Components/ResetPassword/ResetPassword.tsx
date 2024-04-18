@@ -99,56 +99,70 @@ export default function ResetPassword() {
             <Typography variant="body1" gutterBottom>
               If you already have an account register <br />
               You can{" "}
-              <Box component="span" color="#EB5148">
+              <Box className={`${styleResetPass.wordLogin}`} component="span" color="#EB5148">
                 Login here !
               </Box>
             </Typography>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
               {/* Email */}
-              <FormControl  sx={{ mt: 4, display: "block" }} variant="filled">
-              <label  htmlFor="email">
-                    Email
-                  </label>
+
+              <FormControl
+ sx={{ mt: 4, display: "block" }}                 variant="standard"
+              >
+                <label  htmlFor="Email">
+                  Email Address
+                </label>
                 <TextField
-                                sx={{ width: 1 }}
+                                                sx={{ width: 1 }}
 
-id="email"
-placeholder="Enter Your Email"
-
+                  hiddenLabel
+                  id="Email"
+                  placeholder="Enter Your Email Address"
+                  variant="filled"
+                  type="email"
                   {...register("email", {
                     required: "Email is required",
                   })}
                
                 />
-              </FormControl>
-              {errors.email && (
+                {errors.email && (
                   <Alert  sx={{ mt: 1 }}   severity="error">
                     {errors.email.message?.toString()}
                   </Alert>
                 )}
+                
+              </FormControl>
+          
 
               {/* OTP */}
 
-              <FormControl sx={{ mt: 4, display: "block" }} variant="filled">
-              <label  htmlFor="OTP">
-              OTP
-                  </label>
+            
+              <FormControl sx={{ mt: 4, display: "block" }}      variant="standard"  >
+                <label  htmlFor="OTP">
+                OTP
+                </label>
                 <TextField
-                  className={styleResetPass.textField}
+                                                sx={{ width: 1 }}
+
+                  hiddenLabel
                   id="OTP"
+                  variant="filled"
                   placeholder="Enter Your OTP"
                   {...register("seed", {
                     required: "OTP is required",
                   })}
-                
+               
                 />
-                   {errors.seed && (
+              {errors.seed && (
                     <Alert  sx={{ mt: 1 }} severity="error">
                       {errors.seed.message?.toString()}
                     </Alert>
                   )}
-              </FormControl>
+                
+                </FormControl>
+
+           
 
               {/* Password */}
               <FormControl  sx={{ mt: 4, display: "block" }}  variant="filled">

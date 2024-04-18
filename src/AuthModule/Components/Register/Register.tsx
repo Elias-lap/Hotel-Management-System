@@ -144,6 +144,8 @@ export default function Register() {
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <FormControl
+                                    fullWidth
+
                     sx={{ mt: 4 }}
                     className={`${styleRegister.dBlock}`}
                     variant="standard"
@@ -176,30 +178,35 @@ export default function Register() {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                  <FormControl
+
+                <FormControl
+                                    fullWidth
+
                     sx={{ mt: 4 }}
+                    className={`${styleRegister.dBlock}`}
                     variant="standard"
                   >
-                    <label  htmlFor="Country">
-                      Country
+                    <label  htmlFor="Phone">
+                    Country
                     </label>
                     <TextField
-                      sx={{ display: "block" }}
+                      className={`${styleRegister.textField} `}
                       hiddenLabel
-                      id="Country"
-                      placeholder="Enter Your Country"
+                      id="Phone"
+                      placeholder="Enter Your Phone Number"
                       variant="filled"
                       type="text"
                       {...register("country", {
                         required: "country is required",
                       })}
                     />
-                    {errors.country && (
+                  {errors.country && (
                       <Alert sx={{ mt: 1 }} severity="error">
                         {errors.country.message?.toString()}
                       </Alert>
                     )}
                   </FormControl>
+               
                 </Grid>
               </Grid>
 
