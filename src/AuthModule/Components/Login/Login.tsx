@@ -61,19 +61,17 @@ export default function Login() {
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
         savLoginData();
-        console.log(loginData?.role);
-        // console.log(userRole);
+        console.log(response.data.data.user);
+        const userRole= (response.data.data.user.role);
 
-        // if (loginData?.role=="admin") {
-        //   console.log("");
-        //   navigate("/dashboard");
+        if (userRole=="admin") {
+          console.log("");
+          navigate("/dashboard");
           
-        // }else{
-        //   console.log("kldskdjskjdsdsjk");
-        //   navigate("/layout");
-        // }
-        
-        navigate("/dashboard");
+        }else{
+         
+          navigate("/layout");
+        }
 
         setSpinner(false);
         toast.success("Login  successfully");
@@ -91,7 +89,7 @@ export default function Login() {
     // Handle the case where AuthContext is null
     return null;
   }
-  const { loginData, savLoginData, baseUrl, userRole } = authContext;
+  const { loginData, savLoginData, baseUrl } = authContext;
 
   return (
     <>
