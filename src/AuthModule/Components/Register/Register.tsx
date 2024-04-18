@@ -118,7 +118,7 @@ export default function Register() {
 
             <Form onSubmit={handleSubmit(onSubmit)}>
               <FormControl
-                sx={{ width: 1, mt: 4 }}
+                sx={{ width: 1, mt: 1}}
                 variant="standard"
               >
                 <label  htmlFor="name">
@@ -146,7 +146,7 @@ export default function Register() {
                   <FormControl
                                     fullWidth
 
-                    sx={{ mt: 4 }}
+                    sx={{ mt: 1 }}
                     className={`${styleRegister.dBlock}`}
                     variant="standard"
                   >
@@ -182,7 +182,7 @@ export default function Register() {
                 <FormControl
                                     fullWidth
 
-                    sx={{ mt: 4 }}
+                    sx={{ mt: 1}}
                     className={`${styleRegister.dBlock}`}
                     variant="standard"
                   >
@@ -212,7 +212,7 @@ export default function Register() {
 
               {/* Email */}
               <FormControl
-                sx={{ width: 1, mt: 4 }}
+                sx={{ width: 1, mt: 1}}
                 variant="standard"
               >
                 <label  htmlFor="Email">
@@ -242,7 +242,7 @@ export default function Register() {
               {/* password */}
 
               <FormControl
-                sx={{ width: 1, mt: 4 }}
+                sx={{ width: 1, mt: 1 }}
                 variant="standard"
               >
                 <label htmlFor="Password">
@@ -276,7 +276,7 @@ export default function Register() {
               </FormControl>
 
               <FormControl
-                sx={{ width: 1, mt: 4, mb: 4 }}
+                sx={{ width: 1, mt: 1, mb: 4 }}
                 variant="standard"
               >
                 <label
