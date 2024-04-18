@@ -1,9 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
-import ForgotPassword from './AuthModule/Components/ForgotPassword/ForgotPassword';
 import Login from './AuthModule/Components/Login/Login';
-import Register from './AuthModule/Components/Register/Register';
-import ResetPassword from './AuthModule/Components/ResetPassword/ResetPassword';
 import VerifyAccount from './AuthModule/Components/VerifyAccount/VerifyAccount';
 import Dashboard from './DshboardModule/Components/Dashboard/Dashboard';
 import AuthLayout from './ShareModule/Components/AuthLayout/AuthLayout';
@@ -16,6 +13,9 @@ import FacilitiesList from './DshboardModule/Components/FacilitiesList/Facilitie
 import UserList from './DshboardModule/Components/Users/UserList';
 import ADS from './DshboardModule/Components/ADS/ADS';
 import Booking from './DshboardModule/Components/Booking/Booking';
+import ForgotPassword from './AuthModule/Components/ForgotPassword/ForgotPassword';
+import Register from './AuthModule/Components/Register/Register';
+import ResetPassword from './AuthModule/Components/ResetPassword/ResetPassword';
 
 
 
@@ -30,9 +30,9 @@ function App() {
         { index: true, element: <Layout /> },
         { path: 'layout', element: <Layout  /> },
         { path: 'login', element: <Login  /> },
-        { path: 'forgot-Pass', element: <ForgotPassword /> },
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
+        {path:"forgot-Pass",element:<ForgotPassword/>},
         { path: 'verifyAccount', element: <VerifyAccount /> },
       ],
     },
