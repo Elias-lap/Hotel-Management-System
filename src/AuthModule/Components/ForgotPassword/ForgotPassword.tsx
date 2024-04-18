@@ -1,24 +1,22 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Form, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { SubmitHandler } from "react-hook-form";
 import {
+  Alert,
   Box,
   Button,
+  CircularProgress,
+  Container,
   FormControl,
+  Grid,
+  Link,
   TextField,
   Typography,
-  Alert,
-  Container,
-  Grid,
-  CircularProgress,
-  Link,
 } from "@mui/material";
-import { RotatingLines } from "react-loader-spinner";
-import StyleForgotPass from "./ForgotPassword.module.css";
+import axios from "axios";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Form, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import imgForgotPass from "../../../Img/forgotPass.png";
+import StyleForgotPass from "./ForgotPassword.module.css";
 
 export interface FormDataRegister {
   email: string;
@@ -50,9 +48,8 @@ export default function ForgotPassword() {
       );
 
       navigate("/reset-Pass");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
     } finally {
       setLoadingBtn(false);
     }

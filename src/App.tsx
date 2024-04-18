@@ -1,9 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
-import ForgotPassword from './AuthModule/Components/ForgotPassword/ForgotPassword';
 import Login from './AuthModule/Components/Login/Login';
-import Register from './AuthModule/Components/Register/Register';
-import ResetPassword from './AuthModule/Components/ResetPassword/ResetPassword';
 import VerifyAccount from './AuthModule/Components/VerifyAccount/VerifyAccount';
 import Dashboard from './DshboardModule/Components/Dashboard/Dashboard';
 import AuthLayout from './ShareModule/Components/AuthLayout/AuthLayout';
@@ -12,6 +9,10 @@ import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from './AuthModule/Components/ForgotPassword/ForgotPassword';
+import Register from './AuthModule/Components/Register/Register';
+import ResetPassword from './AuthModule/Components/ResetPassword/ResetPassword';
+
 
 
 
@@ -24,9 +25,9 @@ function App() {
       children: [
         { index: true, element: <Layout  /> },
         { path: 'login', element: <Login  /> },
-        { path: 'forgot-Pass', element: <ForgotPassword /> },
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
+        {path:"forgot-Pass",element:<ForgotPassword/>},
         { path: 'verifyAccount', element: <VerifyAccount /> },
       ],
     },

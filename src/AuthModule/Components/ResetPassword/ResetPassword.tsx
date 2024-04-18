@@ -66,9 +66,9 @@ export default function ResetPassword() {
       // console.log(response);
       toast.success("Verification successful. Password reset initiated.");
       navigate("/login");
-    } catch (error: any) {
+    } catch (error) {
       // console.log(error);
-      toast.error(error.response.data.message);
+      
     }
 
     setLoadingBtn(false);
