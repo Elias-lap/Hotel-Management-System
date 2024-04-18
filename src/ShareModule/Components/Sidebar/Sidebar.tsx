@@ -134,7 +134,7 @@ const logOut = () => {
         </DrawerHeader>
 
         <List >
-          <ListItemButton  sx={{color : "white" }}  >
+          <ListItemButton   component={Link} to="dashboard" sx={{color : "white" }}  >
             <ListItemIcon>
               <IconButton>
                 <HomeIcon  sx={{color : "white" }}/>

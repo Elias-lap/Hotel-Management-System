@@ -65,7 +65,6 @@ export default function Login() {
         const userRole= (response.data.data.user.role);
 
         if (userRole=="admin") {
-          console.log("");
           navigate("/dashboard");
           
         }else{

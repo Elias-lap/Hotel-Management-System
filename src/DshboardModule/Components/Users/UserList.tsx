@@ -208,6 +208,21 @@ export default function UserList() {
           </Button>
         </DialogActions>
       </Dialog>
+      <div className="Header">
+        <div>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ fontSize: "20px", fontWeight: "bolder" }}
+          >
+            Users Table Details{" "}
+          </Typography>
+          <Typography variant="body1" color="initial">
+            You can check all details{" "}
+          </Typography>
+        </div>
+       
+      </div>
       {loading ? ( // Display the spinner while loading is true
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <CircularProgress size={60} />
