@@ -76,7 +76,7 @@ export default function Register() {
           console.log(response);
           
       toast.success("User created successfully");
-      navigate("/verifyAccount");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     } finally {
