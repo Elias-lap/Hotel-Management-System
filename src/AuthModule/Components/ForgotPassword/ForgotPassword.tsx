@@ -4,7 +4,18 @@ import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { SubmitHandler } from "react-hook-form";
-import { Box, Button, FormControl, TextField, Typography, Alert, Container, Grid,   CircularProgress,} from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  TextField,
+  Typography,
+  Alert,
+  Container,
+  Grid,
+  CircularProgress,
+  Link,
+} from "@mui/material";
 import { RotatingLines } from "react-loader-spinner";
 import StyleForgotPass from "./ForgotPassword.module.css";
 import imgForgotPass from "../../../Img/forgotPass.png";
@@ -21,7 +32,7 @@ export default function ForgotPassword() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormDataRegister>();
 
   const onSubmit: SubmitHandler<FormDataRegister> = async (data) => {
     setLoadingBtn(true);
@@ -34,26 +45,23 @@ export default function ForgotPassword() {
 
       console.log(response);
 
-      toast.success("Password reset request, already sent successfully, check your email");
+      toast.success(
+        "Password reset request, already sent successfully, check your email"
+      );
 
       navigate("/reset-Pass");
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message);
-    }finally{
+    } finally {
       setLoadingBtn(false);
-
     }
-
   };
 
   return (
-    <Container           sx={{ my: 5 }}
-    className={StyleForgotPass.container}>
+    <Container sx={{ my: 5 }} className={StyleForgotPass.container}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-         
-
           <Typography
             className={`${StyleForgotPass.ConStay}`}
             variant="h5"
@@ -65,22 +73,33 @@ export default function ForgotPassword() {
             cation.
           </Typography>
 
-          
-          <Box     sx={{ mt: 4 }}>
-            <Typography variant="h6" component="h6">Forgot password</Typography>
+          <Box sx={{ mt: 4 }}>
+            <Typography variant="h6" component="h6">
+              Forgot password
+            </Typography>
             <Typography variant="body1" gutterBottom>
-              If you already have an account, register<br />
+              If you already have an account, register
+              <br />
               You can{" "}
-              <Box className={`${StyleForgotPass.wordLogin}`} component="span" color="#EB5148">Login here !</Box>
+              <Link href="login">
+                {" "}
+                <Box
+                  className={`${StyleForgotPass.wordLogin}`}
+                  component="span"
+                  color="#EB5148"
+                >
+                  Login here !
+                </Box>
+              </Link>
             </Typography>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
               {/* Email */}
-              <FormControl      sx={{ mt: 4, display: "block" }} variant="standard">
-                <label    htmlFor="email">Email</label>
+              <FormControl sx={{ mt: 4, display: "block" }} variant="standard">
+                <label htmlFor="email">Email</label>
                 <TextField
-                                sx={{ width: 1 }}
-                                hiddenLabel
+                  sx={{ width: 1 }}
+                  hiddenLabel
                   id="email"
                   placeholder="Enter Your Email"
                   variant="filled"
@@ -94,13 +113,17 @@ export default function ForgotPassword() {
                   })}
                 />
                 {errors.email && (
-                  <Alert  sx={{ mt: 1 }}   severity="error">
+                  <Alert sx={{ mt: 1 }} severity="error">
                     {errors.email.message?.toString()}
                   </Alert>
                 )}
               </FormControl>
 
-              <Button  sx={{ width: 1 , mt:5 }}  variant="contained" type="submit">
+              <Button
+                sx={{ width: 1, mt: 5 }}
+                variant="contained"
+                type="submit"
+              >
                 {loadingBtn ? (
                   <CircularProgress color="inherit" />
                 ) : (
@@ -111,7 +134,11 @@ export default function ForgotPassword() {
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <img className={`${StyleForgotPass.imgRe}`} src={imgForgotPass} alt="" />
+          <img
+            className={`${StyleForgotPass.imgRe}`}
+            src={imgForgotPass}
+            alt=""
+          />
         </Grid>
       </Grid>
     </Container>
