@@ -6,7 +6,7 @@ import Navbar from '../Navbar/Navbar'
 export default function MasterLayout() {
   return (
     <>
-    <Navbar />
+   
       <div className="d-flex">
             <div className="sidebar-container">
               <Sidebar/>

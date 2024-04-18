@@ -14,6 +14,7 @@ export interface IAuth {
 
 interface DecodedTokenType {
   role: string;
+  
 }
 
 export const AuthContext = createContext<IAuth | null>(null);
@@ -22,7 +23,9 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children
   const [loginData, setloginData] = useState<DecodedTokenType | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const baseUrl="https://upskilling-egypt.com:3000/api";
-  // const baseUrl="api/v0/admin/room-facilities";
+  
+  // console.log(userRole);
+  
   const requestHeaders =
    {
     Authorization: ` ${localStorage.getItem("token")}`,

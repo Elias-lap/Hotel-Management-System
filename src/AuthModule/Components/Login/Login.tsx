@@ -24,51 +24,66 @@ import logo from "../../../assets/images/Staycation.png";
 import { toast } from "react-toastify";
 
 export default function Login() {
-
-   interface FormData {
+  interface FormData {
     email: string;
     password: string;
-   
+    loginData:string
   }
-  
-
 
   const [showPassword, setShowPassword] = useState("password");
   const [spinner, setSpinner] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const navigateTolayout = () => {
+    if (loginData?.role == "user") {
+      // console.log("loginData");
+      // navigate("/layout");
+      
+      
+      
+    } else {
+      console.log("laaaaaaaaaa");
+      // navigate("/dashboard");
+    }
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm <FormData>();
+  } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     // console.log(data);
-    setSpinner(true)
+    setSpinner(true);
 
     await axios
       .post(`${baseUrl}/v0/admin/users/login`, data)
       .then((response) => {
         localStorage.setItem("token", response.data.data.token);
-        navigate("/dashboard");
         savLoginData();
+        console.log(loginData?.role);
+        // console.log(userRole);
 
-        // console.log("token", response.data.data.token);
-        console.log(loginData);
-        // console.log(baseUrl);
-        setSpinner(false)
+        // if (loginData?.role=="admin") {
+        //   console.log("");
+        //   navigate("/dashboard");
+          
+        // }else{
+        //   console.log("kldskdjskjdsdsjk");
+        //   navigate("/layout");
+        // }
+        
+        navigate("/dashboard");
+
+        setSpinner(false);
         toast.success("Login  successfully");
-
-
       })
       .catch((error) => {
         if (axios.isAxiosError(error) && error.response) {
           toast.error(error.response.data.message);
         }
         console.log(error);
-        setSpinner(false)
-
+        setSpinner(false);
       });
   };
   const authContext = useContext(AuthContext);
@@ -76,11 +91,10 @@ export default function Login() {
     // Handle the case where AuthContext is null
     return null;
   }
-  const { loginData, savLoginData, baseUrl } =authContext ;
+  const { loginData, savLoginData, baseUrl, userRole } = authContext;
+
   return (
     <>
-     
-
       <Box
         sx={{
           display: "flex",
@@ -96,7 +110,6 @@ export default function Login() {
           //   m: 1,
           // },
         }}
-       
       >
         <Grid
           className={Styles.loginContainer}
@@ -104,7 +117,7 @@ export default function Login() {
           container
           rowSpacing={1}
         >
-          <Grid item  md={6}  m={1}>
+          <Grid item md={6} m={1}>
             <img src={logo} className={Styles.logoimage} />
             <Grid item xs={10} sx={{ bgcolor: "" }} m={5}>
               <Typography variant="h4">Sign in</Typography>
@@ -113,16 +126,22 @@ export default function Login() {
                 If you don’t have an account register
                 <br />
                 You can
-                <Link className={Styles.register} to="/register"> Register here !</Link>
+                <Link className={Styles.register} to="/register">
+                  {" "}
+                  Register here !
+                </Link>
               </Typography>
-              <Box 
-               onSubmit={handleSubmit(onSubmit)}
-              component="form" noValidate autoComplete="off">
+              <Box
+                onSubmit={handleSubmit(onSubmit)}
+                component="form"
+                noValidate
+                autoComplete="off"
+              >
                 <TextField
-                 {...register("email", {
-                  required: "Email is required ",
-                  pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                })}
+                  {...register("email", {
+                    required: "Email is required ",
+                    pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  })}
                   margin="normal"
                   required
                   fullWidth
@@ -131,28 +150,26 @@ export default function Login() {
                   name="email"
                   autoComplete="email"
                   error={!!errors?.email}
-                  helperText= {errors?.email && errors?.email.type === "required" && (
-                   " Email is required"
-                  )}
+                  helperText={
+                    errors?.email &&
+                    errors?.email.type === "required" &&
+                    " Email is required"
+                  }
                   // {String(errors?.email? errors.email.message:"")}
                   // autoFocus
                 />
-               
 
-                <FormControl fullWidth sx={{ mb: 1 ,mt:4 }} variant="outlined">
+                <FormControl fullWidth sx={{ mb: 1, mt: 4 }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password
                   </InputLabel>
                   <OutlinedInput
-
                     {...register("password", {
                       required: true,
                       pattern:
                         /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     })}
-                   
                     error={!!errors?.password}
-                    
                     className=""
                     id="outlined-adornment-password"
                     type={showPassword}
@@ -165,7 +182,6 @@ export default function Login() {
                               showPassword === "password" ? "text" : "password"
                             );
                           }}
-                          
                           edge="end"
                         >
                           {showPassword === "password" ? (
@@ -186,7 +202,9 @@ export default function Login() {
                     xs
                     sx={{ mb: 5, pb: 5, pt: 2, display: "flex" }}
                   >
-                    <Link className={Styles.register} to="/forgot-Pass">Forgot password?</Link>
+                    <Link className={Styles.register} to="/forgot-Pass">
+                      Forgot password?
+                    </Link>
                   </Grid>
                 </Grid>
                 <Button
@@ -196,9 +214,11 @@ export default function Login() {
                   color="primary"
                   sx={{ mt: 2, mb: 2, py: 1 }}
                 >
-                           {spinner ? <CircularProgress size={24} color="inherit" /> : 'Login'}
-
-                  
+                  {spinner ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
               </Box>
             </Grid>
@@ -223,4 +243,3 @@ export default function Login() {
     </>
   );
 }
-

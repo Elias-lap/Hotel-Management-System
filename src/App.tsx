@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Login from './AuthModule/Components/Login/Login';
-import VerifyAccount from './AuthModule/Components/VerifyAccount/VerifyAccount';
 import Dashboard from './DshboardModule/Components/Dashboard/Dashboard';
 import AuthLayout from './ShareModule/Components/AuthLayout/AuthLayout';
 import MasterLayout from './ShareModule/Components/MasterLayout/MasterLayout';
@@ -33,7 +32,6 @@ function App() {
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
         {path:"forgot-Pass",element:<ForgotPassword/>},
-        { path: 'verifyAccount', element: <VerifyAccount /> },
       ],
     },
     {

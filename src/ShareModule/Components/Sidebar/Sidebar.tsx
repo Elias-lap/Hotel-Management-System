@@ -21,7 +21,7 @@ import ChangePasswordIcon from "@mui/icons-material/Lock";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
 // import { Link } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -91,6 +91,11 @@ const handleCloseDialog = () => {
   setOpenDialog(false);
 };
 
+const navigate = useNavigate();
+const logOut = () => {
+  localStorage.removeItem("token");
+  navigate("/login");
+};
 
 
   return (
@@ -186,7 +191,7 @@ const handleCloseDialog = () => {
             </ListItemIcon>
             <ListItemText primary="Change Password"  sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton onClick={logOut}>
             <ListItemIcon>
               <IconButton>
               <LogoutIcon sx={{color : "white" }}/>
