@@ -1,3 +1,4 @@
+
 import Navbar from "../Navbar/Navbar";
 
 export default function Layout() {
@@ -5,6 +6,8 @@ export default function Layout() {
     <>
     <div>Layout</div>
     <Navbar/>
+  
+   
     </>
   )
 }
