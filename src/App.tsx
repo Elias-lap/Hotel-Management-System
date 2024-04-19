@@ -16,11 +16,20 @@ import ForgotPassword from './AuthModule/Components/ForgotPassword/ForgotPasswor
 import Register from './AuthModule/Components/Register/Register';
 import ResetPassword from './AuthModule/Components/ResetPassword/ResetPassword';
 
+// import UserLayout from './userLayout/UserLayout';
+import Landing from './userLayout/Landing';
+
+import UserLayout from './userLayout/UserLayout';
+
+
 
 
 
 function App() {
   const routes = createBrowserRouter([
+
+ 
+
     {
       path: '/',
       element:  <AuthLayout/>,
@@ -32,6 +41,7 @@ function App() {
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
         {path:"forgot-Pass",element:<ForgotPassword/>},
+
       ],
     },
     {
@@ -45,16 +55,25 @@ function App() {
       children: [
         { index: true, element: <Dashboard /> },
         { path: 'facilitiesList', element: <FacilitiesList /> },
-        
-
         { path: 'UserList', element: <UserList/> },
         { path: 'ADS', element: <ADS/> },
         { path: 'Booking', element: <Booking/> },
-        
-        
-        
       ],
     },
+    {
+      path: '/user',
+      element: (<UserLayout />),
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <Landing /> },
+        { path: 'landing', element: <Landing /> },
+      ],
+    },
+
+ 
+
+
+
   ]);
 
   return (
