@@ -207,29 +207,54 @@ export default function Rooms() {
     setDeleteModalOpen(true); // Open the delete modal
   };
 
+  // const handleDeleteConfirmed = async () => {
+  //   setLoading(true)
+  //   try {
+  //  let del= await axios.delete(
+  //       `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
+  //       {
+  //         headers: {
+  //           // Authorization: localStorage.getItem("Token"),
+  //           Authorization:
+  //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+  //         },
+  //       }
+  //     );
+  //     await getRooms(1, 10);
+  //     setDeleteModalOpen(false);
+  //     // console.log(del.data.message)
+  //     toast.success(del.data.message)
+  //   } catch (error) {
+  //     console.error("Error deleting room:", error);
+  //     toast.error(error?.response?.data.message)
+
+  //   }
+  // };
+
+
   const handleDeleteConfirmed = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-   let del= await axios.delete(
+      await axios.delete(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
         {
           headers: {
-            // Authorization: localStorage.getItem("Token"),
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
           },
         }
       );
-      await getRooms(1, 10);
+      await getRooms(1, 10); // تحديث البيانات بعد الحذف
       setDeleteModalOpen(false);
-      // console.log(del.data.message)
-      toast.success(del.data.message)
+      toast.success("Room deleted successfully!");
     } catch (error) {
       console.error("Error deleting room:", error);
-      toast.error(error?.response?.data.message)
-
+      toast.error(error?.response?.data.message);
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false); // Close the delete modal
