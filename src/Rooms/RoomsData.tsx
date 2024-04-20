@@ -1,299 +1,329 @@
+import React, { useState, useContext } from "react";
 import {
-    Button,
-    FormControl,
-    TextField,
-    Typography,
-    FilledInput,
-    InputAdornment,
-    IconButton,
-    Alert,
-    CircularProgress,
-    Autocomplete,
-    InputLabel,
-    Select,
-    FormHelperText,
-    MenuItem
-  } from "@mui/material";
-  import styleRooms from "./Rooms.module.css";
-  import { useForm } from "react-hook-form";
-  import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-  import axios from "axios";
-  import { toast } from "react-toastify";
-  import { useContext, useEffect, useState } from "react";
-  import { contextRoom } from "../ContextForRooms/AllRooms";
-  import { useNavigate } from "react-router-dom";
-  import { SubmitHandler, FieldValues } from "react-hook-form";
-  import { contextFacility } from "../RoomFacilityContext/RoomFacility";
-  
-  interface FormData {
-    roomNumber: string;
-    price: string;
-    capacity: string;
-    discount: string;
-    facilities: string;
-    imgs: [],}
-  
-  export default function RoomsData() {
-    const { listDataRooms } = useContext(contextRoom);
-    const navigate = useNavigate();
-  
-    const { ListFacility, getFacility } = useContext(contextFacility);
-    // console.log(ListFacility);
-  
-    const [selectedFacility, setSelectedFacility] = useState('');
-    const [error, setError] = useState('');
-  
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<FormData>({
-      defaultValues: {
-        roomNumber: '',
-        price: '',
-        capacity: '',
-        discount: '',
-        facilities: '',
-        imgs: [], 
-      },
-    });
-    
-    // navigate
-  
-    const goRooms = () => {
+  Button,
+  TextField,
+  Alert,
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  ListItemText,
+  CircularProgress,
+  Grid,
+  Container,
+  Stack,
+} from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { contextFacility } from "../RoomFacilityContext/RoomFacility";
+import { Form, useNavigate } from "react-router-dom";
+import styleRooms from "./Rooms.module.css"
+
+interface FormData {
+  roomNumber: string;
+  price: string;
+  capacity: string;
+  discount: string;
+  imgs: FileList;
+  facilities: string[];
+}
+
+export default function RoomsData() {
+  const { ListFacility, getFacility } = useContext(contextFacility);
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedFacility, setSelectedFacility] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [images, setImages] = useState<File[]>([]);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setImages(files);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const appendToFormData = (data: FormData) => {
+    const formData = new FormData();
+    formData.append("roomNumber", data?.roomNumber);
+    formData.append("price", data?.price);
+    formData.append("capacity", data?.capacity);
+    formData.append("discount", data?.discount);
+
+    if (Array.isArray(data.facilities)) {
+      data.facilities.forEach((facility) => {
+        formData.append("facilities[]", facility);
+      });
+    }
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append("imgs", images[i]);
+    }
+    return formData;
+  };
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    if (data.discount && data.price && parseInt(data.discount) > parseInt(data.price)) {
+      setValue("discount", "", { shouldValidate: true });
+      setValue("discount", data.discount, { shouldValidate: true });
+      toast.error("Discount cannot be greater than the price.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (
+      data.discount !== undefined &&
+      (parseInt(data.discount) < 0 || parseInt(data.discount) > 100)
+    ) {
+      toast.error("Discount must be between 0 and 100.");
+      setIsLoading(false);
+      return;
+    }
+
+    const addFormData = appendToFormData(data);
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `https://upskilling-egypt.com:3000/api/v0/admin/rooms`,
+        addFormData,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
+      toast.success(`You Add a New Room`);
       navigate("/dashboard/rooms");
-    };
-  
-  
-    const onSubmit = async (data: FormData) => {
-      console.log(data.imgs)
-      
-      // Check if Facilities is selected
-      if (!selectedFacility) {
-        setError('Facilities is required');
-        return;
-      }
-    
-      // Reset error state if Facilities is selected
-      setError('');
-    
-      try {
-        // Add selectedFacility to data object
-        data.facilities = [selectedFacility];
-    
-        // Continue with form submission
-        const response = await axios.post(
-          `https://upskilling-egypt.com:3000/api/v0/admin/rooms`,
-          data,
-          {
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-            },
-          }
-        );
-        console.log(response);
-    
-        toast.success(`You Add a New Room`);
-        goRooms();
-      } catch (error) {
+    } catch (error: any) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
         console.log(error);
-        toast.error(`You Can't Add New Room`);
+        toast.error("You Can't Add New Room");
       }
-    };
-    
-   
-    const handleChange = (event) => {
-      setSelectedFacility(event.target.value);
-      setError('');
-    };
-    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files && e.target.files[0];
-      if (file) {
-        setUploadedImage(file);
-        console.log(file)
-      }
-    };
-  
-  
-  
-    return (
-      <>
-        <div className=" container">
-          <form encType=" multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
-            {/* Room Number*/}
-            <FormControl className="mt-4 d-block" variant="standard">
-              <TextField
-                className={`${styleRooms.textField} w-100`}
-                hiddenLabel
-                id="name"
-                variant="filled"
-                type="text"
-                placeholder="Enter Your Name"
-                {...register("roomNumber", {
-                  required: "Room Number is required",
-                })}
-              />
-              {errors.roomNumber && (
-                <Alert className=" mt-1" severity="error">
-                  {errors.roomNumber.message?.toString()}
-                </Alert>
-              )}
-  
-              {/* price /capacity */}
-              <div className=" row my-3">
-                {/* price */}
-                <div className=" col-md-6">
-                  <TextField
-                    className={`${styleRooms.textField} w-100`}
-                    hiddenLabel
-                    id="name"
-                    variant="filled"
-                    type="number"
-                    placeholder="Price"
-                    {...register("price", {
-                      required: "price is required",
-                    })}
-                  />
-                  {errors.price && (
-                    <Alert className=" mt-1" severity="error">
-                      {errors.price.message?.toString()}
-                    </Alert>
-                  )}
-                </div>
-  
-                {/* capacity */}
-  
-                <div className=" col-md-6">
-                  <TextField
-                    className={`${styleRooms.textField} w-100`}
-                    hiddenLabel
-                    id="name"
-                    variant="filled"
-                    type="number"
-                    placeholder="Capacity"
-                    {...register("capacity", {
-                      required: "capacity is required",
-                    })}
-                  />
-                  {errors.capacity && (
-                    <Alert className=" mt-1" severity="error">
-                      {errors.capacity.message?.toString()}
-                    </Alert>
-                  )}
-                </div>
-              </div>
-  
-              {/* discount /facilities */}
-              <div className=" row my-3">
-                {/* discount */}
-                <div className=" col-md-6">
-                  <TextField
-                    className={`${styleRooms.textField} w-100`}
-                    hiddenLabel
-                    id="name"
-                    variant="filled"
-                    type="number"
-                    placeholder="Discount"
-                    {...register("discount", {
-                      required: "Discount is required",
-                    })}
-                  />
-                  {errors.discount && (
-                    <Alert className=" mt-1" severity="error">
-                      {errors.discount.message?.toString()}
-                    </Alert>
-                  )}
-                </div>
-  
-                {/* facilities */}
-  
-                <div className=" col-md-6">
-           
-      <FormControl error={!!error} fullWidth>
-        <InputLabel id="facilities-label">Facilities</InputLabel>
-        <Select
-          labelId="facilities-label"
-          id="facilities"
-          value={selectedFacility}
-          onChange={handleChange}
-          fullWidth
-        >
-          {ListFacility.map((fac) => (
-            <MenuItem key={fac._id} value={fac._id}>{fac.name}</MenuItem>
-          ))}
-        </Select>
-        {error && (
-          <FormHelperText>{error}</FormHelperText>
-        )}
-      </FormControl>
-  
-                </div>
-              </div>
-  
-              <div>
-                
-            
-              {/* Upload Room Image */}
-              <div>
-                <Button
-                  component="label"
-                  variant="contained"
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Upload Room Image
-                  <input
-    type="file"
-    className="visually-hidden"
-    {...register("imgs", {
-      required: "Room image is required",
-      validate: {
-        fileFormat: (value) =>
-          Array.from(value).every((file: File) =>
-            ["image/jpeg", "image/png"].includes(file.type)
-          ) 
-      },
-    })}
-    onChange={handleImageChange}
-  />
-  
-                </Button>
-                {errors.imgs && (
-                  <Alert className="mt-1" severity="error">
-                    {errors.imgs.message}
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Container>
+        <Form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
+          <FormControl sx={{ mt: 4, display: "block" }} variant="standard">
+            <TextField
+                              sx={{ width: 1 ,mb: 4}}
+
+              hiddenLabel
+              id="roomNumber"
+              variant="filled"
+              type="text"
+              placeholder="Room Number"
+              {...register("roomNumber", {
+                required: "Room Number is required",
+              })}
+            />
+            {errors.roomNumber && (
+              <Alert sx={{mt: 1}}  severity="error">
+                {errors.roomNumber.message}
+              </Alert>
+            )}
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                              sx={{ width: 1 ,mb: 4}}
+                              hiddenLabel
+                  id="price"
+                  variant="filled"
+                  type="number"
+                  placeholder="Price"
+                  {...register("price", {
+                    required: "Price is required",
+                  })}
+                />
+                {errors.price && (
+              <Alert sx={{mt: 1}}  severity="error">
+              {errors.price.message}
                   </Alert>
                 )}
-                {/* Display uploaded image */}
-                {uploadedImage && (
-                  <img
-                  className=" w-25"
-                    src={URL.createObjectURL(uploadedImage)}
-                    alt="Uploaded Image"
-  
-                  />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
+                              sx={{ width: 1 ,mb: 4}}
+                              hiddenLabel
+                  id="capacity"
+                  variant="filled"
+                  type="number"
+                  placeholder="Capacity"
+                  {...register("capacity", {
+                    required: "Capacity is required",
+                  })}
+                />
+                {errors.capacity && (
+              <Alert sx={{mt: 1}}  severity="error">
+              {errors.capacity.message}
+                  </Alert>
                 )}
-              </div>
-              </div>
-  
-              <div className={`${styleRooms.line}`}></div>
-  
-              <div className=" row justify-content-end mt-5">
-                <div className=" col-md-3">
-                  <Button variant="outlined">Cancel</Button>
-  
-                  <span className=" mx-2"></span>
-                  <Button type="submit" variant="contained">
-                    Save
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                              sx={{ width: 1 ,mb: 4}}
+                              hiddenLabel
+                  id="discount"
+                  variant="filled"
+                  type="number"
+                  placeholder="Discount"
+                  {...register("discount", {
+                    required: "Discount is required",
+                  })}
+                />
+                {errors.discount && (
+              <Alert sx={{mt: 1}}  severity="error">
+              {errors.discount.message}
+                  </Alert>
+                )}
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <FormControl error={!!error} fullWidth>
+                  <InputLabel id="facilities-label">Facilities</InputLabel>
+                  <Select
+                    labelId="facilities-label"
+                    id="facilities"
+                    label="facilities"
+                    multiple
+                    value={watch("facilities") || []}
+                    onChange={(e) =>
+                      setValue("facilities", e.target.value, {
+                        shouldValidate: true,
+                      })
+                    }
+                    sx={{ width: "100%" }}
+                    renderValue={(selected) => (
+                      <div>
+                        {selected.map((value) => (
+                          <span key={value} style={{ marginRight: "8px" }}>
+                            {ListFacility.find(
+                              (facility) => facility._id === value
+                            )?.name || ""}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  >
+                    {ListFacility.map((facility) => (
+                      <MenuItem key={facility._id} value={facility._id}>
+                        <Checkbox
+                          checked={watch("facilities")?.includes(
+                            facility._id
+                          )}
+                        />
+                        <ListItemText primary={facility.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {errors.facilities && (
+              <Alert sx={{mt: 1}}  severity="error">
+              {errors.facilities.message}
+                  </Alert>
+                )}
+              </Grid>
+            </Grid>
+
+            <div>
+              <Box>
+                <label  htmlFor="upload-input">
+                  <Button
+                                  className={`${styleRooms.btnFile}`}
+
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                    component="span"
+                  >
+                    Upload Images
                   </Button>
-                </div>
-              </div>
-            </FormControl>
-          </form>
-        </div>
-      </>
-    );
-  
-  }
-  
+                </label>
+                <input
+                  id="upload-input"
+                  onChange={handleImageChange}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  style={{ display: "none" }}
+                />
+                {images.length > 0 && (
+                  <div style={{ marginTop: "20px" }}>
+                    {images.map((file, index) => (
+                      <img
+                        key={index}
+                        src={URL.createObjectURL(file)}
+                        alt={`Selected ${index + 1}`}
+                        style={{
+                          maxWidth: "80%",
+                          maxHeight: "100px",
+                          margin: "5px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </Box>
+              {errors.imgs && (
+              <Alert sx={{mt: 1}}  severity="error">
+              {errors.imgs.message}
+                </Alert>
+              )}
+            </div>
+
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className={styleRooms.line} />
+
+<Grid container justifyContent="flex-end" mt={5}>
+  <Grid item xs={12} md={3}>
+    <Stack direction="row" spacing={2} alignItems="center">
+      <Button variant="outlined" onClick={goBack}>
+        Cancel
+      </Button>
+      <Button type="submit" variant="contained">
+        {isLoading ? (
+          <CircularProgress color="inherit" />
+        ) : (
+          "Save"
+        )}
+      </Button>
+    </Stack>
+  </Grid>
+</Grid>
+
+          </FormControl>
+        </Form>
+      </Container>
+    </>
+  );
+}

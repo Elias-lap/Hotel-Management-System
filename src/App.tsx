@@ -16,7 +16,9 @@ import Rooms from "./Rooms/Rooms";
 import { AllRooms } from "./ContextForRooms/AllRooms";
 import RoomsData from "./Rooms/RoomsData";
 import { RoomFacility } from "./RoomFacilityContext/RoomFacility";
-
+import UpdateRoom from "./Rooms/UpdateRoom";
+import { RoomBooking } from "./BookingRoomContext/BookingRoom";
+ 
 function App() {
   const routes = createBrowserRouter([
     {
@@ -41,7 +43,8 @@ function App() {
       { path: "rooms", element: <Rooms/> },
       { path: "roomsData", element: <RoomsData/> },
 
-    
+      { path: "updateRoom/:id?", element: <UpdateRoom/> },
+
     
     
   
@@ -53,6 +56,7 @@ function App() {
 
   return (
     <>
+    <RoomBooking>
     <RoomFacility>
      <AllRooms>
 
@@ -61,6 +65,7 @@ function App() {
       <ToastContainer />
      </AllRooms>
      </RoomFacility>
+     </RoomBooking>
 
     </>
   );

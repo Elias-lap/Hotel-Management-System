@@ -14,7 +14,7 @@ export function AllRooms({ children }: React.PropsWithChildren<{}>) {
   const [listDataRooms, setlistDataRooms] = useState([]);
   const [pagesArray, setPagesArray] = useState<number[]>([]);
 
-  const getRooms = async (page: number, size: number) => {
+  const getRooms = async (page: number, size: number ) => {
     try {
       const response = await axios.get(
         "https://upskilling-egypt.com:3000/api/v0/admin/rooms",
@@ -27,6 +27,7 @@ export function AllRooms({ children }: React.PropsWithChildren<{}>) {
           params: {
             page: page,
             size: size,
+
           },
         }
       );
@@ -56,6 +57,7 @@ export function AllRooms({ children }: React.PropsWithChildren<{}>) {
       value={{
         getRooms,
         listDataRooms,
+        pagesArray
       }}
     >
       {children}

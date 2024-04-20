@@ -1,20 +1,20 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
-export const contextFacility = createContext<{
-  getFacility: () => Promise<void>;
-  ListFacility: any[];
-}>({ getFacility: () => Promise.resolve(), ListFacility: [] });
+export const contextBooking = createContext<{
+  getBooking: () => Promise<void>;
+  ListBooking: any[];
+}>({ getBooking: () => Promise.resolve(), ListBooking: [] });
 
-export function RoomFacility({ children }: React.PropsWithChildren<{}>) {
-  const [ListFacility, setListFacility] = useState([]);
+export function RoomBooking({ children }: React.PropsWithChildren<{}>) {
+  const [ListBooking, setListBooking] = useState([]);
   const [loading, setLoading] = useState(false);
 
-const getFacility = async () => {
+const getBooking = async () => {
   setLoading(true);
   try {
     const response = await axios.get(
-      `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities?pageSize=10&pageNumber=1`,
+      `https://upskilling-egypt.com:3000/api/v0/admin/booking?page=1&size=10`,
       {
         headers: {
           Authorization:
@@ -22,7 +22,7 @@ const getFacility = async () => {
         },
       }
     );
-    setListFacility(response?.data?.data?.facilities);
+    setListBooking(response?.data?.data);
     setLoading(false);
   } catch (error) {
     setLoading(false);
@@ -31,22 +31,22 @@ const getFacility = async () => {
 };
 
   useEffect(() => {
-    getFacility();
+    getBooking();
 
   }, []);
 
-  // useEffect(() => {
-  //   console.log(ListFacility);
-  // }, [ListFacility]);
+  useEffect(() => {
+    console.log(ListBooking);
+  }, [ListBooking]);
 
   return (
-    <contextFacility.Provider
+    <contextBooking.Provider
       value={{
-        getFacility,
-        ListFacility,
+        getBooking,
+        ListBooking,
       }}
     >
       {children}
-    </contextFacility.Provider>
+    </contextBooking.Provider>
   );
 }
