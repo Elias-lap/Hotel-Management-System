@@ -233,28 +233,28 @@ export default function Rooms() {
 
 
   const handleDeleteConfirmed = async () => {
-    setLoading(true);
-    try {
-      await axios.delete(
-        `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-          },
-        }
-      );
-      await getRooms(1, 10); // تحديث البيانات بعد الحذف
-      setDeleteModalOpen(false);
-      toast.success("Room deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting room:", error);
-      toast.error(error?.response?.data.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
+  setLoading(true);
+  try {
+    await axios.delete(
+      `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
+      {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+        },
+      }
+    );
+    await getRooms(1, 10);
+    setDeleteModalOpen(false);
+    toast.success("Room deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting room:", error);
+    toast.error(error?.response?.data.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false); // Close the delete modal

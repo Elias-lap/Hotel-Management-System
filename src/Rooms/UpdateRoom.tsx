@@ -6,6 +6,8 @@ import {
   Alert,
   Box,
   Checkbox,
+  FormControlLabel,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -48,7 +50,26 @@ export default function UpdateRoom() {
     formState: { errors },
   } = useForm<FormData>();
 
- 
+  // const onSubmit = async (data: FormData) => {
+  //   try {
+  //     const response = await axios.put(
+  //       `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
+  //       data,
+  //       {
+  //         headers: {
+  //           Authorization:
+  //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+  //         },
+  //       }
+  //     );
+  //     console.log(response);
+  //     toast.success(`Room Updated Successfully`);
+  //     navigate("/dashboard/rooms");
+  //   } catch (error:any) {
+  //     console.log("Error updating rooms: ", error.message);
+  //     toast.error(error.message);
+  //   }
+  // };
 const onSubmit = async (data: FormData) => {
   // const roomFormData = new FormData();
   // roomFormData.append("roomNumber", data.roomNumber);
@@ -116,9 +137,7 @@ try {
     }
   };
 
-  const goBack = () => {
-    navigate(-1);
-  };
+ 
 
   useEffect(() => {
     getRoomDetails();
@@ -224,7 +243,7 @@ try {
                       const selectedValue = e.target.value;
                       const valueToSet = Array.isArray(selectedValue)
                         ? selectedValue  
-                        : [selectedValue];
+                        : [selectedValue]; 
                       setValue("facilities", valueToSet, {
                         shouldValidate: true,
                       });
