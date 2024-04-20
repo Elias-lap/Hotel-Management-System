@@ -9,7 +9,6 @@ const UserLayout = () => {
         <Box>
             <Navbar/>
             <Outlet/>
-            <h2>hhhhhhhhhhhhhhhhhhhhhhhhh</h2>
         </Box>
     );
 }
