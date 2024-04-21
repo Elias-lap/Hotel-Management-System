@@ -67,6 +67,7 @@ function App() {
       children: [
         { index: true, element: <Landing /> },
         { path: 'landing', element: <Landing /> },
+        { path: 'explor/:state', element: <Landing /> },
       ],
     },
 
