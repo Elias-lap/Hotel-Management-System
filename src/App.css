@@ -8,3 +8,9 @@
     background-color: #3f5e58;
 }
 
+
+/* TablePagination in Room */
+
+.css-levciy-MuiTablePagination-displayedRows , .css-pdct74-MuiTablePagination-selectLabel {
+    margin-top: 0.8rem;
+}

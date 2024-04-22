@@ -23,7 +23,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { contextFacility } from "../RoomFacilityContext/RoomFacility";
 import { Form, useNavigate } from "react-router-dom";
-import styleRooms from "./Rooms.module.css"
+import styleRooms from "./Rooms.module.css";
 
 interface FormData {
   roomNumber: string;
@@ -81,7 +81,11 @@ export default function RoomsData() {
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
-    if (data.discount && data.price && parseInt(data.discount) > parseInt(data.price)) {
+    if (
+      data.discount &&
+      data.price &&
+      parseInt(data.discount) > parseInt(data.price)
+    ) {
       setValue("discount", "", { shouldValidate: true });
       setValue("discount", data.discount, { shouldValidate: true });
       toast.error("Discount cannot be greater than the price.");
@@ -133,8 +137,7 @@ export default function RoomsData() {
         <Form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
           <FormControl sx={{ mt: 4, display: "block" }} variant="standard">
             <TextField
-                              sx={{ width: 1 ,mb: 4}}
-
+              sx={{ width: 1, mb: 4 }}
               hiddenLabel
               id="roomNumber"
               variant="filled"
@@ -145,7 +148,7 @@ export default function RoomsData() {
               })}
             />
             {errors.roomNumber && (
-              <Alert sx={{mt: 1}}  severity="error">
+              <Alert sx={{ mt: 1 }} severity="error">
                 {errors.roomNumber.message}
               </Alert>
             )}
@@ -153,8 +156,8 @@ export default function RoomsData() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <TextField
-                              sx={{ width: 1 ,mb: 4}}
-                              hiddenLabel
+                  sx={{ width: 1, mb: 4 }}
+                  hiddenLabel
                   id="price"
                   variant="filled"
                   type="number"
@@ -164,16 +167,16 @@ export default function RoomsData() {
                   })}
                 />
                 {errors.price && (
-              <Alert sx={{mt: 1}}  severity="error">
-              {errors.price.message}
+                  <Alert sx={{ mt: 1 }} severity="error">
+                    {errors.price.message}
                   </Alert>
                 )}
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <TextField
-                              sx={{ width: 1 ,mb: 4}}
-                              hiddenLabel
+                  sx={{ width: 1, mb: 4 }}
+                  hiddenLabel
                   id="capacity"
                   variant="filled"
                   type="number"
@@ -183,8 +186,8 @@ export default function RoomsData() {
                   })}
                 />
                 {errors.capacity && (
-              <Alert sx={{mt: 1}}  severity="error">
-              {errors.capacity.message}
+                  <Alert sx={{ mt: 1 }} severity="error">
+                    {errors.capacity.message}
                   </Alert>
                 )}
               </Grid>
@@ -193,8 +196,8 @@ export default function RoomsData() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <TextField
-                              sx={{ width: 1 ,mb: 4}}
-                              hiddenLabel
+                  sx={{ width: 1, mb: 4 }}
+                  hiddenLabel
                   id="discount"
                   variant="filled"
                   type="number"
@@ -204,8 +207,8 @@ export default function RoomsData() {
                   })}
                 />
                 {errors.discount && (
-              <Alert sx={{mt: 1}}  severity="error">
-              {errors.discount.message}
+                  <Alert sx={{ mt: 1 }} severity="error">
+                    {errors.discount.message}
                   </Alert>
                 )}
               </Grid>
@@ -240,9 +243,7 @@ export default function RoomsData() {
                     {ListFacility.map((facility) => (
                       <MenuItem key={facility._id} value={facility._id}>
                         <Checkbox
-                          checked={watch("facilities")?.includes(
-                            facility._id
-                          )}
+                          checked={watch("facilities")?.includes(facility._id)}
                         />
                         <ListItemText primary={facility.name} />
                       </MenuItem>
@@ -250,8 +251,8 @@ export default function RoomsData() {
                   </Select>
                 </FormControl>
                 {errors.facilities && (
-              <Alert sx={{mt: 1}}  severity="error">
-              {errors.facilities.message}
+                  <Alert sx={{ mt: 1 }} severity="error">
+                    {errors.facilities.message}
                   </Alert>
                 )}
               </Grid>
@@ -259,10 +260,9 @@ export default function RoomsData() {
 
             <div>
               <Box>
-                <label  htmlFor="upload-input">
+                <label htmlFor="upload-input">
                   <Button
-                                  className={`${styleRooms.btnFile}`}
-
+                    className={`${styleRooms.btnFile}`}
                     variant="contained"
                     startIcon={<CloudUploadIcon />}
                     component="span"
@@ -296,31 +296,29 @@ export default function RoomsData() {
                 )}
               </Box>
               {errors.imgs && (
-              <Alert sx={{mt: 1}}  severity="error">
-              {errors.imgs.message}
+                <Alert sx={{ mt: 1 }} severity="error">
+                  {errors.imgs.message}
                 </Alert>
               )}
             </div>
 
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className={styleRooms.line} />
+            <Box
+              sx={{ borderBottom: 1, borderColor: "divider" }}
+              className={styleRooms.line}
+            />
 
-<Grid container justifyContent="flex-end" mt={5}>
-  <Grid item xs={12} md={3}>
-    <Stack direction="row" spacing={2} alignItems="center">
-      <Button variant="outlined" onClick={goBack}>
-        Cancel
-      </Button>
-      <Button type="submit" variant="contained">
-        {isLoading ? (
-          <CircularProgress color="inherit" />
-        ) : (
-          "Save"
-        )}
-      </Button>
-    </Stack>
-  </Grid>
-</Grid>
-
+            <Grid container justifyContent="flex-end" mt={5}>
+              <Grid item xs={12} md={3}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <Button variant="outlined" onClick={goBack}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" variant="contained">
+                    {isLoading ? <CircularProgress color="inherit" /> : "Save"}
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
           </FormControl>
         </Form>
       </Container>

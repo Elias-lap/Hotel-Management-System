@@ -37,6 +37,8 @@ import { Form, useNavigate } from "react-router-dom";
 import { contextBooking } from "../BookingRoomContext/BookingRoom";
 import imgDelete from "../Img/Email.png";
 import { toast } from "react-toastify";
+import imgNOdata from "../Img/NOdata.jpg";
+
 interface Column {
   id:
     | "roomNumber"
@@ -362,9 +364,17 @@ export default function Rooms() {
                     ) : filteredRooms.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={columns.length}>
-                          <Typography variant="body1" align="center">
+                          {/* <Typography variant="body1" align="center">
                             No data
-                          </Typography>
+                          </Typography> */}
+                          <Box sx={{ display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",}}>
+
+                          <img style={{width:"50%"}} srcSet={imgNOdata}/>
+
+                          </Box>
+
                         </TableCell>
                       </TableRow>
                     ) : (
@@ -495,14 +505,13 @@ export default function Rooms() {
           >
             <Box
               sx={{
-                width: 400,
+                width: 640,
                 bgcolor: "background.paper",
                 p: 2,
                 margin: "auto",
               }}
             >
               <Typography>
-                Are you sure you want to delete this room?
                 <Box
                   sx={{
                     display: "flex",
@@ -510,8 +519,25 @@ export default function Rooms() {
                     alignItems: "center",
                   }}
                 >
-                  <img src={imgDelete} alt=" delete" />
+                  <img srcSet={imgDelete} alt=" delete" />
+
+
                 </Box>
+
+<Box   sx={{ textAlign:"center " ,marginTop:"1.3rem" , marginBottom:"1.3rem"
+                  }}>
+
+Delete This Room ?
+
+<Typography variant="caption" display="block" gutterBottom>
+                are you sure you want to delete this item ? if you are sure just click on delete it      </Typography>
+
+
+</Box>
+
+
+                
+
               </Typography>
               <Button onClick={handleDeleteConfirmed}>Delete</Button>
               <Button onClick={handleCloseDeleteModal}>Cancel</Button>

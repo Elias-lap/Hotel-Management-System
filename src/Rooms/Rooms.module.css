@@ -24,6 +24,12 @@
     border: 1px dashed #009247 !important;
 }
 
+.btnFile:hover{
+    background-color: #F1FFF0 !important;
+    color: black !important;
+    border: 1px dashed #009247 !important;
+}
+
 .chooseImg{
     color: #009247;
 }

@@ -70,40 +70,40 @@ export default function UpdateRoom() {
   //     toast.error(error.message);
   //   }
   // };
-const onSubmit = async (data: FormData) => {
-  // const roomFormData = new FormData();
-  // roomFormData.append("roomNumber", data.roomNumber);
-  // roomFormData.append("price", data.price);
-  // roomFormData.append("capacity", data.capacity);
-  // roomFormData.append("discount", data.discount);
-  
-  // const selectedFacilities = Array.isArray(data.facilities) ? data.facilities.map((f: any) => f._id) : [];
-  // console.log(selectedFacilities)
+  const onSubmit = async (data: FormData) => {
+    // const roomFormData = new FormData();
+    // roomFormData.append("roomNumber", data.roomNumber);
+    // roomFormData.append("price", data.price);
+    // roomFormData.append("capacity", data.capacity);
+    // roomFormData.append("discount", data.discount);
 
-  // selectedFacilities.forEach(facilityId => {
-  //   roomFormData.append("facilities", facilityId);
-  // });
-  
-try {
-  const response = await axios.put(
-    `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
-    data,
-    {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-        "Content-Type": "multipart/form-data" 
-      },
+    // const selectedFacilities = Array.isArray(data.facilities) ? data.facilities.map((f: any) => f._id) : [];
+    // console.log(selectedFacilities)
+
+    // selectedFacilities.forEach(facilityId => {
+    //   roomFormData.append("facilities", facilityId);
+    // });
+
+    try {
+      const response = await axios.put(
+        `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
+        data,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
+      toast.success(`Room Updated Successfully`);
+      navigate("/dashboard/rooms");
+    } catch (error: any) {
+      console.log("Error updating rooms: ", error.message);
+      toast.error(error.message);
     }
-  );
-  console.log(response);
-  toast.success(`Room Updated Successfully`);
-  navigate("/dashboard/rooms");
-} catch (error:any) {
-  console.log("Error updating rooms: ", error.message);
-  toast.error(error.message);
-}
-}
+  };
 
   const getRoomDetails = async () => {
     try {
@@ -136,8 +136,6 @@ try {
       console.log(error);
     }
   };
-
- 
 
   useEffect(() => {
     getRoomDetails();
@@ -233,7 +231,7 @@ try {
                 >
                   <InputLabel id="facilities-label">Facilities</InputLabel>
 
-                  <Select
+                  {/* <Select
                     labelId="facilities-label"
                     id="facilities"
                     label="facilities"
@@ -270,6 +268,43 @@ try {
                         <ListItemText primary={facility.name} />
                       </MenuItem>
                     ))}
+                  </Select> */}
+                  <Select
+                    labelId="facilities-label"
+                    id="facilities"
+                    label="facilities"
+                    multiple
+                    value={watch("facilities") || []}
+                    onChange={(e) => {
+                      const selectedValue = e.target.value;
+                      const valueToSet = Array.isArray(selectedValue)
+                        ? selectedValue
+                        : [selectedValue];
+                      setValue("facilities", valueToSet, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    sx={{ width: "100%" }}
+                    renderValue={(selected) => (
+                      <div>
+                        {(selected as string[]).map((value) => (
+                          <span key={value} style={{ marginRight: "8px" }}>
+                            {ListFacility.find(
+                              (facility) => facility._id === value
+                            )?.name || ""}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  >
+                    {ListFacility.map((facility) => (
+                      <MenuItem key={facility._id} value={facility._id}>
+                        <Checkbox
+                          checked={watch("facilities")?.includes(facility._id)}
+                        />
+                        <ListItemText primary={facility.name} />
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 {errors.facilities && errors.facilities.type === "required" && (
@@ -278,12 +313,9 @@ try {
               </Grid>
             </Grid>
 
-              <Button
-                variant="contained"
-                type="submit"
-              >
-                Update
-              </Button>
+            <Button  variant="contained" type="submit">
+              Update
+            </Button>
           </Form>
         </Box>
       </Container>
