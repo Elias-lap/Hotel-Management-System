@@ -10,6 +10,8 @@ import AuthLayout from './ShareModule/Components/AuthLayout/AuthLayout';
 import MasterLayout from './ShareModule/Components/MasterLayout/MasterLayout';
 import NotFound from './ShareModule/Components/NotFound/NotFound';
 import Layout from './ShareModule/Components/Layout/Layout';
+import Home from './Home/Home';
+import { DashBoardRoom } from './DashBoardRoomContext/DashBoardRoom';
 
 
 
@@ -26,6 +28,7 @@ function App() {
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
         { path: 'verifyAccount', element: <VerifyAccount /> },
+
       ],
     },
     {
@@ -38,6 +41,8 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },
+        { path: "home", element: <Home /> },
+
 
         
         
@@ -48,7 +53,9 @@ function App() {
 
   return (
     <>
+    <DashBoardRoom>
      < RouterProvider router={routes} /> 
+     </DashBoardRoom>
     </>
   )
 }
