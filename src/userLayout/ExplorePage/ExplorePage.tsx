@@ -7,7 +7,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Components/AuthContext";
 import style from "./Explore.module.css";
-import { Style } from "@mui/icons-material";
 export default function ExplorePage() {
   const authContext = useContext(AuthContext);
   if (!authContext) {
