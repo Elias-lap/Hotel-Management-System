@@ -253,7 +253,7 @@ export default function Register() {
               )}
             </FormControl>
 
-            <FormControl sx={{ width: 1, mt: 1, mb: 4 }} variant="standard">
+            <FormControl sx={{ width: 1, mt: 1, mb: 3 }} variant="standard">
               <label htmlFor="ConfirmPassword">Confirm Password</label>
               <FilledInput
                 id="ConfirmPassword"
@@ -301,7 +301,7 @@ export default function Register() {
                 </Alert>
               )} */}
 
-            <FormControl sx={{ mb: 2 }} fullWidth>
+            <FormControl sx={{ mb: 1 }} fullWidth>
               {/* <InputLabel htmlFor="profile-image">Profile Image</InputLabel> */}
 
                 <label className="custum-file-upload" htmlFor="file">
