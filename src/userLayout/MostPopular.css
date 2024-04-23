@@ -1,0 +1,45 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 15rem);
+    grid-template-areas:
+      "main - - "
+      "main - - ";
+    gap: 1rem;
+  }
+  
+  .card.main {
+    grid-area: main;
+  }
+  
+
+
+
+
+  @media (max-width: 67rem) {
+    .grid {
+      grid-template-columns: repeat(2, 50%);
+      grid-template-areas:
+        "main - "
+        "main - ";
+    }
+  }
+  @media (max-width: 55rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "main main"
+        "- -";
+    }
+  }
+     
+
+  @media (max-width: 30rem) {
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+      "main "
+      "- ";
+   
+    }
+  }
