@@ -14,13 +14,11 @@ import AuthLayout from "./ShareModule/Components/AuthLayout/AuthLayout";
 import NotFound from "./ShareModule/Components/NotFound/NotFound";
 import Layout from "./ShareModule/Components/Layout/Layout";
 import Login from "./AuthModule/Components/Login/Login";
-import Dashboard from "./DshboardModule/Components/Dashboard/Dashboard";
 import MasterLayout from "./ShareModule/Components/MasterLayout/MasterLayout";
 import Favorites from "./userLayout/Favorites/Favorites";
 
 import ExplorePage from "./userLayout/ExplorePage/ExplorePage";
 
-import VerifyAccount from './AuthModule/Components/VerifyAccount/VerifyAccount';
 
 import Home from './Home/Home';
 import { DashBoardRoom } from './DashBoardRoomContext/DashBoardRoom';
@@ -54,7 +52,6 @@ function App() {
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
         {path:"forgot-Pass",element:<ForgotPassword/>},
-        { path: 'verifyAccount', element: <VerifyAccount /> },
 
       ],
     },
@@ -67,7 +64,7 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
+        { index: true, element: <Home /> },
         { path: 'facilitiesList', element: <FacilitiesList /> },
         { path: 'UserList', element: <UserList/> },
         { path: 'ADS', element: <ADS/> },
@@ -90,9 +87,8 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={routes} />
+     <DashBoardRoom>
       <ToastContainer />
-    <DashBoardRoom>
      < RouterProvider router={routes} /> 
      </DashBoardRoom>
     </>
