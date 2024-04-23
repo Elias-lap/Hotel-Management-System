@@ -20,6 +20,10 @@ import Favorites from "./userLayout/Favorites/Favorites";
 
 import ExplorePage from "./userLayout/ExplorePage/ExplorePage";
 
+import VerifyAccount from './AuthModule/Components/VerifyAccount/VerifyAccount';
+
+import Home from './Home/Home';
+import { DashBoardRoom } from './DashBoardRoomContext/DashBoardRoom';
 
 
 
@@ -50,6 +54,7 @@ function App() {
         { path: 'reset-Pass', element: <ResetPassword/> },
         { path: 'register', element: <Register/> },
         {path:"forgot-Pass",element:<ForgotPassword/>},
+        { path: 'verifyAccount', element: <VerifyAccount /> },
 
       ],
     },
@@ -67,6 +72,12 @@ function App() {
         { path: 'UserList', element: <UserList/> },
         { path: 'ADS', element: <ADS/> },
         { path: 'Booking', element: <Booking/> },
+        { path: "home", element: <Home /> },
+
+
+        
+        
+        
       ],
     },
    
@@ -81,6 +92,9 @@ function App() {
     <>
       <RouterProvider router={routes} />
       <ToastContainer />
+    <DashBoardRoom>
+     < RouterProvider router={routes} /> 
+     </DashBoardRoom>
     </>
   );
 }
