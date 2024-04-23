@@ -6,16 +6,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 // /////////////////////
 import { AuthContext } from "../../../Context/Components/AuthContext";
 import logo from "../../../assets/images/Staycation.png";
 import styles from "./NavBar.module.css";
+import { Link } from "react-router-dom";
 
 interface Props {
   /**
@@ -65,7 +66,11 @@ export default function Navbar(props: Props) {
           </ListItem>
         ))} */}
         <Box sx={{ display: { xs: "flex",flexDirection:"column", sm: "block" } }} >
-          <Link href="#" underline="hover" color="common.black" mb={2}>
+            <Link to="/user/explore"> Home</Link>
+            <Link to="/user/explore"> Explore</Link>
+            <Link to="/user/explore"> Favorites</Link>
+          
+          {/* <Link  underline="hover" color="common.black" mb={2}>
             Home
           </Link>
           <Link href="#" underline="hover" color="common.black"  mb={2}>
@@ -73,7 +78,7 @@ export default function Navbar(props: Props) {
           </Link>
           <Link href="#" underline="hover" color="common.black"  mb={2}>
             Reviews
-          </Link>
+          </Link> */}
           {loginData ? (
             <Button
               onClick={logOut}
@@ -123,8 +128,11 @@ export default function Navbar(props: Props) {
             >
               <img src={logo} className={styles.logoimg} />
             </Typography>
-            <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Link href="#" underline="hover" color="common.black" ml={2}>
+            <Box sx={{"& a":{marginLeft:"10px",color:"common.black" ,textDecoration:"none"}, display: { xs: "none", sm: "block" } ,"& a:hover":{textDecoration:"underline"}}}>
+            <Link to="/user/landing"> Home</Link>
+            <Link to="/user/explore"> Explore</Link>
+            <Link to="/user/Favorites"> Favorites</Link>
+              {/* <Link href="#" underline="hover" color="common.black" ml={2}>
                 Home
               </Link>
               <Link href="#" underline="hover" color="common.black" ml={2}>
@@ -132,7 +140,7 @@ export default function Navbar(props: Props) {
               </Link>
               <Link href="#" underline="hover" color="common.black" ml={2}>
                 Reviews
-              </Link>
+              </Link> */}
               {loginData ? (
                 <Button
                   className={styles.linkStyle}

@@ -16,7 +16,9 @@ import Layout from "./ShareModule/Components/Layout/Layout";
 import Login from "./AuthModule/Components/Login/Login";
 import Dashboard from "./DshboardModule/Components/Dashboard/Dashboard";
 import MasterLayout from "./ShareModule/Components/MasterLayout/MasterLayout";
+import Favorites from "./userLayout/Favorites/Favorites";
 
+import ExplorePage from "./userLayout/ExplorePage/ExplorePage";
 
 
 
@@ -24,14 +26,25 @@ import MasterLayout from "./ShareModule/Components/MasterLayout/MasterLayout";
 function App() {
   const routes = createBrowserRouter([
 
- 
+    {
+      path: '/',
+      element: (<UserLayout />),
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <Landing /> },
+        { path: 'landing', element: <Landing /> },
+        { path: 'explor/:state', element: <Landing /> },
+        { path: 'explore', element: <ExplorePage/> },
+        { path: 'Favorites', element: <Favorites/> },
+      ],
+    },
 
     {
       path: "/",
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Layout /> },
+        { index: true, element: <Layout/> },
         { path: 'layout', element: <Layout  /> },
         { path: 'login', element: <Login  /> },
         { path: 'reset-Pass', element: <ResetPassword/> },
@@ -56,16 +69,7 @@ function App() {
         { path: 'Booking', element: <Booking/> },
       ],
     },
-    {
-      path: '/user',
-      element: (<UserLayout />),
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Landing /> },
-        { path: 'landing', element: <Landing /> },
-        { path: 'explor/:state', element: <Landing /> },
-      ],
-    },
+   
 
  
 

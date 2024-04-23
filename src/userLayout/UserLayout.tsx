@@ -2,6 +2,7 @@
 import { Box } from "@mui/material";
 import Navbar from "../ShareModule/Components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import Footer from "./Footer/Footer";
 
 
 const UserLayout = () => {
@@ -11,9 +12,11 @@ const UserLayout = () => {
             <Box   sx={{  width : "80%"  ,m:"auto" }  }>
             <Navbar/>
             <Outlet/>
+            <Footer/>
             </Box>
             </> 
       
+          
     );
 }
 

@@ -69,7 +69,7 @@ export default function Login() {
           
         }else{
          
-          navigate("/layout");
+          navigate("/user/landing");
         }
 
         setSpinner(false);
