@@ -129,9 +129,9 @@ export default function Navbar(props: Props) {
               <img src={logo} className={styles.logoimg} />
             </Typography>
             <Box sx={{"& a":{marginLeft:"10px",color:"common.black" ,textDecoration:"none"}, display: { xs: "none", sm: "block" } ,"& a:hover":{textDecoration:"underline"}}}>
-            <Link to="/user/landing"> Home</Link>
+            <Link to="/landing"> Home</Link>
             <Link to="/user/explore"> Explore</Link>
-            <Link to="/user/Favorites"> Favorites</Link>
+            <Link to="/Favorites"> Favorites</Link>
               {/* <Link href="#" underline="hover" color="common.black" ml={2}>
                 Home
               </Link>
