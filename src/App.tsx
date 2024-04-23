@@ -22,6 +22,7 @@ import Landing from './userLayout/Landing';
 
 import UserLayout from './userLayout/UserLayout';
 import ExplorePage from "./userLayout/ExplorePage/ExplorePage";
+import Favorites from "./userLayout/Favorites/Favorites";
 
 
 
@@ -72,6 +73,7 @@ function App() {
         { index: true, element: <Landing /> },
         { path: 'landing', element: <Landing /> },
         { path: 'explore', element: <ExplorePage/> },
+        { path: 'Favorites', element: <Favorites/> },
       ],
     },
 
