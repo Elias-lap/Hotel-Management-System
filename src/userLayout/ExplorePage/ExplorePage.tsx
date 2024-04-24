@@ -2,65 +2,135 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { CardContent, IconButton, Pagination, Stack } from "@mui/material";
+import { Button, CardContent, CircularProgress, IconButton, Pagination, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Components/AuthContext";
 import Style from "./Explore.module.css";
+import imgLogin from "../../assets/images/login PopUp.jpg"
 
 // import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import dayjs from "dayjs"; // استيراد مكتبة dayjs
+
 const style = {
-  position: "absolute" ,
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
+  // bgcolor: "info.light",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  
 };
 
 export default function ExplorePage() {
+  {
+    /*  // in commpontet explor you can use  //const { state } = useLocation();// this line of code to accses state and this piss of code 
+          // const bookingGuestCount = state?.persons;
+          // const [selectedDateRange, setSelectedDateRange] = useState<Range<Dayjs>>([
+         //   state?.range[0],
+         //   state?.range[1],
+         // ]);
 
- 
+  // */
+  }
+
   const [roomsList, setRoomsList] = useState<any>([]);
 
-  const getAllRooms = async (page: any) => {
-    try {
-      const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
-        params: {
-          size: 9,
-          page: page,
-          //   startDate: startDate,
-          //   endDate: endDate,
-        },
-      });
-      // console.log(response);
-      setRoomsList(response.data.data.rooms);
-    } catch (error) {
-      console.log(error);
-    }
+  const getAllRooms = async (page:number , startDate?:string , endDate?:string ) => {
+  // const getAllRooms = async (page: any) => {
+    if (!location.state ) {
+      
+        try {
+          const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
+            params: {
+              size: 9,
+              page: page,
+            },
+          });
+          // console.log(response.data.data.rooms);
+          setRoomsList(response.data.data.rooms);
+        } catch (error) {
+          // console.log(error);
+        }
+      
+  }
+  try {
+    const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
+      params: {
+        size: 9,
+        page: page,
+        startDate: startDate,
+        endDate: endDate,
+      },
+    });
+    // console.log(response.data.data.rooms);
+    setRoomsList(response.data.data.rooms);
+  } catch (error) {
+    // console.log(error);
+  }
+
+ 
   };
 
   const [page, setPage] = React.useState(1);
   const handleChange = (_e: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
-    // console.log(page);
-    getAllRooms(page);
+ 
   };
+
+ 
+  interface State {
+    range?: [Date, Date];
+  }
+
+  const location = useLocation();
+  const state = (location.state as State) || {};
+  const roomDateStart = state.range?.[0];
+  const roomDateEnd = state.range?.[1];
+
+  // تحويل التواريخ إلى الشكل المطلوب
+  
+  const startDate = dayjs(roomDateStart).format('YYYY-MM-DD');
+  const endDate = dayjs(roomDateEnd).format('YYYY-MM-DD');  
+  // console.log(startDate);
+
+  
+ 
+  
+   
+    if (location?.state) {
+    useEffect(() => {
+      getAllRooms(page, startDate, endDate);
+    }, [page, startDate, endDate]);
+  } else {
+    useEffect(() => {
+      getAllRooms(page);
+    }, [page]);
+    // console.log("::::::::::::::::::::");
+
+  }
+
+  // useEffect(() => {
+  //   getAllRooms(page);
+  // }, [page]);
+
   // ///////// modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleClose =  () => setOpen(false);
+  const handleClose = () => setOpen(false);
 
   // ////// addfav
   const addToFav = async (id: string) => {
@@ -76,29 +146,34 @@ export default function ExplorePage() {
           }
         );
         toast.success(" add to fav successfully");
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           toast.error(error.response.data.message);
         }
-      
-         }
+      }
     }
   };
 
-  useEffect(() => {
-    getAllRooms(page);
-  }, [page]);
+ 
+
   const authContext = useContext(AuthContext);
   if (!authContext) {
     // Handle the case where AuthContext is null
     return null;
   }
   const { baseUrl, loginData, requestHeaders } = authContext;
+  
+  const navigate =useNavigate()
+  const goToLogin = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <>
-      <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
+    {roomsList?.length > 0 ?
+        <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
         <div className={Style.wrapper}>
           <h2 className={Style.animatText}>Explore ALL Rooms</h2>
         </div>
@@ -128,7 +203,7 @@ export default function ExplorePage() {
                         <FavoriteIcon style={{ color: "white" }} />
                       </IconButton>
 
-                      <IconButton>
+                      <IconButton >
                         <VisibilityIcon style={{ color: "white" }} />
                       </IconButton>
                       {/* </Link> */}
@@ -149,7 +224,7 @@ export default function ExplorePage() {
               justifyContent: "center",
               backgroundColor: "inherit",
             }}
-            count={10}
+            count={50}
             variant="outlined"
             shape="rounded"
             onChange={handleChange}
@@ -157,6 +232,16 @@ export default function ExplorePage() {
           />
         </Stack>
       </Box>
+    
+    
+    :
+    <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
+           <CircularProgress sx={{mx:"50%"}} size={54} color="inherit" />
+       </Box>     
+     }
+  
+
+
       <div>
         {/* <Button onClick={handleOpen}>Open modal</Button> */}
         <Modal
@@ -169,9 +254,15 @@ export default function ExplorePage() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Hey you need to login first !
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <img src={imgLogin} style={{ width: '300px', height: '200px' }} alt="" />
+            <Button
+              onClick={goToLogin}
+              sx={{ p:1, width:"50%", mt:4  ,alignItems:"center",  backgroundColor: "primary.dark", color: "common.black", }}
+             
+              color={"inherit"}
+            >
+              Login Now
+            </Button>
           </Box>
         </Modal>
       </div>

@@ -43,6 +43,7 @@ const Calendar = ({ selectedDateRange, setSelectedDateRange  ,theme}: IProps) =>
 
   const open = Boolean(anchorEl);
   return (
+    
     <Box sx={{display :"flex" ,flexDirection :{
       xs : "column",
       sm : "row"
@@ -117,6 +118,7 @@ const Calendar = ({ selectedDateRange, setSelectedDateRange  ,theme}: IProps) =>
 />
 
     </Box>
+
   );
 };
 

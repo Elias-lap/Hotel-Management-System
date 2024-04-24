@@ -60,7 +60,7 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
       setcompletedBookings(response.data.data.bookings.completed)
 
 
-      console.log(DataDashboard);
+      // console.log(DataDashboard);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +71,7 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
   }, []);
 
   useEffect(() => {
-    console.log(DataDashboard);
+    // console.log(DataDashboard);
   }, [DataDashboard]);
 
   return (

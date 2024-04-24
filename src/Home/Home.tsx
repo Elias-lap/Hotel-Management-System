@@ -43,7 +43,7 @@ export default function Home() {
   
 
   useEffect(() => {
-    console.log(DataDashboard);
+    // console.log(DataDashboard);
   }, [DataDashboard]);
 
   const pieChartData = [
