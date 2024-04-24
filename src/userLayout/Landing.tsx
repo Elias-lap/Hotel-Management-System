@@ -204,7 +204,7 @@ const Landing = () => {
               </Box>
               <Button
                 onClick={() => {
-                  navigate("/explor", {
+                  navigate("/explore", {
                     state: {
                       range: selectedDateRange,
                       persons: bookingGuestCount,
