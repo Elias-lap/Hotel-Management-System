@@ -1,8 +1,13 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import defaultImage from "../Img/defaultImage.jpg";
-import React from "react";
-import "./MostPopular.css";
-import { IconButton } from "material-ui";
+import React, { useContext } from "react";
+import "./MostPopular.scss";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AuthContext } from "../Context/Components/AuthContext";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 interface MostPopularAdsProps {
   ADSList: ADS[];
 }
@@ -19,7 +24,40 @@ interface ADS {
 }
 
 const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
-  console.log(ADSList);
+  // ///////// Modal for user Not Login
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => setOpen(false);
+  // ///////// Add To favorite
+  const addToFav = async (id: string) => {
+    if (!loginData) {
+      // handleOpen();
+    } else {
+      try {
+        const response = await axios.post(
+          `https://upskilling-egypt.com:3000/api/v0/portal/favorite-rooms`,
+          { roomId: id },
+          {
+            headers: requestHeaders,
+          }
+        );
+        toast.success(" add to fav successfully");
+        console.log(response);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          toast.error(error.response.data.message);
+        }
+      }
+    }
+  };
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const {  loginData, requestHeaders } = authContext;
   return (
     <>
       <Box className={"grid"}>
@@ -69,28 +107,27 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
           </Box>
 
           <Box
-            className ={'layer'}
+            className={"layer"}
             sx={{
               height: "100%",
               width: "100%",
               position: "absolute",
               top: "100%",
               left: "0",
-              backgroundColor :"black",
-              display :"flex"
+              display: "none",
+              borderRadius: "25px"
             }}
           >
-                    <Grid container justifyContent="center" alignItems="center">
-                      <IconButton onClick={() => addToFav(room._id)}>
-                        <FavoriteIcon style={{ color: "white" }} />
-                      </IconButton>
+            <Grid container justifyContent="center" alignItems="center">
+              <IconButton onClick={() => addToFav('')}>
+                <FavoriteIcon style={{ color: "white" }} />
+              </IconButton>
 
-                      <IconButton>
-                        <VisibilityIcon style={{ color: "white" }} />
-                      </IconButton>
-                      {/* </Link> */}
-                    </Grid>
-            
+              <IconButton>
+                <VisibilityIcon style={{ color: "white" }} />
+              </IconButton>
+              {/* </Link> */}
+            </Grid>
           </Box>
         </Box>
         {ADSList.slice(1).map((ad, index) => (
@@ -139,44 +176,34 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 {ad.room.price}$ per Night
               </Typography>
             </Box>
+            <Box
+            className={"layer"}
+            sx={{
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+              top: "100%",
+              left: "0",
+              display: "none",
+              borderRadius: "25px"
+            }}
+          >
+            <Grid container justifyContent="center" alignItems="center">
+              <IconButton onClick={() => addToFav('')}>
+                <FavoriteIcon style={{ color: "white" }} />
+              </IconButton>
+
+              <IconButton>
+                <VisibilityIcon style={{ color: "white" }} />
+              </IconButton>
+              {/* </Link> */}
+            </Grid>
+          </Box>
+            
           </Box>
         ))}
       </Box>
     </>
-
-    //   <Grid container spacing={1} sx={{ mt: 20, height: "100vh" }} style={{ display: 'grid', gridTemplateRows: "215px 215px", gridTemplateColumns: 'auto 400px 400px' }}>
-    //   {/* First column with one image */}
-    //   <Grid item lg={4} sx={{ height: '430px', gridRow: "span 2", '@media (max-width: 960px)': { height: '100%', gridColumn: 'span 3' } }}>
-    //     <Box sx={{ height: '100%' , width:"600px"}}>
-    //       <img
-    //         style={{
-    //           width: '100%',
-    //           height: '100%',
-    //           objectFit: 'cover' // Ensure the image covers the container
-    //         }}
-    //         src={ADSList[0]?.room?.images[0] ? ADSList[0]?.room?.images[0] : defaultImage}
-    //         alt="RoomPicture"
-    //       />
-    //     </Box>
-    //   </Grid>
-
-    //   {/* Remaining columns with dynamic content */}
-    //   {ADSList.slice(1).map((ad, index) => (
-    //     <Grid gap={1} item lg={4} key={ad._id} sx={{ height: '215px', '@media (max-width: 960px)': { height: '100%' } }}>
-    //       <Box sx={{ height: '100%' , width:'100%' }}>
-    //         <img
-    //           style={{
-    //             width: '100%',
-    //             height: '100%',
-    //             objectFit: 'cover' // Ensure the image covers the container
-    //           }}
-    //           src={ad?.room?.images[0] ? ad?.room?.images[0] : defaultImage}
-    //           alt={`RoomPicture ${index}`}
-    //         />
-    //       </Box>
-    //     </Grid>
-    //   ))}
-    // </Grid>
   );
 };
 

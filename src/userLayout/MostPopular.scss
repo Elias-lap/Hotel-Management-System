@@ -11,9 +11,15 @@
   .card.main {
     grid-area: main;
   }
-  
+  .layer{
+    background-color: rgba(0, 0, 0, 0.26);
+  }
 
-
+ .card:hover .layer {
+  transition: all 1s;
+  display: flex;
+  top: 0% !important;
+ }
 
 
   @media (max-width: 67rem) {
