@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CardContent, IconButton, Pagination, Stack } from "@mui/material";
@@ -8,13 +10,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Components/AuthContext";
 import Style from "./Explore.module.css";
 
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify";
 
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute" ,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -26,12 +28,8 @@ const style = {
 };
 
 export default function ExplorePage() {
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
-  const { baseUrl, loginData, requestHeaders } = authContext;
+
+ 
   const [roomsList, setRoomsList] = useState<any>([]);
 
   const getAllRooms = async (page: any) => {
@@ -52,7 +50,7 @@ export default function ExplorePage() {
   };
 
   const [page, setPage] = React.useState(1);
-  const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_e: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
     // console.log(page);
     getAllRooms(page);
@@ -78,7 +76,7 @@ export default function ExplorePage() {
           }
         );
         toast.success(" add to fav successfully");
-        // console.log(response);
+        console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           toast.error(error.response.data.message);
@@ -91,6 +89,12 @@ export default function ExplorePage() {
   useEffect(() => {
     getAllRooms(page);
   }, [page]);
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { baseUrl, loginData, requestHeaders } = authContext;
 
   return (
     <>
