@@ -1,24 +1,14 @@
+
+import React, { useContext } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { Card } from "@mui/material";
-import { useContext, useEffect } from "react";
 import BedIcon from "@mui/icons-material/Bed";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-} from "recharts";
 import { contextDashBoard } from "../DashBoardRoomContext/DashBoardRoom";
-
+import { PieChart } from "@mui/x-charts";
 export default function Home() {
- 
-
   const {
-    DataDashboard,
     numberForFacilities,
     numberForRooms,
     numberForAds,
@@ -37,36 +27,55 @@ export default function Home() {
     "#AF19FF",
     "#FF6666",
   ];
-  const Colors2 = ["#7E57C2", "#FF6666"];
-  const Colors3 = ["#35C2FD", "#54D14D"];
-
-  
-
-  useEffect(() => {
-    console.log(DataDashboard);
-  }, [DataDashboard]);
 
   const pieChartData = [
-    { name: "Rooms", value: numberForRooms },
-    { name: "Ads", value: numberForAds },
-    { name: "Facilities", value: numberForFacilities },
+    { title: "Rooms", value: numberForRooms, color: Colors1[0] },
+    { title: "Ads", value: numberForAds, color: Colors1[1] },
+    { title: "Facilities", value: numberForFacilities, color: Colors1[2] },
   ];
 
   const UserData = [
-    { name: "Admin", value: AdminData },
-    { name: "User", value: userData },
+    { title: "Admin", value: AdminData, color: Colors1[3] },
+    { title: "User", value: userData, color: Colors1[4] },
   ];
 
   const bookingsData = [
-    { name: "Completed", value: completedBookings },
-    { name: "Pending", value: pendingBookings },
+    { title: "Completed", value: completedBookings, color: Colors1[5] },
+    { title: "Pending", value: pendingBookings, color: Colors1[6] },
   ];
+
+  const renderLabels = (data) => {
+    return (
+      <Grid container spacing={2}>
+        {data.map((item, index) => (
+          <Grid key={index} item xs={4}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: item.color,
+                  marginRight: 1,
+                  borderRadius: "50%",
+                }}
+              />
+              <Typography variant="body1">{item.title}</Typography>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  };
 
   return (
     <>
-      <Box  sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          {/* Rooms , Ads , Facilities*/}
           <Grid item xs={12}>
             <Box sx={{ p: 5 }}>
               <Grid container spacing={5}>
@@ -176,96 +185,64 @@ export default function Home() {
         </Grid>
       </Box>
 
-      {/*  ==================================================================================*/}
-      {/* UserData */}
+      {/* ==================================================================================*/}
+      {/* Pie Charts */}
 
-      <Container  sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
-            <ResponsiveContainer style={{boxShadow:"0px 2px 48px 0px #0000000F"}}  width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieChartData}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  label
-                >
-                  {pieChartData.map((entry, index) => (
-                    <Cell
-                      key={`${index}`}
-                      fill={Colors1[index % Colors1.length]}
-                    />
-                  ))}
-                </Pie>
-
-                <Legend />
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+      <Container sx={{ flexGrow: 1, marginTop: "2rem" }}>
+        <Grid container spacing={6}>
+          {/* Pie Chart for pieChartData */}
+          <Grid style={{ margin: "auto", marginBottom: "2rem" }} item xs={12} sm={6} md={4}>
+            <Box style={{ margin: "auto", padding: "1.5rem", boxShadow: "0px 2px 48px 0px #0000000F"  , borderRadius:"2rem" }}>
+              <PieChart 
+                series={[
+                  {
+                    data: pieChartData.map((item) => ({
+                      value: item.value,
+                      color: item.color,
+                    })),
+                  },
+                ]}
+                height={200}
+                
+              />
+            </Box>
+            <Box sx={{ p: 2 }}>{renderLabels(pieChartData)}</Box>
           </Grid>
 
-          {/* ================================================================================================ */}
-
-          {/* bookingsData  */}
-
-          <Grid item xs={12} sm={6} md={4}>
-          <ResponsiveContainer style={{boxShadow:"0px 2px 48px 0px #0000000F"}}  width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={bookingsData}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  label
-                >
-                  {bookingsData.map((entry, index) => (
-                    <Cell
-                      key={`${index}`}
-                      fill={Colors2[index % Colors2.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend />
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+          {/* Pie Chart for bookingsData */}
+          <Grid style={{ margin: "0 auto", marginBottom: "2rem" }} item xs={12} sm={6} md={4}>
+          <Box style={{ margin: "auto", padding: "1.5rem", boxShadow: "0px 2px 48px 0px #0000000F"  , borderRadius:"2rem" }}>
+              <PieChart
+                series={[
+                  {
+                    data: bookingsData.map((item) => ({
+                      value: item.value,
+                      color: item.color,
+                    })),
+                  },
+                ]}
+                height={200}
+              />
+            </Box>
+            <Box sx={{ p: 2 }}>{renderLabels(bookingsData)}</Box>
           </Grid>
 
-          {/* UserData */}
-          <Grid item xs={12} sm={6} md={4}>
-          <ResponsiveContainer style={{boxShadow:"0px 2px 48px 0px #0000000F"}}  width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={UserData}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  label
-                >
-                  {UserData.map((entry, index) => (
-                    <Cell
-                      key={`${index}`}
-                      fill={Colors3[index % Colors3.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend />
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+          {/* Pie Chart for UserData */}
+          <Grid style={{ margin: "0 auto", marginBottom: "2rem" }} item xs={12} sm={6} md={4}>
+          <Box style={{ margin: "auto", padding: "1.5rem", boxShadow: "0px 2px 48px 0px #0000000F"  , borderRadius:"2rem" }}>
+              <PieChart
+                series={[
+                  {
+                    data: UserData.map((item) => ({
+                      value: item.value,
+                      color: item.color,
+                    })),
+                  },
+                ]}
+                height={200}
+              />
+            </Box>
+            <Box sx={{ p: 2 }}>{renderLabels(UserData)}</Box>
           </Grid>
         </Grid>
       </Container>
