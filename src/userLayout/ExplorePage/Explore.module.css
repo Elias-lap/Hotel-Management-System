@@ -1,7 +1,7 @@
 
 .imageWrapperr{
     /* background-color: #cb1e1e !important; */
-     margin: 0% 120px !important;
+     /* margin: 0% 120px !important; */
      /* position: relative; */
      
    }
@@ -9,7 +9,7 @@
  .wrapper {
      position: relative;
      overflow: hidden;
-     /* height: 150px; */
+     height: 150px;
      text-align: center;
      margin: auto;
    }
@@ -64,8 +64,11 @@
    /* /////////////////////// */
  
  .animatText{
-     margin: 0;
+     margin-left: 50px !important;
      padding: 20px;
+     /* background-color: #e5e9f2; */
+     /* border-radius: 20px; */
+     
      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
      animation: textAnimation 2s ease-in-out infinite alternate, colorAnimation 4s ease-in-out infinite alternate;
    }

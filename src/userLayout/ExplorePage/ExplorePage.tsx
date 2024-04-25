@@ -2,14 +2,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button, CardContent, CircularProgress, IconButton, Pagination, Stack } from "@mui/material";
+import {
+  Button,
+  CardContent,
+  CircularProgress,
+  IconButton,
+  Pagination,
+  Stack,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Components/AuthContext";
 import Style from "./Explore.module.css";
-import imgLogin from "../../assets/images/login PopUp.jpg"
+import imgLogin from "../../assets/images/login PopUp.jpg";
 
 // import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -30,7 +37,6 @@ const style = {
   // border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  
 };
 
 export default function ExplorePage() {
@@ -45,71 +51,78 @@ export default function ExplorePage() {
   // */
   }
 
-  const [roomsList, setRoomsList] = useState<any>([]);
+  interface IRoom {
+    roomNumber:string
+    _id:string
+    price:string
+    images:string
+  }
 
-  const getAllRooms = async (page:number , startDate?:string , endDate?:string ) => {
-  // const getAllRooms = async (page: any) => {
-    if (!location.state ) {
-      
-        try {
-          const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
+  const [roomsList, setRoomsList] = useState<IRoom[]>([]);
+
+  const getAllRooms = async (
+    page: number,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    if (!location.state) {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/v0/portal/rooms/available`,
+          {
             params: {
               size: 9,
               page: page,
             },
-          });
-          // console.log(response.data.data.rooms);
-          setRoomsList(response.data.data.rooms);
-        } catch (error) {
-          // console.log(error);
-        }
-      
-  }
-  try {
-    const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
-      params: {
-        size: 9,
-        page: page,
-        startDate: startDate,
-        endDate: endDate,
-      },
-    });
-    // console.log(response.data.data.rooms);
-    setRoomsList(response.data.data.rooms);
-  } catch (error) {
-    // console.log(error);
-  }
-
- 
+          }
+        );
+        // console.log(response.data.data.rooms);
+        setRoomsList(response.data.data.rooms);
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    try {
+      const response = await axios.get(`${baseUrl}/v0/portal/rooms/available`, {
+        params: {
+          size: 9,
+          page: page,
+          startDate: startDate,
+          endDate: endDate,
+        },
+      });
+      // console.log(response.data.data.rooms);
+      setRoomsList(response.data.data.rooms);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
   const [page, setPage] = React.useState(1);
   const handleChange = (_e: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
- 
   };
 
- 
   interface State {
-    range?: [Date, Date];
+    range?: any;
+    // range?: [Date, Date];
   }
 
   const location = useLocation();
   const state = (location.state as State) || {};
-  const roomDateStart = state.range?.[0];
-  const roomDateEnd = state.range?.[1];
+  const roomDateStart = state.range?.[0]?.$d;
+  const roomDateEnd = state.range?.[1].$d;
+
+  // console.log(roomDateStart);
+  console.log(roomDateEnd);
 
   // تحويل التواريخ إلى الشكل المطلوب
-  
-  const startDate = dayjs(roomDateStart).format('YYYY-MM-DD');
-  const endDate = dayjs(roomDateEnd).format('YYYY-MM-DD');  
+
+  const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
+  const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
   // console.log(startDate);
 
-  
- 
-  
-   
-    if (location?.state) {
+  if (location?.state) {
     useEffect(() => {
       getAllRooms(page, startDate, endDate);
     }, [page, startDate, endDate]);
@@ -118,7 +131,6 @@ export default function ExplorePage() {
       getAllRooms(page);
     }, [page]);
     // console.log("::::::::::::::::::::");
-
   }
 
   // useEffect(() => {
@@ -155,16 +167,14 @@ export default function ExplorePage() {
     }
   };
 
- 
-
   const authContext = useContext(AuthContext);
   if (!authContext) {
     // Handle the case where AuthContext is null
     return null;
   }
   const { baseUrl, loginData, requestHeaders } = authContext;
-  
-  const navigate =useNavigate()
+
+  const navigate = useNavigate();
   const goToLogin = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -172,75 +182,75 @@ export default function ExplorePage() {
 
   return (
     <>
-    {roomsList?.length > 0 ?
+      {roomsList?.length > 0 ? (
         <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
-        <div className={Style.wrapper}>
-          <h2 className={Style.animatText}>Explore ALL Rooms</h2>
-        </div>
+          <div className={Style.wrapper}>
+            <h2 className={Style.animatText}>Explore ALL Rooms</h2>
+          </div>
 
-        <Grid sx={{ mx: 1, mt: 5 }} container spacing={2}>
-          {roomsList?.map((room: any, index: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
-              <CardContent>
-                <div className={Style.imgoverlay}>
-                  <img
-                    src={room.images[0]}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "250px",
-                      borderRadius: "30px",
-                      overflow: "hidden",
-                    }}
-                  />
-                  <h3 className={Style.roomName}>{room?.roomNumber}</h3>
-                  <span className={Style.imgStyle}>
-                    ${room?.price} per night
-                  </span>
-                  <div className={Style.overlay}>
-                    <Grid container justifyContent="center" alignItems="center">
-                      <IconButton onClick={() => addToFav(room._id)}>
-                        <FavoriteIcon style={{ color: "white" }} />
-                      </IconButton>
+          <Grid sx={{ mx: 1, mt: 3 }} container spacing={2}>
+            {roomsList?.map((room , index) => (
+              <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
+                <CardContent>
+                  <div className={Style.imgoverlay}>
+                    <img
+                      src={room.images[0]}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: "300px",
+                        borderRadius: "30px",
+                        overflow: "hidden",
+                      }}
+                    />
+                    <h3 className={Style.roomName}>{room?.roomNumber}</h3>
+                    <span className={Style.imgStyle}>
+                      ${room?.price} per night
+                    </span>
+                    <div className={Style.overlay}>
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <IconButton onClick={() => addToFav(room._id)}>
+                          <FavoriteIcon style={{ color: "white" }} />
+                        </IconButton>
 
-                      <IconButton >
-                        <VisibilityIcon style={{ color: "white" }} />
-                      </IconButton>
-                      {/* </Link> */}
-                    </Grid>
+                        <IconButton>
+                          <VisibilityIcon style={{ color: "white" }} />
+                        </IconButton>
+                        {/* </Link> */}
+                      </Grid>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Grid>
-          ))}
-        </Grid>
-        <Stack
-          sx={{ margin: "20px", display: "flex", justifyContent: "center" }}
-          spacing={2}
-        >
-          <Pagination
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              backgroundColor: "inherit",
-            }}
-            count={50}
-            variant="outlined"
-            shape="rounded"
-            onChange={handleChange}
-            page={page}
-          />
-        </Stack>
-      </Box>
-    
-    
-    :
-    <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
-           <CircularProgress sx={{mx:"50%"}} size={54} color="inherit" />
-       </Box>     
-     }
-  
-
+                </CardContent>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      ) : (
+        <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
+          <CircularProgress sx={{ mx: "50%" }} size={54} color="inherit" />
+        </Box>
+      )}
+      <Stack
+        sx={{ margin: "20px", display: "flex", justifyContent: "center" }}
+        spacing={2}
+      >
+        <Pagination
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "inherit",
+          }}
+          count={50}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+          page={page}
+        />
+      </Stack>
 
       <div>
         {/* <Button onClick={handleOpen}>Open modal</Button> */}
@@ -254,11 +264,21 @@ export default function ExplorePage() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Hey you need to login first !
             </Typography>
-            <img src={imgLogin} style={{ width: '300px', height: '200px' }} alt="" />
+            <img
+              src={imgLogin}
+              style={{ width: "300px", height: "200px" }}
+              alt=""
+            />
             <Button
               onClick={goToLogin}
-              sx={{ p:1, width:"50%", mt:4  ,alignItems:"center",  backgroundColor: "primary.dark", color: "common.black", }}
-             
+              sx={{
+                p: 1,
+                width: "50%",
+                mt: 4,
+                alignItems: "center",
+                backgroundColor: "primary.dark",
+                color: "common.black",
+              }}
               color={"inherit"}
             >
               Login Now
