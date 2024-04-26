@@ -121,7 +121,7 @@ export default function Favorites() {
           </Typography>
           <Link
             to="/Favorites"
-            style={{ color: "1a237e", textDecoration: "none" }}
+            style={{ color: "#bdbdbd  ", textDecoration: "none" }}
           >
             Favorites
           </Link>
