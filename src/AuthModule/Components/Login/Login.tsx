@@ -115,7 +115,7 @@ export default function Login() {
           rowSpacing={1}
         >
           <Grid item md={6} m={1}>
-            <img src={logo} className={Styles.logoimage} />
+            <img src={logo} className={Styles.logoimage} alt="favRooms" />
             <Grid item xs={10} sx={{ bgcolor: "" }} m={5}>
               <Typography variant="h4">Sign in</Typography>
 

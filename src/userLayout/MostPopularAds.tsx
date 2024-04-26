@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import defaultImage from "../Img/defaultImage.jpg";
 import React from "react";
 import "./MostPopular.css";
-import { IconButton } from "material-ui";
+import { IconButton } from "@mui/material";
 interface MostPopularAdsProps {
   ADSList: ADS[];
 }
@@ -82,11 +82,11 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
           >
                     <Grid container justifyContent="center" alignItems="center">
                       <IconButton onClick={() => addToFav(room._id)}>
-                        <FavoriteIcon style={{ color: "white" }} />
+                        {/* <FavoriteIcon style={{ color: "white" }} /> */}
                       </IconButton>
 
                       <IconButton>
-                        <VisibilityIcon style={{ color: "white" }} />
+                        {/* <VisibilityIcon style={{ color: "white" }} /> */}
                       </IconButton>
                       {/* </Link> */}
                     </Grid>
@@ -144,114 +144,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
       </Box>
     </>
 
-    //   <Grid container spacing={1} sx={{ mt: 20, height: "100vh" }} style={{ display: 'grid', gridTemplateRows: "215px 215px", gridTemplateColumns: 'auto 400px 400px' }}>
-    //   {/* First column with one image */}
-    //   <Grid item lg={4} sx={{ height: '430px', gridRow: "span 2", '@media (max-width: 960px)': { height: '100%', gridColumn: 'span 3' } }}>
-    //     <Box sx={{ height: '100%' , width:"600px"}}>
-    //       <img
-    //         style={{
-    //           width: '100%',
-    //           height: '100%',
-    //           objectFit: 'cover' // Ensure the image covers the container
-    //         }}
-    //         src={ADSList[0]?.room?.images[0] ? ADSList[0]?.room?.images[0] : defaultImage}
-    //         alt="RoomPicture"
-    //       />
-    //     </Box>
-    //   </Grid>
-
-    //   {/* Remaining columns with dynamic content */}
-    //   {ADSList.slice(1).map((ad, index) => (
-    //     <Grid gap={1} item lg={4} key={ad._id} sx={{ height: '215px', '@media (max-width: 960px)': { height: '100%' } }}>
-    //       <Box sx={{ height: '100%' , width:'100%' }}>
-    //         <img
-    //           style={{
-    //             width: '100%',
-    //             height: '100%',
-    //             objectFit: 'cover' // Ensure the image covers the container
-    //           }}
-    //           src={ad?.room?.images[0] ? ad?.room?.images[0] : defaultImage}
-    //           alt={`RoomPicture ${index}`}
-    //         />
-    //       </Box>
-    //     </Grid>
-    //   ))}
-    // </Grid>
   );
 };
 
 export default MostPopularAds;
-
-// import { Box, Grid } from "@mui/material";
-// import defaultImage from '../Img/defaultImage.jpg'
-// interface MostPopularAdsProps {
-//   ADSList: ADS[];
-// }
-
-// interface ADS {
-//   _id: string;
-//   room: {
-//     price: number;
-//     roomNumber: string;
-//     capacity: number;
-//     discount: number;
-//     images: string[]
-//   };
-// }
-
-// const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
-//     console.log(ADSList)
-//   return (
-//     <Grid container spacing={5} sx={{ mt: 20, height: "100vh" }}>
-//   {/* First column with one image */}
-//   <Grid item xs={12} lg={4} >
-//     <Box sx={ {height : "600px" , display :"block"} }>
-//       <img
-//         style={{
-//           width: '100%', // Example width
-//           height:'100%'
-//         }}
-//         src={ADSList[0]?.room?.images[0] ? ADSList[0]?.room?.images[0] : defaultImage}
-//         alt="RoomPicture"
-//       />
-//     </Box>
-//   </Grid>
-
-//   {/* Remaining columns with dynamic content */}
-//   {ADSList.map((ad, index) => (
-//     <Grid item xs={10} lg={4} key={ad._id}>
-//       <Box>
-//         <img
-//           style={{
-//             width: '100%', // Example width
-//             height:'300px'
-//           }}
-//           src={ad?.room?.images[0] ? ad?.room?.images[0] : defaultImage}
-//           alt={`RoomPicture ${index}`}
-//         />
-//       </Box>
-//     </Grid>
-//   ))}
-// </Grid>
-
-//     <Grid container spacing={5} sx={{ mt: 20, height: "100vh" }} style={{ display: 'grid', gridTemplateColumns: '400px auto auto' }}>
-//      {ADSList.map(ad => (
-//         <Grid item lg={3} key={ad._id}>
-//           <Box>
-//           <img
-//           style={{
-//             width: '100%', // Example width
-//             height:'470px'
-//           }}
-//           src={ad?.room?.images[0] ? ad?.room?.images[0] : defaultImage}
-//           alt="RoomPicture"
-//         />
-
-//           </Box>
-//         </Grid>
-//       ))}
-//     </Grid>
-//   );
-// }
-
-// export default MostPopularAds;

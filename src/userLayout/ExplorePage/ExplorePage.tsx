@@ -46,6 +46,7 @@ export default function ExplorePage() {
       setRoomsList(response.data.data.rooms);
     } catch (error) {
       console.log(error);
+      
     }
   };
 
@@ -76,7 +77,7 @@ export default function ExplorePage() {
           }
         );
         toast.success(" add to fav successfully");
-        console.log(response);
+        console.log(response.data);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           toast.error(error.response.data.message);
@@ -87,6 +88,7 @@ export default function ExplorePage() {
   };
 
   useEffect(() => {
+
     getAllRooms(page);
   }, [page]);
   const authContext = useContext(AuthContext);
