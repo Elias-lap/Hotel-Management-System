@@ -1,7 +1,11 @@
 
 .imageWrapperr{
     /* background-color: #cb1e1e !important; */
+<<<<<<< HEAD
      margin: 0% 120px !important;
+=======
+     /* margin: 0% 120px !important; */
+>>>>>>> Explore-room2
      /* position: relative; */
      
    }
@@ -9,7 +13,11 @@
  .wrapper {
      position: relative;
      overflow: hidden;
+<<<<<<< HEAD
      /* height: 150px; */
+=======
+     height: 150px;
+>>>>>>> Explore-room2
      text-align: center;
      margin: auto;
    }
@@ -64,8 +72,16 @@
    /* /////////////////////// */
  
  .animatText{
+<<<<<<< HEAD
      margin: 0;
      padding: 20px;
+=======
+     margin-left: 50px !important;
+     padding: 20px;
+     /* background-color: #e5e9f2; */
+     /* border-radius: 20px; */
+     
+>>>>>>> Explore-room2
      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
      animation: textAnimation 2s ease-in-out infinite alternate, colorAnimation 4s ease-in-out infinite alternate;
    }

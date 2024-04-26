@@ -23,6 +23,7 @@ import img from "../../../assets/images/login0.png";
 import logo from "../../../assets/images/Staycation.png";
 import { toast } from "react-toastify";
 
+
 export default function Login() {
   interface FormData {
     email: string;
@@ -69,7 +70,7 @@ export default function Login() {
           
         }else{
          
-          navigate("/user/landing");
+          navigate("/landing");
         }
 
         setSpinner(false);
@@ -231,6 +232,8 @@ export default function Login() {
             <Typography variant="h4" className={Styles.imageText1}>
               Sign in
             </Typography>
+           
+
             <Typography variant="h6" className={Styles.imageText}>
               Homes as unique as you.
             </Typography>
