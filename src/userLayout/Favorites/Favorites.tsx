@@ -85,7 +85,7 @@ export default function Favorites() {
     page * itemsPerPage
   );
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (event:any, value:any) => {
     setPage(value);
   };
 
@@ -97,41 +97,11 @@ export default function Favorites() {
     <>
       <Box sx={{ mx: 5, mt: 1 }}>
         <div className={StyleFav.wrapper}>
-          <h2 className={StyleFav.animatText}>Your Favorites</h2>
+          <h2 className={StyleFav.animatText}>Your Favorites Room</h2>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-            padding: "5px",
-          }}
-        >
-          <Typography variant="body1" style={{ marginRight: "5px" }}>
-            <Link
-              to="/dashboard/home"
-              style={{ color: "black", textDecoration: "none" }}
-            >
-              Home
-            </Link>
-          </Typography>
-          <Typography variant="body1" style={{ marginRight: "5px" }}>
-            /
-          </Typography>
-          <Link
-            to="/Favorites"
-            style={{ color: "#bdbdbd  ", textDecoration: "none" }}
-          >
-            Favorites
-          </Link>
-        </div>
 
-        <Typography sx={{ my: 5 }} variant="h4" style={{ color: "#152C5B" }}>
-          Your Rooms
-        </Typography>
-
-        <Grid sx={{ mx: 1 }} container spacing={2}>
+        <Grid sx={{ mx: 1 ,mt:5 }} container spacing={2}>
           {displayedRooms.map((room, index) => (
             <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
               <CardContent>
