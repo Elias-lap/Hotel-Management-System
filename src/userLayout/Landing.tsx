@@ -10,7 +10,10 @@ import image from "../Img/90d09327b53aab08ce3911a49cb2e305.png";
 import { useNavigate } from "react-router-dom";
 import MostPopularAds from "./MostPopularAds";
 import { AuthContext } from "../Context/Components/AuthContext";
+import defaultImage from "../Img/defaultImage.jpg";
+import family from "../Img/review.png";
 import axios from "axios";
+import StarIcon from "@mui/icons-material/Star";
 interface ADS {
   _id: string;
   room: {
@@ -19,6 +22,7 @@ interface ADS {
     capacity: number;
     discount: number;
     images: string[];
+    _id: string;
   };
 }
 
@@ -68,7 +72,7 @@ const Landing = () => {
   }
   const { baseUrl } = authContext;
   return (
-    <>
+    <Box sx={{ width: "80%", mx: "auto", mb: "100px" }}>
       <Box
         display="flex"
         sx={{
@@ -271,10 +275,100 @@ const Landing = () => {
         </Grid>
       </Box>
 
-      <Box sx={{ mt: "5rem", height: "100vh" }}>
+      <Box sx={{ mt: "5rem", mb: "3rem" }}>
+        <Typography
+          sx={{
+            my: 2,
+          }}
+          variant="h4"
+          color="initial"
+        >
+          Most popular ads
+        </Typography>
         <MostPopularAds ADSList={ADSList} />
       </Box>
-    </>
+
+      <Box>
+        <Typography variant="h4" color="initial">
+          Houses with beauty backyard
+        </Typography>
+
+        <Grid container sx={{ mt: "2rem" }}>
+          {ADSList.slice(1).map((ad) => {
+            return (
+              <Grid lg={3} xl={3}>
+                <img
+                  style={{
+                    width: "95%",
+                    height: "300px",
+                    borderRadius: "25px",
+                  }}
+                  src={ad?.room?.images[0] ? ad?.room?.images[0] : defaultImage}
+                  alt=""
+                />
+                <Typography sx={{ m: 1 }} variant="h5" color="initial">
+                  {ad?.room?.roomNumber}
+                </Typography>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Box>
+
+      <Box sx={{ mt: 5 }}>
+        <Grid sx={{md:{flexDirection :"column"}}} container>
+          <Grid sx={{md:{mb:"100px"}}} xs={10} sm ={10}    md={10} lg={6}>
+            <Box
+              sx={{
+                position: "relative",
+                height: "581px",
+                border: "1px solid black",
+                width: "80%",
+                borderTopLeftRadius: "5%",
+                borderTopRightRadius: "5%",
+                borderBottomRightRadius: "25%",
+              }}
+            >
+              <img
+                style={{
+                  position: "absolute",
+                  top: "10%",
+                  left: "18%",
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
+                  borderTopLeftRadius: "5%",
+                  borderTopRightRadius: "5%",
+                  borderBottomRightRadius: "25%",
+                }}
+                src={family}
+                alt="image"
+              />
+            </Box>
+          </Grid>
+          <Grid lg={6}>
+            <Box sx={{ mt: "100px" }}>
+              <Typography variant="h4" color="initial">
+                Happy Family
+              </Typography>
+
+              <Box sx={{ display: "flex", mt: 5 }}>
+                <StarIcon style={{ color: "gold" }} />
+                <StarIcon style={{ color: "gold" }} />
+                <StarIcon style={{ color: "gold" }} />
+                <StarIcon style={{ color: "gold" }} />
+                <StarIcon style={{ color: "gold" }} />
+              </Box>
+              <Typography  variant="h4" color="initial">
+                What a great trip with my family and I should try again next
+                time soon ...
+              </Typography>
+              <Typography variant="h6" color="gray">Angga, Product Designer</Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 

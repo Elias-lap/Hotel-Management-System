@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -125,7 +126,7 @@ export default function FacilitiesList() {
     } catch (error) {
       console.log(error);
    
-  };
+  }
 }
 
   // ************Add Facility

@@ -9,7 +9,7 @@ const UserLayout = () => {
     return (
         <> 
            
-            <Box   sx={{  width : "80%"  ,m:"auto" }  }>
+            <Box   sx={{  width : "100%"  ,m:"auto" }  }>
             <Navbar/>
             <Outlet/>
             <Footer/>

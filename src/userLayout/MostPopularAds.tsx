@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
 import defaultImage from "../Img/defaultImage.jpg";
 import React, { useContext } from "react";
 import "./MostPopular.scss";
@@ -7,7 +7,17 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../Context/Components/AuthContext";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
+const style = {
+  position: "absolute" ,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 interface MostPopularAdsProps {
   ADSList: ADS[];
 }
@@ -20,20 +30,21 @@ interface ADS {
     capacity: number;
     discount: number;
     images: string[];
+    _id  : string
   };
 }
 
 const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
   // ///////// Modal for user Not Login
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-  // const handleClose = () => setOpen(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
   // ///////// Add To favorite
   const addToFav = async (id: string) => {
     if (!loginData) {
-      // handleOpen();
+      handleOpen();
     } else {
       try {
         const response = await axios.post(
@@ -60,6 +71,21 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
   const {  loginData, requestHeaders } = authContext;
   return (
     <>
+            <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Hey you need to login first !
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+          </Box>
+        </Modal>
       <Box className={"grid"}>
         <Box
           className={"main  card"}
@@ -91,7 +117,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
               borderTopRightRadius: "25px",
               borderBottomLeftRadius: "25px",
             }}
-            variant="body1"
+           
             color="initial"
           >
             <Typography
@@ -105,7 +131,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
               {ADSList[0]?.room.price}$ per Night
             </Typography>
           </Box>
-
+          <Typography sx={{position:"absolute" , top :"90%" , left :"10%" , color :"white"} } variant="h6" color="initial">{ADSList[0]?.room?.roomNumber}</Typography>
           <Box
             className={"layer"}
             sx={{
@@ -119,7 +145,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
             }}
           >
             <Grid container justifyContent="center" alignItems="center">
-              <IconButton onClick={() => addToFav('')}>
+              <IconButton onClick={() => addToFav(ADSList[0]?.room._id)}>
                 <FavoriteIcon style={{ color: "white" }} />
               </IconButton>
 
@@ -162,7 +188,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 borderTopRightRadius: "25px",
                 borderBottomLeftRadius: "25px",
               }}
-              variant="body1"
+            
               color="initial"
             >
               <Typography
@@ -176,6 +202,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 {ad.room.price}$ per Night
               </Typography>
             </Box>
+            <Typography sx={{position:"absolute" , top :"85%" , left :"10%" , color :"white"} } variant="h6" color="initial">{ad?.room?.roomNumber}</Typography>
             <Box
             className={"layer"}
             sx={{
@@ -189,7 +216,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
             }}
           >
             <Grid container justifyContent="center" alignItems="center">
-              <IconButton onClick={() => addToFav('')}>
+              <IconButton onClick={() => addToFav(ad.room._id)}>
                 <FavoriteIcon style={{ color: "white" }} />
               </IconButton>
 
