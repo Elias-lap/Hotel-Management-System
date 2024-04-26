@@ -114,7 +114,7 @@ export default function ExplorePage() {
   const roomDateEnd = state.range?.[1].$d;
 
   // console.log(roomDateStart);
-  console.log(roomDateEnd);
+  // console.log(roomDateEnd);
 
   // تحويل التواريخ إلى الشكل المطلوب
 
@@ -133,9 +133,7 @@ export default function ExplorePage() {
     // console.log("::::::::::::::::::::");
   }
 
-  // useEffect(() => {
-  //   getAllRooms(page);
-  // }, [page]);
+  
 
   // ///////// modal
   const [open, setOpen] = React.useState(false);
@@ -167,6 +165,35 @@ export default function ExplorePage() {
     }
   };
 
+  useEffect(() => {
+    GetFav()
+    }, []);
+
+// /////////// get fav
+// const [favRoomsList, setFavRoomsList] = useState<{ images: string[]; roomNumber: string; price: number; _id: string; }[]>([]);
+
+// const GetFav = async () => {
+//   // if (!loginData) {
+//   // } else {
+//     try {
+//       const response = await axios.get(
+//         `https://upskilling-egypt.com:3000/api/v0/portal/favorite-rooms`,
+      
+//         {
+//           headers: requestHeaders,
+//         }
+//       );
+//       setFavRoomsList(response?.data?.data?.favoriteRooms[0].rooms);
+//       console.log(response?.data.data.favoriteRooms[0].rooms);
+//       // console.log(response);
+//     } catch (error) {
+//      console.log(error);
+     
+//     // }
+//   }
+// };
+
+
   const authContext = useContext(AuthContext);
   if (!authContext) {
     // Handle the case where AuthContext is null
@@ -189,6 +216,7 @@ export default function ExplorePage() {
           </div>
 
           <Grid sx={{ mx: 1, mt: 3 }} container spacing={2}>
+
             {roomsList?.map((room , index) => (
               <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
                 <CardContent>
@@ -227,6 +255,7 @@ export default function ExplorePage() {
                 </CardContent>
               </Grid>
             ))}
+
           </Grid>
         </Box>
       ) : (
