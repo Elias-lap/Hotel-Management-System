@@ -5,36 +5,34 @@ import { createContext, useEffect, useState } from "react";
 
 
 export const contextDashBoard = createContext<{
-  DataDashboard: number[];
+  dataDashboard: number[];
   numberForFacilities: number[];
   numberForRooms: number[];
   numberForAds: number[];
   userData: number[];
-  AdminData: number[];
+  adminData: number[];
   pendingBookings: number[];
   completedBookings: number[];
 }>({
-  DataDashboard: [],
+  dataDashboard: [],
   numberForFacilities: [],
   numberForRooms: [],
   numberForAds: [],
   userData: [],
-  AdminData: [],
+  adminData: [],
   pendingBookings: [],
   completedBookings: [],
 });
 
 export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
-  const [DataDashboard, setDataDashboard] = useState<number[]>([]);
+  const [dataDashboard, setDataDashboard] = useState<number[]>([]);
   const [numberForRooms, setnumberForRooms] = useState<number[]>([]);
   const [numberForFacilities, setnumberForFacilities] = useState<number[]>([]);
   const [numberForAds, setnumberForAds] = useState<number[]>([]);
   const [userData, setUserData] = useState<number[]>([]);
-  const [AdminData, setAdminData] = useState<number[]>([]);
-  
-
-    const [pendingBookings, setpendingBookings] = useState<number[]>([]);
-    const [completedBookings, setcompletedBookings] = useState<number[]>([]);
+  const [adminData, setAdminData] = useState<number[]>([]);
+  const [pendingBookings, setpendingBookings] = useState<number[]>([]);
+  const [completedBookings, setcompletedBookings] = useState<number[]>([]);
 
 
   const getDashboard = async () => {
@@ -60,7 +58,7 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
       setcompletedBookings(response.data.data.bookings.completed)
 
 
-      console.log(DataDashboard);
+      console.log(dataDashboard);
     } catch (error) {
       console.log(error);
     }
@@ -71,18 +69,18 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
   }, []);
 
   useEffect(() => {
-    console.log(DataDashboard);
-  }, [DataDashboard]);
+    console.log(dataDashboard);
+  }, [dataDashboard]);
 
   return (
     <contextDashBoard.Provider
       value={{
-        DataDashboard,
+        dataDashboard,
         numberForFacilities,
         numberForRooms,
         numberForAds,
         userData,
-        AdminData,
+        adminData,
         pendingBookings,
         completedBookings
 
