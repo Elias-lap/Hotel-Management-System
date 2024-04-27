@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../Context/Components/AuthContext";
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute" ,
   top: "50%",
@@ -35,6 +36,7 @@ interface ADS {
 }
 
 const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
+  const navigate =useNavigate()
   // ///////// Modal for user Not Login
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -149,7 +151,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 <FavoriteIcon style={{ color: "white" }} />
               </IconButton>
 
-              <IconButton>
+              <IconButton  onClick={()=>navigate(`RoomDetails/${ADSList[0].room._id}`)}>
                 <VisibilityIcon style={{ color: "white" }} />
               </IconButton>
               {/* </Link> */}
@@ -220,8 +222,8 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 <FavoriteIcon style={{ color: "white" }} />
               </IconButton>
 
-              <IconButton>
-                <VisibilityIcon style={{ color: "white" }} />
+              <IconButton onClick={()=>navigate(`RoomDetails/${ad.room._id}`)}>
+                <VisibilityIcon  style={{ color: "white" }} />
               </IconButton>
               {/* </Link> */}
             </Grid>
