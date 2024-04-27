@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -156,6 +157,7 @@ export default function ExplorePage() {
           }
         );
         toast.success(" add to fav successfully");
+        console.log(response)
         // console.log(response);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
