@@ -17,6 +17,8 @@ import { AuthContext } from "../../../Context/Components/AuthContext";
 import logo from "../../../assets/images/Staycation.png";
 import styles from "./NavBar.module.css";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import ChangeLanguage from "../../ChangeLanguage/ChangeLanguage";
 
 interface Props {
   /**
@@ -132,6 +134,8 @@ export default function Navbar(props: Props) {
             <Link to="/landing"> Home</Link>
             <Link to="/explore"> Explore</Link>
             <Link to="/Favorites"> Favorites</Link>
+            
+    
               {/* <Link href="#" underline="hover" color="common.black" ml={2}>
                 Home
               </Link>
@@ -141,6 +145,7 @@ export default function Navbar(props: Props) {
               <Link href="#" underline="hover" color="common.black" ml={2}>
                 Reviews
               </Link> */}
+              
               {loginData ? (
                 <Button
                   className={styles.linkStyle}
@@ -168,6 +173,7 @@ export default function Navbar(props: Props) {
                   Login Now
                 </Button>
               )}
+
             </Box>
           </Toolbar>
         </AppBar>

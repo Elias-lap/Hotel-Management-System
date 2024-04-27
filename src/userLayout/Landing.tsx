@@ -14,6 +14,7 @@ import defaultImage from "../Img/defaultImage.jpg";
 import family from "../Img/review.png";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
+import { useTranslation } from "react-i18next";
 interface ADS {
   _id: string;
   room: {
@@ -27,6 +28,11 @@ interface ADS {
 }
 
 const Landing = () => {
+  const { t, i18n } = useTranslation();
+const directionStyle=i18n.resolvedLanguage;
+  // console.log(direction);
+
+
   const navigate = useNavigate();
   const theme = useTheme();
   const today = dayjs();
@@ -72,7 +78,7 @@ const Landing = () => {
   }
   const { baseUrl } = authContext;
   return (
-    <Box sx={{ width: "80%", mx: "auto", mb: "100px" }}>
+    <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "80%", mx: "auto", mb: "100px"  }}>
       <Box
         display="flex"
         sx={{
@@ -100,7 +106,7 @@ const Landing = () => {
                 variant="body1"
                 color="initial"
               >
-                Forget Busy Work, Start Next Vacation
+                {t("main.header")}
               </Typography>
               <Typography
                 sx={{
@@ -114,20 +120,20 @@ const Landing = () => {
                 variant="body1"
                 color="initial"
               >
-                We provide what you need to enjoy your holiday with family. Time
-                to make another memorable moments.
+                {t("main.headerT")}
               </Typography>
+
               <Typography variant="h2" color="initial">
-                Start Booking
+                {t("main.Start-Booking")}
               </Typography>
               <Typography variant="h5" color="initial">
-                Pick a Date
+                {t("main.Pick-Date")}
               </Typography>
               <Calendar
                 {...{ selectedDateRange, setSelectedDateRange, theme }}
               />
               <Typography sx={{ mt: 2 }} variant="h5" color="initial">
-                Capacity
+                {t("main.Capacity")}
               </Typography>
 
               <Box
@@ -219,9 +225,9 @@ const Landing = () => {
                 variant="contained"
                 color="primary"
               >
-                Explor
+                {t("main.Explor")}
               </Button>
-              
+
               {/*  // in commpontet explor you can use  //const { state } = useLocation();// this line of code to accses state and this piss of code 
             // const bookingGuestCount = state?.persons;
                // const [selectedDateRange, setSelectedDateRange] = useState<Range<Dayjs>>([
@@ -284,14 +290,14 @@ const Landing = () => {
           variant="h4"
           color="initial"
         >
-          Most popular ads
+          {t("main.AdsTitle")}
         </Typography>
         <MostPopularAds ADSList={ADSList} />
       </Box>
 
       <Box>
         <Typography variant="h4" color="initial">
-          Houses with beauty backyard
+        {t("main.RoomsTitle")}
         </Typography>
 
         <Grid container sx={{ mt: "2rem" }}>
@@ -317,8 +323,8 @@ const Landing = () => {
       </Box>
 
       <Box sx={{ mt: 5 }}>
-        <Grid sx={{md:{flexDirection :"column"}}} container>
-          <Grid sx={{md:{mb:"100px"}}} xs={10} sm ={10}    md={10} lg={6}>
+        <Grid sx={{ md: { flexDirection: "column" } }} container>
+          <Grid sx={{ md: { mb: "100px" } }} xs={10} sm={10} md={10} lg={6}>
             <Box
               sx={{
                 position: "relative",
@@ -350,7 +356,7 @@ const Landing = () => {
           <Grid lg={6}>
             <Box sx={{ mt: "100px" }}>
               <Typography variant="h4" color="initial">
-                Happy Family
+              {t("main.client")}
               </Typography>
 
               <Box sx={{ display: "flex", mt: 5 }}>
@@ -360,11 +366,13 @@ const Landing = () => {
                 <StarIcon style={{ color: "gold" }} />
                 <StarIcon style={{ color: "gold" }} />
               </Box>
-              <Typography  variant="h4" color="initial">
-                What a great trip with my family and I should try again next
-                time soon ...
+              <Typography variant="h4" color="initial">
+              {t("main.clientTitle")}
+
               </Typography>
-              <Typography variant="h6" color="gray">Angga, Product Designer</Typography>
+              <Typography variant="h6" color="gray">
+              {t("main.clientName")}
+              </Typography>
             </Box>
           </Grid>
         </Grid>

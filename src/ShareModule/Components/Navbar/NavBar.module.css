@@ -8,6 +8,8 @@
     background-color: #ffffff !important; 
     padding: 0  0  0  50px !important;
     box-shadow: none !important;
+    /* direction: rtl; */
+    
 }
 .bottom{
     /* background-color: rgb(61, 10, 229) !important; */
