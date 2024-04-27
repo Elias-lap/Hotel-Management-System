@@ -227,7 +227,10 @@ export default function Home() {
                 height={200}
               />
             </Box>
-            <Box sx={{ p: 2 }}>{renderLabels(bookingsData)}</Box>
+            <Box sx={{ p: 2   }}>{renderLabels(bookingsData)}</Box>
+
+  
+            
           </Grid>
 
           {/* Pie Chart for UserData */}
