@@ -22,6 +22,7 @@ import ExplorePage from "./userLayout/ExplorePage/ExplorePage";
 
 import Home from './Home/Home';
 import { DashBoardRoom } from './DashBoardRoomContext/DashBoardRoom';
+import RoomDetails from "./userLayout/RoomDetails/RoomDetails";
 
 
 
@@ -38,6 +39,7 @@ function App() {
         { path: 'explor/:state', element: <Landing /> },
         { path: 'explore', element: <ExplorePage/> },
         { path: 'Favorites', element: <Favorites/> },
+        { path: 'RoomDetails/:id', element: <RoomDetails/> },
       ],
     },
 
