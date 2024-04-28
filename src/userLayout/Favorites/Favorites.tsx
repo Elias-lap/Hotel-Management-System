@@ -100,6 +100,19 @@ export default function Favorites() {
           <h2 className={StyleFav.animatText}>Your Favorites Room</h2>
         </div>
 
+        <Box
+        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
+        <Typography variant="body1" style={{ marginRight: '5px' }}>
+          <Link to="/dashboard/home" style={{ color: '#B0B0B0', textDecoration: 'none' }}>
+            Home
+          </Link>
+        </Typography>
+        <Typography variant="body1" style={{ marginRight: '5px' ,color: '#B0B0B0'}}>/</Typography>
+        <Typography variant="body1" style={{ color: '#152C5B' }}>
+          Favorites
+        </Typography>
+      </Box>
+
 
         <Grid sx={{ mx: 1 ,mt:5 }} container spacing={2}>
           {displayedRooms.map((room, index) => (
