@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -5,9 +6,9 @@ import { AuthContext } from "../../Context/Components/AuthContext";
 import { Link, useParams } from "react-router-dom";
 import { Container } from "@mui/system";
 import Grid from "@mui/material/Grid";
-import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
-import {  Typography } from "@mui/material";
-import styleRoomDetails from "./RoomDetails.module.css";
+// import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
+import { Typography } from "@mui/material";
+// import styleRoomDetails from "./RoomDetails.module.css";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BedIcon from "@mui/icons-material/Bed";
 import WeekendIcon from "@mui/icons-material/Weekend";
@@ -17,21 +18,21 @@ import NetworkWifiIcon from "@mui/icons-material/NetworkWifi";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 import BluetoothIcon from "@mui/icons-material/Bluetooth";
-import CommentIcon from '@mui/icons-material/Comment';
-import StarsIcon from '@mui/icons-material/Stars';
+import CommentIcon from "@mui/icons-material/Comment";
+import StarsIcon from "@mui/icons-material/Stars";
+import dayjs, { Dayjs } from "dayjs";
+import Calendar from "../calendar";
 
 const RoomDetails = () => {
   const { id } = useParams();
   const [roomDetails, setRoomDetails] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
-
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
-  const { baseUrl, loginData, requestHeaders } = authContext;
-
+  const today = dayjs();
+  const nextDate = dayjs().add(1, "day");
+  const [selectedDateRange, setSelectedDateRange] = useState<[Dayjs, Dayjs]>([
+    today,
+    nextDate,
+  ]);
   const getRoomDetails = async () => {
     try {
       const response = await axios.get(
@@ -54,6 +55,12 @@ const RoomDetails = () => {
       getRoomDetails();
     }
   }, [id]);
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { requestHeaders } = authContext;
 
   return (
     <Box>
@@ -284,7 +291,13 @@ const RoomDetails = () => {
 
               {/* border */}
               <Grid item xs={6} md={4}>
-                <Box sx={{ border: "1px solid #E5E5E5", padding: "5rem" , borderRadius:"1rem"}}>
+                <Box
+                  sx={{
+                    border: "1px solid #E5E5E5",
+                    padding: "5rem",
+                    borderRadius: "1rem",
+                  }}
+                >
                   <Typography
                     variant="h5"
                     color="secondary"
@@ -308,7 +321,7 @@ const RoomDetails = () => {
                     </span>
                   </Typography>
 
-                  <Typography
+                  {/* <Typography
                     variant="h5"
                     color="secondary"
                     sx={{
@@ -320,122 +333,122 @@ const RoomDetails = () => {
                     }}
                   >
                     Pick a Date
-                  </Typography>
+                  </Typography> */}
                   {/* Date */}
-                  <Box
+                  {/* <Box
                     sx={{
-                      padding:"1rem",
+                      padding: "1rem",
                       background: "#F5F6F8",
                       display: "flex",
                       justifyContent: "center",
-                      marginLeft:"1rem",
-                      marginRight:"1rem",
-
+                      marginLeft: "1rem",
+                      marginRight: "1rem",
                     }}
                   >
                     <CalendarMonthIcon />
 
                     {new Date(roomDetails.updatedAt).toLocaleDateString()}
-                  </Box>
+                  </Box> */}
+                    <Calendar
+                {...{ selectedDateRange, setSelectedDateRange}}
+              />
 
-                                    {/* btn */}
+                  {/* btn */}
 
-                                    <Box
+                  <Box
                     sx={{
                       display: "flex",
                       justifyContent: "center",
-                      marginTop:"1rem"
-                    
-
+                      marginTop: "1rem",
                     }}
                   >
-
-                                    <Button  variant="contained">Continue Book </Button>
-</Box>
-
-
-
+                    <Button variant="contained">Continue Book </Button>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
           </Container>
 
-
-          <Container maxWidth="xl" sx={{marginTop:"2rem"}}>
-          <Box sx={{ border: "1px solid #E5E5E5", padding: "5rem" , borderRadius:"1rem"}}>
-
-
-          <Grid sx={{ display:"flex" , alignItems:"center" , justifyContent:"center"}} container spacing={2}>
-          <Grid item xs={6} md={6} lg={6}>
-
-          <Typography
+          <Container maxWidth="xl" sx={{ marginTop: "2rem" }}>
+            <Box
+              sx={{
+                border: "1px solid #E5E5E5",
+                padding: "5rem",
+                borderRadius: "1rem",
+              }}
+            >
+              <Grid
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                container
+                spacing={2}
+              >
+                <Grid item xs={6} md={6} lg={6}>
+                  <Typography
                     variant="h5"
                     color="secondary"
                     sx={{ color: "#1a237e", marginBottom: "2rem" }}
                   >
-                    <StarsIcon sx={{marginRight:"1rem" , color:"#DFCB1D"}}/>Rate
-
+                    <StarsIcon sx={{ marginRight: "1rem", color: "#DFCB1D" }} />
+                    Rate
                   </Typography>
 
-
-          <Typography
+                  <Typography
                     variant="h5"
                     color="secondary"
-                    sx={{ color: "#1a237e" , marginBottom:"1rem"}}
+                    sx={{ color: "#1a237e", marginBottom: "1rem" }}
                   >
                     Message
-
                   </Typography>
 
-          <TextField
-          fullWidth
-          id="outlined-multiline-static"
-          multiline
-          rows={5}
-          
-        />
+                  <TextField
+                    fullWidth
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={5}
+                  />
 
-<Button sx={{marginTop:"2rem"}} variant="contained">Rate </Button>
-
-           
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-
-              <Typography
+                  <Button sx={{ marginTop: "2rem" }} variant="contained">
+                    Rate{" "}
+                  </Button>
+                </Grid>
+                <Grid item xs={6} md={6} lg={6}>
+                  <Typography
                     variant="h5"
                     color="secondary"
                     sx={{ color: "#1a237e", marginBottom: "2rem" }}
                   >
-                    <CommentIcon sx={{marginRight:"0.5rem" , color:"#c62828"}}/>Add Your Comment
-
+                    <CommentIcon
+                      sx={{ marginRight: "0.5rem", color: "#c62828" }}
+                    />
+                    Add Your Comment
                   </Typography>
 
-
-          <Typography
+                  <Typography
                     variant="h5"
                     color="secondary"
-                    sx={{ color: "#1a237e" , marginBottom:"1rem"}}
+                    sx={{ color: "#1a237e", marginBottom: "1rem" }}
                   >
                     Comment
-
                   </Typography>
 
-          <TextField
-          fullWidth
-          id="outlined-multiline-static"
-          multiline
-          rows={5}
-          
-        />
+                  <TextField
+                    fullWidth
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={5}
+                  />
 
-<Button sx={{marginTop:"2rem"}} variant="contained">Send </Button>
-
-           
+                  <Button sx={{ marginTop: "2rem" }} variant="contained">
+                    Send{" "}
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
             </Box>
-            </Container>
-
+          </Container>
         </>
       )}
     </Box>
