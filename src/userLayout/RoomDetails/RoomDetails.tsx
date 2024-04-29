@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 // import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
 import { Typography } from "@mui/material";
 // import styleRoomDetails from "./RoomDetails.module.css";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+// import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BedIcon from "@mui/icons-material/Bed";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import BathtubIcon from "@mui/icons-material/Bathtub";
@@ -26,6 +26,7 @@ import Calendar from "../calendar";
 const RoomDetails = () => {
   const { id } = useParams();
   const [roomDetails, setRoomDetails] = useState<any>({});
+  const [price , setPrice ] = useState(0)
   const [loading, setLoading] = useState<boolean>(true);
   const today = dayjs();
   const nextDate = dayjs().add(1, "day");
@@ -33,6 +34,13 @@ const RoomDetails = () => {
     today,
     nextDate,
   ]);
+  const roomDateStart = selectedDateRange[0];
+  const roomDateEnd = selectedDateRange[1];
+
+  const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
+  const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
+  console.log(price)
+
   const getRoomDetails = async () => {
     try {
       const response = await axios.get(
@@ -42,6 +50,7 @@ const RoomDetails = () => {
         }
       );
       setRoomDetails(response.data.data.room);
+      setPrice(response?.data.data.room?.price)
       setLoading(false);
       console.log(response);
     } catch (error) {
@@ -49,6 +58,7 @@ const RoomDetails = () => {
       setLoading(false);
     }
   };
+  // now data is ready to send to backend for containio booking 
 
   useEffect(() => {
     if (id) {
@@ -120,7 +130,7 @@ const RoomDetails = () => {
               </Grid>
               <Grid item xs={6} md={4}>
                 {roomDetails.images &&
-                  roomDetails.images.slice(1, 3).map((img, index) => (
+                  roomDetails.images.slice(1, 3).map((img: any, index: any) => (
                     <img
                       key={index}
                       src={img}
@@ -349,9 +359,7 @@ const RoomDetails = () => {
 
                     {new Date(roomDetails.updatedAt).toLocaleDateString()}
                   </Box> */}
-                    <Calendar
-                {...{ selectedDateRange, setSelectedDateRange}}
-              />
+                  <Calendar {...{ selectedDateRange, setSelectedDateRange }} />
 
                   {/* btn */}
 
@@ -362,7 +370,63 @@ const RoomDetails = () => {
                       marginTop: "1rem",
                     }}
                   >
-                    <Button variant="contained">Continue Book </Button>
+                    <Button onClick={()=>{console.log(startDate )}} variant="contained">Continue Book</Button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   </Box>
                 </Box>
               </Grid>
