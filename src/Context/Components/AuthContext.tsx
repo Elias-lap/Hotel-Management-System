@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Define the authentication data//
 export interface IAuth {
@@ -44,6 +45,10 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({children
       savLoginData();
     }
   }, []);
+
+
+
+
 
   const contextValue: IAuth | null = {
     loginData,

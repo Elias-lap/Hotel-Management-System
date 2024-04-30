@@ -2,41 +2,49 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 
-
-
 export const contextDashBoard = createContext<{
-  DataDashboard: number[];
+  dataDashboard: number[];
   numberForFacilities: number[];
   numberForRooms: number[];
   numberForAds: number[];
   userData: number[];
-  AdminData: number[];
+  adminData: number[];
   pendingBookings: number[];
   completedBookings: number[];
 }>({
-  DataDashboard: [],
+  dataDashboard: [],
   numberForFacilities: [],
   numberForRooms: [],
   numberForAds: [],
   userData: [],
-  AdminData: [],
+  adminData: [],
   pendingBookings: [],
   completedBookings: [],
 });
 
 export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
-  const [DataDashboard, setDataDashboard] = useState<number[]>([]);
-  const [numberForRooms, setnumberForRooms] = useState<number[]>([]);
-  const [numberForFacilities, setnumberForFacilities] = useState<number[]>([]);
-  const [numberForAds, setnumberForAds] = useState<number[]>([]);
-  const [userData, setUserData] = useState<number[]>([]);
-  const [AdminData, setAdminData] = useState<number[]>([]);
-  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    const [pendingBookings, setpendingBookings] = useState<number[]>([]);
-    const [completedBookings, setcompletedBookings] = useState<number[]>([]);
-
-
+  const [dashboardData, setDashboardData] = useState<{
+    dataDashboard: number[];
+    numberForFacilities: number[];
+    numberForRooms: number[];
+    numberForAds: number[];
+    userData: number[];
+    adminData: number[];
+    pendingBookings: number[];
+    completedBookings: number[];
+  }>({
+    dataDashboard: [],
+    numberForFacilities: [],
+    numberForRooms: [],
+    numberForAds: [],
+    userData: [],
+    adminData: [],
+    pendingBookings: [],
+    completedBookings: [],
+  });
   const getDashboard = async () => {
     try {
       const response = await axios.get(
@@ -50,19 +58,20 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
         }
       );
 
-      setDataDashboard(response.data.data);
-      setnumberForRooms(response.data.data.rooms);
-      setnumberForFacilities(response.data.data.facilities);
-      setnumberForAds(response.data.data.ads);
-      setUserData(response.data.data.users.user)
-      setAdminData(response.data.data.users.admin)
-      setpendingBookings(response.data.data.bookings.pending)
-      setcompletedBookings(response.data.data.bookings.completed)
-
-
-      // console.log(DataDashboard);
+      setDashboardData({
+        dataDashboard: response.data.data,
+        numberForRooms: response.data.data.rooms,
+        numberForFacilities: response.data.data.facilities,
+        numberForAds: response.data.data.ads,
+        userData: response.data.data.users.user,
+        adminData: response.data.data.users.admin,
+        pendingBookings: response.data.data.bookings.pending,
+        completedBookings: response.data.data.bookings.completed,
+      });
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setError("Error fetching dashboard data");
+      setLoading(false);
     }
   };
 
@@ -71,24 +80,18 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
   }, []);
 
   useEffect(() => {
-    // console.log(DataDashboard);
-  }, [DataDashboard]);
+    console.log(dashboardData);
+  }, [dashboardData]);
 
   return (
     <contextDashBoard.Provider
       value={{
-        DataDashboard,
-        numberForFacilities,
-        numberForRooms,
-        numberForAds,
-        userData,
-        AdminData,
-        pendingBookings,
-        completedBookings
-
+        ...dashboardData,
+        // loading,
+        // error,
       }}
     >
       {children}
     </contextDashBoard.Provider>
   );
-}
+};

@@ -1,108 +1,124 @@
-import { Container, Grid, List, ListItem, ScopedCssBaseline, Typography } from "@mui/material";
+
+import {
+  Container,
+  Grid,
+  List,
+  ScopedCssBaseline,
+  Typography
+} from "@mui/material";
+import { useTranslation } from "react-i18next";
 // import styles from './Footer.module.scss';
 
-
 const Footer = () => {
-  const footerSections = [
-    {
-      title: "Staycation.",
-      links: [
-        { text: "We kaboom your beauty holiday instantly and memorable." },
-        { text: "" },
-        { text: "" },
-      ],
-    },
-    {
-      title: "For Beginners",
-      links: [
-        { text: "New Account" },
-        { text: "Start Booking a Room" },
-        { text: "Use Payments" },
-      ],
-    },
-    {
-      title: "Explore Us",
-      links: [
-        { text: "Our Careers" },
-        { text: "Privacy" },
-        { text: "Terms & Conditions" },
-      ],
-    },
-    {
-      title: "Connect Us",
-      contactInfo: [
-        { text: "support@staycation.id" },
-        { text: "021 - 2208 - 1996" },
-        { text: "Staycation, Jakarta" },
-      ],
-    },
-  ];
-
-
+  const { t, i18n } = useTranslation();
+  const directionStyle=i18n.resolvedLanguage;
+    // console.log(direction);
+ 
   return (
-    <ScopedCssBaseline sx={{ py: 5, backgroundColor: "#fff", marginTop: 'auto' }} >
-
-      <Container component="footer" >
+    <ScopedCssBaseline
+      sx={{  direction: directionStyle === 'ar' ? 'rtl' : 'ltr', py: 5, backgroundColor: "#fff", marginTop: "auto" }}
+    >
+      <Container component="footer">
         <Grid
           container
-          spacing={4}
+          spacing={10}
           justifyContent="space-between"
           alignItems="center"
           sx={{
-            pl: 8,
+            pl: 1,
           }}
         >
-   
-          {footerSections.map((section, index) => (
-            <Grid key={index} item xs={12} sm={6} md={3}>
-              <Typography
-                variant="h5"
-                component="p"
-                sx={{
-                  fontWeight: index === 0 ? "bold" : "normal",
-                  color: index === 0 ? "#007BFF" : "text.primary",
-                  fontSize: index === 0 ? "2.3rem" : "1.5rem",
-                }}
-                gutterBottom
-              >
-                {index === 0 ? (
-                  <>
-                    <span style={{ color: "#007BFF" }}>Stay</span>
-                    <span style={{ color: "black" }}>cation.</span>
-                  </>
-                ) : (
-                  section.title
-                )}
-              </Typography>
-              {section.links && (
-                <List>
-                  {section.links.map((link, linkIndex) => (
-                    <ListItem
-                       className={'css-18olizl-MuiListItem-root'}
-                      key={linkIndex}
-                      sx={{ fontWeight: "bold", color: "text.secondary" }}
-                    >
-                      {link.text}
+          <Grid sx={{ mb: "40px" }} item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h5"
+              component="p"
+              sx={{
+                fontWeight: "bold",
+                color: "text.primary",
+                fontSize: "1.5rem",
+              }}
+              gutterBottom
+            >
+              <>
+                <span style={{ color: "#007BFF" }}>Stay</span>
+                <span style={{ color: "black" }}>cation</span>
+              </>
+            </Typography>
 
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-              {section.contactInfo && (
-                <List>
-                  {section.contactInfo.map((info, infoIndex) => (
-                    <ListItem
-                       className={'css-18olizl-MuiListItem-root'}
-                      key={infoIndex}
-                      sx={{ fontWeight: "bold", color: "text.secondary" }}
-                    >
-                      {info.text}
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            </Grid>
-          ))}
+            <List sx={{ fontWeight: "bold", color: "text.secondary" }}>
+              <h6> {t("main.text")}</h6>
+              <h6></h6>
+            </List>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h5"
+              component="p"
+              sx={{
+                fontWeight: "bold",
+                color: "text.primary",
+                fontSize: "1.5rem",
+              }}
+              gutterBottom
+            >
+              <>
+                <h5 style={{ color: "black" }}> {t("main.textT1")}</h5>
+              </>
+            </Typography>
+
+            <List sx={{ fontWeight: "bold", color: "text.secondary" }}>
+            <h6> {t("main.text1")}</h6>
+            <h6> {t("main.text2")}</h6>
+            <h6> {t("main.text3")}</h6>
+
+            </List>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h5"
+              component="p"
+              sx={{
+                fontWeight: "bold",
+                color: "text.primary",
+                fontSize: "1.5rem",
+              }}
+              gutterBottom
+            >
+              <>
+                <h5 style={{ color: "black" }}> {t("main.textT2")}</h5>
+              </>
+            </Typography>
+
+            <List sx={{ fontWeight: "bold", color: "text.secondary" }}>
+            <h6> {t("main.text4")}</h6>
+            <h6> {t("main.text5")}</h6>
+            <h6> {t("main.text6")}</h6>
+
+            </List>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h5"
+              component="p"
+              sx={{
+                fontWeight: "bold",
+                color: "text.primary",
+                fontSize: "1.5rem",
+              }}
+              gutterBottom
+            >
+              <>
+                <h5 style={{ color: "black" }}><h6> {t("main.textT3")}</h6></h5>
+              </>
+            </Typography>
+
+            <List sx={{ fontWeight: "bold", color: "text.secondary" }}>
+            <h6> {t("main.text7")}</h6>
+            <h6> {t("main.text8")}</h6>
+            <h6> {t("main.text9")}</h6>
+
+            </List>
+          </Grid>
         </Grid>
       </Container>
     </ScopedCssBaseline>

@@ -6,6 +6,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
 import { AuthContextProvider } from './Context/Components/AuthContext.tsx'
 
+import "./i18n.ts";
+
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
