@@ -16,11 +16,14 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
 
 export default function Favorites() {
+
+  const navigate = useNavigate();
+
+
   const authContext = useContext(AuthContext);
   let requestHeaders = {};
   if (authContext) {
@@ -152,8 +155,8 @@ export default function Favorites() {
                         // backgroundColor: "#bdbdbd                        ",
                         borderRadius: "50%",
                       }}
-                      onClick={() => navigate(`RoomDetails/${room?._id}`)}
-                      >
+                      onClick={() => navigate(`/RoomDetails/${room?._id}`)}>
+                      
                           <VisibilityIcon style={{ color: "white" }} />
                         </IconButton>
                     </Grid>

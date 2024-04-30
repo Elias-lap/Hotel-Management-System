@@ -10,5 +10,5 @@ i18n
     debug: true,
     fallbackLng: 'en',
   });
-  // i18n.changeLanguage("ar")
+  i18n.changeLanguage("en")
 export default i18n;

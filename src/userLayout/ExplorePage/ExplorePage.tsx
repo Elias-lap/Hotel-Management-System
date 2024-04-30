@@ -254,7 +254,7 @@ export default function ExplorePage() {
                         </IconButton>
 
                         <IconButton 
-                         onClick={() => navigate(`RoomDetails/${room?._id}`)}>
+                         onClick={() => navigate(`/RoomDetails/${room?._id}`)}>
                           <VisibilityIcon style={{ color: "white" }} />
                         </IconButton>
                         {/* </Link> */}
