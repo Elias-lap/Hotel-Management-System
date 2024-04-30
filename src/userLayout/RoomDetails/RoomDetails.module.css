@@ -7,10 +7,10 @@
 
 }
 
-@media (min-width: 50px) and (max-width: 899px) {
+@media (min-width: 10px) and (max-width: 899px) {
   .spaceInputs{
 
-    margin-top: 2.5rem;
+    margin-top: 2.5rem !important;
   }
   
 }
