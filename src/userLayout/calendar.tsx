@@ -44,28 +44,20 @@ const Calendar = ({ selectedDateRange, setSelectedDateRange  ,theme}: IProps) =>
   const open = Boolean(anchorEl);
   return (
     
-    <Box sx={{display :"flex" ,flexDirection :{
-      xs : "column",
-      sm : "row"
-    }
+    <Box sx={{display :"flex" , justifyContent:"center" , marginTop:"2rem"
+  
+    
     
      }}>
       
       <Button
         sx={{
           fontSize: { xs: "1px", sm: "1px", md: "1px" },
-          padding: {
-            xs: "8px 16px",
-            sm: "10px 20px",
-            md: "12px 24px",
-          },
-          width: { xs: "1rem", sm: "50px" },
-          height: { xs: "40px", sm: "50px" ,lg : "55px"},
+       
           borderRadius: "1px",
-          p: "8px",
           ml: "5px",
           my:{
-            xs : 2,
+            // xs : 2,
             sm :0
           }
         }}
@@ -102,7 +94,7 @@ const Calendar = ({ selectedDateRange, setSelectedDateRange  ,theme}: IProps) =>
       <TextField
   
   sx={{
-    width : { xs : "100%" ,sm : "87.5%" ,md :"84%" , lg :"84%"  , xl : "85%" },
+    // width : { xs : "100%" ,sm : "87.5%" ,md :"84%" , lg :"84%"  , xl : "85%" },
     backgroundColor: theme?.palette.grey[100],
     border: 'none !important',
     display: 'flex',

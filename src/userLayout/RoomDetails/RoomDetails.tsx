@@ -8,7 +8,7 @@ import { Container } from "@mui/system";
 import Grid from "@mui/material/Grid";
 // import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
 import { Typography } from "@mui/material";
-// import styleRoomDetails from "./RoomDetails.module.css";
+import styleRoomDetails from "./RoomDetails.module.css";
 // import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BedIcon from "@mui/icons-material/Bed";
 import WeekendIcon from "@mui/icons-material/Weekend";
@@ -23,6 +23,9 @@ import StarsIcon from "@mui/icons-material/Stars";
 import dayjs, { Dayjs } from "dayjs";
 import Calendar from "../calendar";
 import { toast } from "react-toastify";
+import CircularProgress from '@mui/material/CircularProgress';
+import { Margin } from "@mui/icons-material";
+
 
 const RoomDetails = () => {
   const navigate = useNavigate()
@@ -106,7 +109,14 @@ const RoomDetails = () => {
   return (
     <Box>
       {loading ? (
-        <Typography variant="body1">Loading...</Typography>
+        <Typography variant="body1">
+
+<Box sx={{ display: 'flex' , justifyContent:"center" }}>
+      <CircularProgress />
+    </Box>
+        
+        
+        </Typography>
       ) : (
         <>
           <Typography
@@ -144,7 +154,7 @@ const RoomDetails = () => {
               </Typography>
             </Box>
             <Grid container spacing={2}>
-              <Grid item xs={6} md={8} lg={8}>
+              <Grid item xs={12} md={8} lg={8}>
                 <img
                   src={
                     roomDetails.images && roomDetails.images.length > 0
@@ -159,7 +169,7 @@ const RoomDetails = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={6} md={4}>
+              <Grid item xs={12} md={4}>
                 {roomDetails.images &&
                   roomDetails.images.slice(1, 3).map((img: any, index: any) => (
                     <img
@@ -179,7 +189,7 @@ const RoomDetails = () => {
 
           <Container maxWidth="xl">
             <Grid container spacing={2} style={{ marginTop: "3rem" }}>
-              <Grid item xs={6} md={8} lg={8}>
+              <Grid item xs={12} md={12} lg={8}>
                 <Typography
                   style={{
                     color: "#B0B0B0",
@@ -331,7 +341,7 @@ const RoomDetails = () => {
               </Grid>
 
               {/* border */}
-              <Grid item xs={6} md={4}>
+              <Grid item xs={12} md={12} lg={4}>
                 <Box
                   sx={{
                     border: "1px solid #E5E5E5",
@@ -398,7 +408,7 @@ const RoomDetails = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "center",
-                      marginTop: "1rem",
+                      marginTop: "3rem",
                     }}
                   >
                     <Button onClick={()=>{createBooking()}} variant="contained">Continue Book</Button>
@@ -481,7 +491,7 @@ const RoomDetails = () => {
                 container
                 spacing={2}
               >
-                <Grid item xs={6} md={6} lg={6}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Typography
                     variant="h5"
                     color="secondary"
@@ -510,7 +520,7 @@ const RoomDetails = () => {
                     Rate{" "}
                   </Button>
                 </Grid>
-                <Grid item xs={6} md={6} lg={6}>
+                <Grid className={`${styleRoomDetails.spaceInputs}`} item xs={12} md={6} lg={6} >
                   <Typography
                     variant="h5"
                     color="secondary"
@@ -536,10 +546,12 @@ const RoomDetails = () => {
                     multiline
                     rows={5}
                   />
+<Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+  <Button variant="contained">
+    Send
+  </Button>
+</Box>
 
-                  <Button sx={{ marginTop: "2rem" }} variant="contained">
-                    Send{" "}
-                  </Button>
                 </Grid>
               </Grid>
             </Box>
