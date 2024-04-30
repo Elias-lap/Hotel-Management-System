@@ -38,11 +38,8 @@ const RoomDetails = () => {
   ]);
   const roomDateStart = selectedDateRange[0];
   const roomDateEnd = selectedDateRange[1];
-
   const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
   const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
-  console.log(endDate)
-  console.log(price)
   const getRoomDetails = async () => {
     try {
       const response = await axios.get(
@@ -54,13 +51,12 @@ const RoomDetails = () => {
       setRoomDetails(response.data.data.room);
       setPrice(response?.data.data.room?.price)
       setLoading(false);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching room details:", error);
       setLoading(false);
     }
   };
-  // data is ready to be sent to the backend for Containio booking 
+  // data is ready to be sent to the backend for Containio booking  
   
   const createBooking = async () => {
     const token = localStorage.getItem("token");
@@ -73,7 +69,7 @@ const RoomDetails = () => {
         startDate: startDate,
         endDate: endDate,
         room: id ,
-        totalPrice: 2000
+        totalPrice: price * dayjs(roomDateEnd).diff(roomDateStart, 'day')
       };
   
       const response = await axios.post(
@@ -87,11 +83,11 @@ const RoomDetails = () => {
       );
       console.log(response);
       toast.success('Booking created successfully')
+      navigate(`checkout/${response.data.data.booking._id}`)
     } catch (error) {
+      console.log(error)
       toast.error("Booking creation failed ");
-    } finally {
-      // setLoading(false)
-    }
+    } 
   };
   
 
@@ -360,7 +356,7 @@ const RoomDetails = () => {
                       marginTop: "1rem",
                     }}
                   >
-                    $280
+                   {price}
                     <span style={{ color: "#B0B0B0", marginLeft: "0.5rem" }}>
                       per night
                     </span>
