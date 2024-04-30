@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import {
   CardElement,
   useStripe,
@@ -116,7 +116,7 @@ const Checkout = () => {
         Kindly follow the instructions below
       </Typography>
 
-      <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", display: "flex", justifyContent: "center" , alignItems:"center" }}>
         <Grid
           container
           sx={{
@@ -127,20 +127,33 @@ const Checkout = () => {
           }}
           lg={12}
         >
-          <Grid item lg={5}>
+          <Grid  item xs={10} sm={10} md={10}  lg={5}>
             <Typography variant="h4" color="initial">
               Transfer Pembayaran:
             </Typography>
+            <Typography sx={{mt :"1rem",color :'gray'}}  variant="h4" color="initial">
+            Tax: 10%
+            </Typography>
+            <Typography sx={{mt :"1rem" ,color :'gray'}}  variant="h4" color="initial">
+            Sub total: $480 USD
+            </Typography>
+            <Typography  sx={{mt :"1rem" ,color :'gray'} }  variant="h4" color="initial">
+            Total: $580 USD
+            </Typography>
+
           </Grid>
 
-          <Grid item lg={5}>
-            <form onSubmit={handleSubmit} style={{ width: "50%" }}>
+          <Grid  sx={{ mt: { xs: '1rem', sm: '1rem', lg: '1rem' ,xl :"0" } }}item xs={10} sm={10}  md={10} lg={3}>
+            <form onSubmit={handleSubmit} >
               <AddressElement options={{ mode: "billing" }} />
 
               <CardElement />
-              <button disabled={!stripe}>Submit</button>
+              <Button type="submit" sx={{width :"100%" , mt :"1rem"} } disabled={!stripe} variant="contained" color="primary">
+              Submit
+              </Button>
             </form>
           </Grid>
+
         </Grid>
       </Box>
     </>
