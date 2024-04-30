@@ -26,6 +26,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import dayjs from "dayjs"; // استيراد مكتبة dayjs
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: "absolute",
@@ -51,6 +52,7 @@ export default function ExplorePage() {
 
   // */
   }
+
 
   interface IRoom {
     roomNumber:string
@@ -209,12 +211,16 @@ export default function ExplorePage() {
     navigate("/login");
   };
 
+  const { t, i18n } = useTranslation();
+  const directionStyle=i18n.resolvedLanguage;
+    // 
+
   return (
     <>
       {roomsList?.length > 0 ? (
         <Box className={Style.imageWrapperr} sx={{ mx: 5, mt: 1 }}>
           <div className={Style.wrapper}>
-            <h2 className={Style.animatText}>Explore ALL Rooms</h2>
+            <h2 className={Style.animatText}>{t("main.ExplorT")}</h2>
           </div>
 
           <Grid sx={{ mx: 1, mt: 3 }} container spacing={2}>
@@ -247,7 +253,8 @@ export default function ExplorePage() {
                           <FavoriteIcon style={{ color: "white" }} />
                         </IconButton>
 
-                        <IconButton>
+                        <IconButton 
+                         onClick={() => navigate(`RoomDetails/${room?._id}`)}>
                           <VisibilityIcon style={{ color: "white" }} />
                         </IconButton>
                         {/* </Link> */}

@@ -1,22 +1,24 @@
-import StyleFav from "./Favorites.module.css";
 import {
   CardContent,
   IconButton,
-  Pagination,
-  Stack,
-  Typography,
+  Pagination
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
+import { useContext, useEffect, useState } from "react";
+import StyleFav from "./Favorites.module.css";
+// import CloseIcon from "@mui/icons-material/Close";
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 
-import { AuthContext } from "../../Context/Components/AuthContext";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../Context/Components/AuthContext";
 
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useLocation, useNavigate } from "react-router-dom";
 
+const navigate = useNavigate();
 
 export default function Favorites() {
   const authContext = useContext(AuthContext);
@@ -93,11 +95,15 @@ export default function Favorites() {
     getAllFavRooms();
   }, []);
 
+  const { t, i18n } = useTranslation();
+  const directionStyle=i18n.resolvedLanguage;
+    // 
+
   return (
     <>
       <Box sx={{ mx: 5, mt: 1 }}>
         <div className={StyleFav.wrapper}>
-          <h2 className={StyleFav.animatText}>Your Favorites Room</h2>
+          <h2 className={StyleFav.animatText}>  {t("main.FavTitle")}</h2>
         </div>
 
 
@@ -129,17 +135,27 @@ export default function Favorites() {
                       <IconButton
                         style={{
                           padding: "1rem",
-                          backgroundColor: "#bdbdbd                        ",
+                          // backgroundColor: "#bdbdbd                        ",
                           borderRadius: "50%",
                         }}
                         onClick={() => removeFromFav(room?._id)}
                       >
-                        <CloseIcon
+                        <DoNotDisturbOnIcon
                           style={{
                             color: "white",
                           }}
                         />
                       </IconButton>
+                      <IconButton
+                       style={{
+                        padding: "1rem",
+                        // backgroundColor: "#bdbdbd                        ",
+                        borderRadius: "50%",
+                      }}
+                      onClick={() => navigate(`RoomDetails/${room?._id}`)}
+                      >
+                          <VisibilityIcon style={{ color: "white" }} />
+                        </IconButton>
                     </Grid>
                   </div>
                 </div>
