@@ -3,7 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Components/AuthContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container } from "@mui/system";
 import Grid from "@mui/material/Grid";
 // import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
@@ -22,8 +22,10 @@ import CommentIcon from "@mui/icons-material/Comment";
 import StarsIcon from "@mui/icons-material/Stars";
 import dayjs, { Dayjs } from "dayjs";
 import Calendar from "../calendar";
+import { toast } from "react-toastify";
 
 const RoomDetails = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const [roomDetails, setRoomDetails] = useState<any>({});
   const [price , setPrice ] = useState(0)
@@ -39,8 +41,8 @@ const RoomDetails = () => {
 
   const startDate = dayjs(roomDateStart).format("YYYY-MM-DD");
   const endDate = dayjs(roomDateEnd).format("YYYY-MM-DD");
+  console.log(endDate)
   console.log(price)
-
   const getRoomDetails = async () => {
     try {
       const response = await axios.get(
@@ -58,7 +60,40 @@ const RoomDetails = () => {
       setLoading(false);
     }
   };
-  // now data is ready to send to backend for containio booking 
+  // data is ready to be sent to the backend for Containio booking 
+  
+  const createBooking = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+    // setLoading(true)
+    try {
+      const requestBody = {
+        startDate: startDate,
+        endDate: endDate,
+        room: id ,
+        totalPrice: 2000
+      };
+  
+      const response = await axios.post(
+        `${baseUrl}/v0/portal/booking`,
+        requestBody,
+        {
+          headers: {
+            Authorization: token
+          },
+        }
+      );
+      console.log(response);
+      toast.success('Booking created successfully')
+    } catch (error) {
+      toast.error("Booking creation failed ");
+    } finally {
+      // setLoading(false)
+    }
+  };
+  
 
   useEffect(() => {
     if (id) {
@@ -70,7 +105,7 @@ const RoomDetails = () => {
     // Handle the case where AuthContext is null
     return null;
   }
-  const { requestHeaders } = authContext;
+  const { requestHeaders  ,baseUrl} = authContext;
 
   return (
     <Box>
@@ -370,7 +405,7 @@ const RoomDetails = () => {
                       marginTop: "1rem",
                     }}
                   >
-                    <Button onClick={()=>{console.log(startDate )}} variant="contained">Continue Book</Button>
+                    <Button onClick={()=>{createBooking()}} variant="contained">Continue Book</Button>
 
 
 
