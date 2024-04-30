@@ -253,7 +253,8 @@ export default function ExplorePage() {
                           <FavoriteIcon style={{ color: "white" }} />
                         </IconButton>
 
-                        <IconButton>
+                        <IconButton 
+                         onClick={() => navigate(`RoomDetails/${room?._id}`)}>
                           <VisibilityIcon style={{ color: "white" }} />
                         </IconButton>
                         {/* </Link> */}
