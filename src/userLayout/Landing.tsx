@@ -303,7 +303,7 @@ const directionStyle=i18n.resolvedLanguage;
         <Grid container sx={{ mt: "2rem" }}>
           {ADSList.slice(1).map((ad) => {
             return (
-              <Grid lg={3} xl={3}>
+              <Grid lg={3} xl={3} md={6} sm={6}>
                 <img
                   style={{
                     width: "95%",

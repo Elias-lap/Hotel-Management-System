@@ -30,9 +30,13 @@ interface Props {
 
 export default function Navbar(props: Props) {
 
-  
+  const { t, i18n } = useTranslation();
+  const directionStyle=i18n.resolvedLanguage;
+    // console.log(direction);
 
   const logOut = () => {
+   
+    
     localStorage.removeItem("token");
     navigate("/login");
   };
@@ -67,10 +71,10 @@ export default function Navbar(props: Props) {
             </ListItemButton>
           </ListItem>
         ))} */}
-        <Box sx={{ display: { xs: "flex",flexDirection:"column", sm: "block" } }} >
-            <Link to="/user/explore"> Home</Link>
-            <Link to="/user/explore"> Explore</Link>
-            <Link to="/user/explore"> Favorites</Link>
+        <Box sx={{ "& a":{color:"common.black" ,textDecoration:"none"}, display: { xs: "flex",flexDirection:"column", sm: "block" }, "& a:hover":{textDecoration:"underline"} }} >
+        <Link to="/landing"> {t("main.navLink1")}</Link>
+            <Link to="/explore"> {t("main.navLink2")}</Link>
+            <Link to="/Favorites"> {t("main.navLink3")}</Link>
           
           {/* <Link  underline="hover" color="common.black" mb={2}>
             Home
@@ -88,7 +92,7 @@ export default function Navbar(props: Props) {
               sx={{ p:1, width:"50%", m:"auto" ,alignItems:"center",  backgroundColor: "primary.dark", color: "common.black", }}
              
             >
-              Log Out
+             {t("main.navButtonOut")}
             </Button>
           ) : (
             <Button
@@ -97,7 +101,7 @@ export default function Navbar(props: Props) {
              
               color={"inherit"}
             >
-              Login Now
+              {t("main.navButtonLog")}
             </Button>
           )}
         </Box>
@@ -131,9 +135,9 @@ export default function Navbar(props: Props) {
               <img src={logo} className={styles.logoimg} />
             </Typography>
             <Box sx={{"& a":{marginLeft:"10px",color:"common.black" ,textDecoration:"none"}, display: { xs: "none", sm: "block" } ,"& a:hover":{textDecoration:"underline"}}}>
-            <Link to="/landing"> Home</Link>
-            <Link to="/explore"> Explore</Link>
-            <Link to="/Favorites"> Favorites</Link>
+            <Link to="/landing"> {t("main.navLink1")}</Link>
+            <Link to="/explore"> {t("main.navLink2")}</Link>
+            <Link to="/Favorites"> {t("main.navLink3")}</Link>
             
     
               {/* <Link href="#" underline="hover" color="common.black" ml={2}>
@@ -157,7 +161,7 @@ export default function Navbar(props: Props) {
                   }}
                   color={"inherit"}
                 >
-                  Log Out
+                {t("main.navButtonOut")}
                 </Button>
               ) : (
                 <Button
@@ -170,7 +174,7 @@ export default function Navbar(props: Props) {
                   }}
                   color={"inherit"}
                 >
-                  Login Now
+                   {t("main.navButtonLog")}
                 </Button>
               )}
 

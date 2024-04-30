@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { AuthContext } from "../../Context/Components/AuthContext";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -93,11 +94,15 @@ export default function Favorites() {
     getAllFavRooms();
   }, []);
 
+  const { t, i18n } = useTranslation();
+  const directionStyle=i18n.resolvedLanguage;
+    // 
+
   return (
     <>
       <Box sx={{ mx: 5, mt: 1 }}>
         <div className={StyleFav.wrapper}>
-          <h2 className={StyleFav.animatText}>Your Favorites Room</h2>
+          <h2 className={StyleFav.animatText}>  {t("main.FavTitle")}</h2>
         </div>
 
 

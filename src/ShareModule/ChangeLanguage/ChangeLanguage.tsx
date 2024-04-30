@@ -20,7 +20,7 @@ export default function ChangeLanguage() {
           position: "relative",
           right: "50px",
           direction: "rtl",
-          backgroundColor: "white",
+          backgroundColor: "inherit",
         }}
       >
         <ul>

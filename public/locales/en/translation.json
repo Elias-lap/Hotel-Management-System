@@ -22,6 +22,13 @@
         "text9": "Staycation, Jakarta",
         "textT1": "For Beginners.",
         "textT2": "Explore Us.",
-        "textT3": "Connect Us."
+        "textT3": "Connect Us.",
+        "navLink1": "Home",
+        "navLink2": "Explore",
+        "navLink3": "Favorites",
+        "navButtonOut": "Log Out",
+        "navButtonLog": "Login Now ",
+        "FavTitle": "Your Favorites Room ",
+        "ExplorT": "Explore ALL Rooms "
     }
 }
