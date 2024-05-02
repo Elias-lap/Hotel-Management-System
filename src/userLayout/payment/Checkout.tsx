@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
 import { useNavigate, useParams} from "react-router-dom";
 
+
 const Checkout = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -19,6 +20,8 @@ const Checkout = () => {
   const [bookingDetails, setBookingDetails] = useState({});
   console.log(bookingDetails)
   const { id } = useParams();
+  // const id ='65a9968ea5d9953dd42d11aa'
+  // const { id } = useParams();
   // const id ='65a9968ea5d9953dd42d11aa'
   const handleSubmit = async (event: any) => {
     // We don't want to let default form submission happen here,

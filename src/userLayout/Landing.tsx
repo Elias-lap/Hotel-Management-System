@@ -30,7 +30,7 @@ interface ADS {
 const Landing = () => {
   const { t, i18n } = useTranslation();
 const directionStyle=i18n.resolvedLanguage;
-  // console.log(direction);
+  console.log(directionStyle);
 
 
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const directionStyle=i18n.resolvedLanguage;
   }
   const { baseUrl } = authContext;
   return (
-    <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "80%", mx: "auto", mb: "100px"  }}>
+    <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "90%", mx: "auto", mb: "100px"  }}>
       <Box
         display="flex"
         sx={{
@@ -93,7 +93,7 @@ const directionStyle=i18n.resolvedLanguage;
           spacing={20}
           sx={{ justifyContent: { sm: "center", md: "center", lg: "center" } }}
         >
-          <Grid item xs={12} md={12} lg={12} xl={6}>
+          <Grid item xs={12} md={12} lg={6} xl={6}>
             <Box sx={{ width: "95%" }}>
               <Typography
                 sx={{
@@ -242,12 +242,12 @@ const directionStyle=i18n.resolvedLanguage;
             item
             xs={6}
             md={10}
-            lg={10}
+            lg={6}
             xl={6}
             sx={{
               display: {
                 xs: "none",
-                lg: "block",
+                md: "block",
               },
             }}
           >
