@@ -72,7 +72,7 @@ const Landing = () => {
   }
   const { baseUrl } = authContext;
   return (
-    <Box sx={{ width: "80%", mx: "auto", mb: "100px" }}>
+    <Box sx={{ width: "90%", mx: "auto", mb: "100px" }}>
       <Box
         display="flex"
         sx={{
@@ -87,7 +87,7 @@ const Landing = () => {
           spacing={20}
           sx={{ justifyContent: { sm: "center", md: "center", lg: "center" } }}
         >
-          <Grid item xs={12} md={12} lg={12} xl={6}>
+          <Grid item xs={12} md={12} lg={6} xl={6}>
             <Box sx={{ width: "95%" }}>
               <Typography
                 sx={{
@@ -236,12 +236,12 @@ const Landing = () => {
             item
             xs={6}
             md={10}
-            lg={10}
+            lg={6}
             xl={6}
             sx={{
               display: {
                 xs: "none",
-                lg: "block",
+                md: "block",
               },
             }}
           >

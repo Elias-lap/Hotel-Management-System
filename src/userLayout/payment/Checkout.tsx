@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const Checkout = () => {
   const stripe = useStripe();
@@ -18,8 +18,8 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [bookingDetails, setBookingDetails] = useState({});
   console.log(bookingDetails)
-  const { id } = useParams();
-  // const id ='65a9968ea5d9953dd42d11aa'
+  // const { id } = useParams();
+  const id ='65a9968ea5d9953dd42d11aa'
   const handleSubmit = async (event: any) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
@@ -37,7 +37,6 @@ const Checkout = () => {
       return;
     }
     const { error, token } = await stripe.createToken(cardElement);
-    console.log(token);
     const tokenId = token?.id;
 
     const payBooking = async (id: string) => {
@@ -64,10 +63,9 @@ const Checkout = () => {
           console.log(error);
         });
     };
-    payBooking("65a9968ea5d9953dd42d11aa");
+    payBooking(id)
     if (error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
   //  get booking details =>
@@ -148,7 +146,7 @@ const Checkout = () => {
               <AddressElement options={{ mode: "billing" }} />
 
               <CardElement />
-              <Button type="submit" sx={{width :"100%" , mt :"1rem"} } disabled={!stripe} variant="contained" color="primary">
+              <Button  type="submit" sx={{width :"100%" , mt :"1rem"} } disabled={!stripe} variant="contained" color="primary">
               Submit
               </Button>
             </form>
