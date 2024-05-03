@@ -222,7 +222,7 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
                 <FavoriteIcon style={{ color: "white" }} />
               </IconButton>
 
-              <IconButton onClick={()=>navigate(`RoomDetails/${ad.room._id}`)}>
+              <IconButton onClick={()=>navigate(`/RoomDetails/${ad.room._id}`)}>
                 <VisibilityIcon  style={{ color: "white" }} />
               </IconButton>
               {/* </Link> */}

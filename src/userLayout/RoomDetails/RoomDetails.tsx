@@ -84,7 +84,11 @@ const RoomDetails = () => {
       );
       console.log(response);
       toast.success("Booking created successfully");
-      navigate(`checkout/${response.data.data.booking._id}`);
+      navigate(`/checkout/${response.data.data.booking._id}`,{
+        state:{
+          id :price * dayjs(roomDateEnd).diff(roomDateStart, "day")
+        }
+      });
     } catch (error) {
       console.log(error);
       toast.error("Booking creation failed ");

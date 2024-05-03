@@ -39,7 +39,7 @@ function App() {
         { path: "explore", element: <ExplorePage /> },
         { path: "Favorites", element: <Favorites /> },
         { path: "RoomDetails/:id", element: <RoomDetails /> },
-        { path: "checkout", element: <Checkout/> },
+        { path: "checkout/:id", element: <Checkout/> },
         
       ],
     },

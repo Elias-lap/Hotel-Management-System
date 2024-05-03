@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Grid, Typography, Button } from "@mui/material";
 import {
@@ -10,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
-import { useNavigate, useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams} from "react-router-dom";
 
 
 const Checkout = () => {
@@ -19,58 +20,81 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [bookingDetails, setBookingDetails] = useState({});
   console.log(bookingDetails)
-  const { id } = useParams();
-  // const id ='65a9968ea5d9953dd42d11aa'
-  // const { id } = useParams();
-  // const id ='65a9968ea5d9953dd42d11aa'
+  const { id } = useParams<{ id: string }>();
+  interface State {
+    range?: any;
+    // range?: [Date, Date];
+  }
+
+  const location = useLocation();
+  const state = (location.state as State) || {};
+  const totalPrice = state.id;
+ 
   const handleSubmit = async (event: any) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
-    const cardElement = elements?.getElement(CardElement);
-    console.log(cardElement);
-    if (!cardElement) {
-      console.error("Card element not found");
-      return;
-    }
-    const { error, token } = await stripe.createToken(cardElement);
-    const tokenId = token?.id;
-
-    const payBooking = async (id: string) => {
-      await axios
-        .post(
-          `${baseUrl}/v0/portal/booking/${id}/pay`,
-          { token: tokenId },
-          {
-            headers: {
-              Authorization: `Bearer ${loginData}`,
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-
-          toast.success("Booking paid successfully");
-          navigate("/");
-        })
-        .catch((error) => {
-          if (axios.isAxiosError(error) && error.response) {
-            toast.error(error.response.data.message);
-          }
-          console.log(error);
+    try {
+      // Prevent default form submission
+      event.preventDefault();
+  
+      // Check if Stripe.js has loaded
+      if (!stripe || !elements) {
+        return;
+      }
+      // Get the card element
+      const cardElement = elements?.getElement(CardElement);
+      // Check if card element exists
+      if (!cardElement) {
+        console.error("Card element not found");
+        return;
+      }
+      // Create token using Stripe
+      const { error, token } = await stripe.createToken(cardElement);
+      const tokenId = token?.id;
+      // Pay booking with token
+      if (error) {
+        toast.error(error?.message, {
+        
         });
-    };
-    payBooking(id)
-    if (error) {
-      toast.error(error.message)
+      } else {
+         payBooking(id, tokenId);
+         toast.success("Booking paid successfully");
+         navigate("/");
+      }
+  
+      // If payment is successful, navigate to homepage
+
+    } catch (error) {
+      // Handle any errors during payment
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message);
+      }
+      console.error(error);
     }
   };
+  
+  
+  // Function to handle payment
+  const payBooking = async (id: string, tokenId: string | undefined) => {
+    try {
+      // Make POST request to pay booking
+      const response = await axios.post(
+        `${baseUrl}/v0/portal/booking/${id}/pay`,
+        { token: tokenId },
+        {
+          headers: {
+            Authorization: `Bearer ${loginData}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      // Throw error for catch block in handleSubmit to handle
+      throw error;
+    }
+  };
+  // get room details 
+
+  
+  
   //  get booking details =>
     useEffect(() => {
       const getBookingDetails = async () => {
@@ -85,7 +109,7 @@ const Checkout = () => {
             }
           );
           setBookingDetails(response);
-          
+          console.log(response)
         } catch (error) {
           console.error("Error fetching booking details:");
        
@@ -132,14 +156,8 @@ const Checkout = () => {
             <Typography variant="h4" color="initial">
               Transfer Pembayaran:
             </Typography>
-            <Typography sx={{mt :"1rem",color :'gray'}}  variant="h4" color="initial">
-            Tax: 10%
-            </Typography>
-            <Typography sx={{mt :"1rem" ,color :'gray'}}  variant="h4" color="initial">
-            Sub total: $480 USD
-            </Typography>
             <Typography  sx={{mt :"1rem" ,color :'gray'} }  variant="h4" color="initial">
-            Total: $580 USD
+            Total: {totalPrice} $
             </Typography>
 
           </Grid>
