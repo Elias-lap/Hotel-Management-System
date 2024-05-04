@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -26,13 +25,7 @@
     "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^3.3.0",
     "@types/material-ui": "^0.21.17",
-=======
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fortawesome/fontawesome-free": "^6.5.2",
-    "@mui/icons-material": "^5.15.15",
-    "@mui/material": "^5.15.15",
->>>>>>> CurdAllRooms
+   
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "date-fns": "^3.6.0",
@@ -43,7 +36,6 @@
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-<<<<<<< HEAD
     "react-hook-form": "^7.51.2",
     "react-i18next": "^14.1.1",
     "react-loader-spinner": "^6.1.6",
@@ -56,11 +48,6 @@
     "styled-components": "^6.1.8",
     "swiper": "^11.1.1",
     "yup": "^1.4.0"
-=======
-    "react-hook-form": "^7.51.3",
-    "react-router-dom": "^6.22.3",
-    "react-toastify": "^10.0.5"
->>>>>>> CurdAllRooms
   },
   "devDependencies": {
     "@types/create-react-class": "^15.6.8",

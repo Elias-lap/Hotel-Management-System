@@ -150,7 +150,7 @@ const logOut = () => {
             </ListItemIcon>
             <ListItemText primary="Users" sx={{color : "white" }}/>
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton  component={Link} to="rooms">
             <ListItemIcon>
               <IconButton>
               <RoomsIcon  sx={{color : "white" }}/>
