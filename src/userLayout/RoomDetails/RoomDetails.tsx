@@ -62,7 +62,9 @@ const RoomDetails = () => {
   const createBooking = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
+      toast.error("hey you need to login first ");
       throw new Error("User is not authenticated");
+      
     }
     // setLoading(true)
     try {
