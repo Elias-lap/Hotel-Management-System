@@ -8,31 +8,34 @@ export const contextFacility = createContext<{
 
 export function RoomFacility({ children }: React.PropsWithChildren<{}>) {
   const [ListFacility, setListFacility] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
 const getFacility = async () => {
-  setLoading(true);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("User is not authenticated");
+  }
+ 
   try {
     const response = await axios.get(
       `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities?pageSize=10&pageNumber=1`,
       {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+          Authorization: token,
         },
       }
     );
     setListFacility(response?.data?.data?.facilities);
-    setLoading(false);
+    console.log (response);
+  
   } catch (error) {
-    setLoading(false);
+   
     console.log(error);
   }
 };
-
+  
   useEffect(() => {
     getFacility();
-
   }, []);
 
   // useEffect(() => {

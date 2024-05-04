@@ -80,7 +80,7 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
   }, []);
 
   useEffect(() => {
-    console.log(dashboardData);
+    // console.log(dashboardData);
   }, [dashboardData]);
 
   return (

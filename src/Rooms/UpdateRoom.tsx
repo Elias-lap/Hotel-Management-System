@@ -1,29 +1,24 @@
-import React, { useState, useContext, useEffect } from "react";
 import {
-  Button,
-  FormControl,
-  TextField,
   Alert,
   Box,
+  Button,
   Checkbox,
-  FormControlLabel,
-  FormHelperText,
+  Container,
+  FormControl,
+  Grid,
   InputLabel,
+  ListItemText,
   MenuItem,
   Select,
-  ListItemText,
-  CircularProgress,
-  Grid,
-  Container,
+  TextField
 } from "@mui/material";
+import { useContext, useEffect } from "react";
 
-import styleRooms from "./Rooms.module.css";
-import { useForm } from "react-hook-form";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { Form, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { contextFacility } from "../RoomFacilityContext/RoomFacility";
-import { Form, useNavigate, useParams } from "react-router-dom";
 
 interface FormData {
   roomNumber: string;
@@ -31,16 +26,17 @@ interface FormData {
   capacity: string;
   discount: string;
   imgs: FileList;
-
   facilities: string[];
 }
 
 export default function UpdateRoom() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedFacility, setSelectedFacility] = useState([]);
-  const { ListFacility, getFacility } = useContext(contextFacility);
+  // console.log(id);
+  
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [selectedFacility, setSelectedFacility] = useState([]);
+  const { ListFacility } = useContext(contextFacility);
 
   const {
     register,
@@ -50,39 +46,13 @@ export default function UpdateRoom() {
     formState: { errors },
   } = useForm<FormData>();
 
-  // const onSubmit = async (data: FormData) => {
-  //   try {
-  //     const response = await axios.put(
-  //       `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
-  //       data,
-  //       {
-  //         headers: {
-  //           Authorization:
-  //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-  //         },
-  //       }
-  //     );
-  //     console.log(response);
-  //     toast.success(`Room Updated Successfully`);
-  //     navigate("/dashboard/rooms");
-  //   } catch (error:any) {
-  //     console.log("Error updating rooms: ", error.message);
-  //     toast.error(error.message);
-  //   }
-  // };
+
   const onSubmit = async (data: FormData) => {
-    // const roomFormData = new FormData();
-    // roomFormData.append("roomNumber", data.roomNumber);
-    // roomFormData.append("price", data.price);
-    // roomFormData.append("capacity", data.capacity);
-    // roomFormData.append("discount", data.discount);
-
-    // const selectedFacilities = Array.isArray(data.facilities) ? data.facilities.map((f: any) => f._id) : [];
-    // console.log(selectedFacilities)
-
-    // selectedFacilities.forEach(facilityId => {
-    //   roomFormData.append("facilities", facilityId);
-    // });
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+console.log(data);
 
     try {
       const response = await axios.put(
@@ -90,9 +60,7 @@ export default function UpdateRoom() {
         data,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-            "Content-Type": "multipart/form-data",
+            Authorization: token,"Content-Type": "multipart/form-data",
           },
         }
       );
@@ -106,20 +74,23 @@ export default function UpdateRoom() {
   };
 
   const getRoomDetails = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
     try {
       const response = await axios.get(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+            Authorization: token,
           },
         }
       );
 
       if (response) {
         const roomData = response.data.data.room;
-        console.log(roomData);
+        // console.log(roomData);
         setValue("roomNumber", roomData.roomNumber);
         setValue("price", roomData.price);
         setValue("capacity", roomData.capacity);
@@ -130,10 +101,10 @@ export default function UpdateRoom() {
 
         setValue("facilities", selectedFacilities);
       } else {
-        console.log("Error retrieving room details:", response);
+        // console.log("Error retrieving room details:", response);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -231,44 +202,7 @@ export default function UpdateRoom() {
                 >
                   <InputLabel id="facilities-label">Facilities</InputLabel>
 
-                  {/* <Select
-                    labelId="facilities-label"
-                    id="facilities"
-                    label="facilities"
-                    multiple
-                    value={watch("facilities") || []}
-                    onChange={(e) => {
-                      const selectedValue = e.target.value;
-                      const valueToSet = Array.isArray(selectedValue)
-                        ? selectedValue  
-                        : [selectedValue]; 
-                      setValue("facilities", valueToSet, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    
-                    sx={{ width: "100%" }}
-                    renderValue={(selected) => (
-                      <div>
-                        {(selected as string[]).map((value) => (
-                          <span key={value} style={{ marginRight: "8px" }}>
-                            {ListFacility.find(
-                              (facility) => facility._id === value
-                            )?.name || ""}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  >
-                    {ListFacility.map((facility) => (
-                      <MenuItem key={facility._id} value={facility._id}>
-                        <Checkbox
-                          checked={watch("facilities")?.includes(facility._id)}
-                        />
-                        <ListItemText primary={facility.name} />
-                      </MenuItem>
-                    ))}
-                  </Select> */}
+           
                   <Select
                     labelId="facilities-label"
                     id="facilities"

@@ -1,28 +1,26 @@
-import React, { useState, useContext } from "react";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
-  Button,
-  TextField,
   Alert,
   Box,
+  Button,
   Checkbox,
+  CircularProgress,
+  Container,
   FormControl,
-  FormControlLabel,
-  FormHelperText,
+  Grid,
   InputLabel,
+  ListItemText,
   MenuItem,
   Select,
-  ListItemText,
-  CircularProgress,
-  Grid,
-  Container,
   Stack,
+  TextField
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useForm } from "react-hook-form";
 import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { contextFacility } from "../RoomFacilityContext/RoomFacility";
-import { Form, useNavigate } from "react-router-dom";
 import styleRooms from "./Rooms.module.css";
 
 interface FormData {
@@ -39,8 +37,8 @@ export default function RoomsData() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFacility, setSelectedFacility] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  // const [selectedFacility, setSelectedFacility] = useState<string[]>([]);
+  // const [error, setError] = useState<string | null>(null);
   const [images, setImages] = useState<File[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +101,10 @@ export default function RoomsData() {
     }
 
     const addFormData = appendToFormData(data);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -110,9 +112,7 @@ export default function RoomsData() {
         addFormData,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-            "Content-Type": "multipart/form-data",
+            Authorization: token,
           },
         }
       );
@@ -130,6 +130,13 @@ export default function RoomsData() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    getFacility()
+  
+  
+  }, [])
+  
 
   return (
     <>
@@ -214,7 +221,7 @@ export default function RoomsData() {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <FormControl error={!!error} fullWidth>
+                <FormControl  fullWidth>
                   <InputLabel id="facilities-label">Facilities</InputLabel>
                   <Select
                     labelId="facilities-label"
@@ -222,7 +229,7 @@ export default function RoomsData() {
                     label="facilities"
                     multiple
                     value={watch("facilities") || []}
-                    onChange={(e) =>
+                    onChange={(e:any) =>
                       setValue("facilities", e.target.value, {
                         shouldValidate: true,
                       })

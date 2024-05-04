@@ -76,6 +76,7 @@ export default function Home() {
 
   return (
     <>
+    <Box sx={{mt:5}}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -252,6 +253,7 @@ export default function Home() {
           </Grid>
         </Grid>
       </Container>
+      </Box>
     </>
   );
 }

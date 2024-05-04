@@ -20,12 +20,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { contextRoom } from "../ContextForRooms/AllRooms";
 import imgDelete from "../Img/Email.png";
@@ -113,18 +113,18 @@ interface Data {
   updatedAt: string;
 }
 
-function createData(
-  _id: string,
+// function createData(
+//   _id: string,
 
-  roomNumber: string,
-  images: string[],
-  price: number,
-  discount: string,
-  capacity: string,
-  updatedAt: string
-): Data {
-  return { _id, roomNumber, images, price, discount, capacity, updatedAt };
-}
+//   roomNumber: string,
+//   images: string[],
+//   price: number,
+//   discount: string,
+//   capacity: string,
+//   updatedAt: string
+// ): Data {
+//   return { _id, roomNumber, images, price, discount, capacity, updatedAt };
+// }
 
 export default function Rooms() {
   const [page, setPage] = useState(0);
@@ -138,9 +138,8 @@ export default function Rooms() {
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  // 
+  //
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
 
   const handleSelectRoom = (roomId: string) => {
     setSelectedRoomId(roomId);
@@ -152,7 +151,7 @@ export default function Rooms() {
     navigate("/dashboard/roomsData");
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
 
@@ -163,12 +162,12 @@ export default function Rooms() {
     setPage(0);
   };
 
-  const createHandleMenuClick = (menuItem: string) => {
-    return () => {
-      console.log(`Clicked on ${menuItem}`);
-    };
-  };
-// Pagination
+  // const createHandleMenuClick = (menuItem: string) => {
+  //   return () => {
+  //     console.log(`Clicked on ${menuItem}`);
+  //   };
+  // };
+  // Pagination
 
   useEffect(() => {
     setLoading(true);
@@ -227,30 +226,28 @@ export default function Rooms() {
   //   }
   // };
 
-
   const handleDeleteConfirmed = async () => {
-  setLoading(true);
-  try {
-    await axios.delete(
-      `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
-      {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-        },
-      }
-    );
-    await getRooms(1, 10);
-    setDeleteModalOpen(false);
-    toast.success("Room deleted successfully!");
-  } catch (error:any) {
-    console.error("Error deleting room:", error);
-    toast.error(error?.response?.data.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
+    setLoading(true);
+    try {
+      await axios.delete(
+        `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+          },
+        }
+      );
+      await getRooms(1, 10);
+      setDeleteModalOpen(false);
+      toast.success("Room deleted successfully!");
+    } catch (error: any) {
+      console.error("Error deleting room:", error);
+      toast.error(error?.response?.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false); // Close the delete modal
@@ -276,26 +273,30 @@ export default function Rooms() {
     setViewModalOpen(true);
   };
 
-
   return (
     <>
-      <Container>
-        <Grid container justifyContent="space-between" alignItems="center">
+      {/* <Container> */}
+        <Grid sx={{px:5, mt:2 , display:"flex", justifyContent:"space-between"}} alignItems="center">
           <Grid item xs={12} md={6}>
             <Typography variant="h6" component="h2">
               Rooms Table Details
             </Typography>
+            
             <Typography variant="body1">You can check all details</Typography>
+           
           </Grid>
-          <Grid item xs={12} md={6} textAlign="right">
+          <Button onClick={goNewRoom} sx={{ px: 5 }} variant="contained">
+              Add New Room
+            </Button>
+          {/* <Grid item xs={12} md={6} textAlign="right">
             <Button onClick={goNewRoom} sx={{ px: 5 }} variant="contained">
               Add New Room
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
 
-        <Form>
-          <Grid sx={{ mt: 4 }} container spacing={2}>
+        
+          <Grid sx={{ my: 4, px:5, width:{xs:"75%", md:"50%"} }}  spacing={2}>
             <Grid item xs={12} md={6}>
               <Paper
                 component="form"
@@ -320,172 +321,171 @@ export default function Rooms() {
             </Grid>
           </Grid>
 
-          <Box>
-            <Paper sx={{ width: "100%", overflow: "hidden", mt: 5 }}>
-              <TableContainer sx={{ height: "60%" }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {columns.map((column) => (
-                        <TableCell
-                          sx={{ backgroundColor: "#bdbdbd" }}
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
+       
+            {/* <Paper sx={{ width: "100%", overflow: "hidden", mt: 5 }}> */}
+            <TableContainer
+              // component={Paper}
+              sx={{ paddingX: 3, width: "100%" }}
+            >
+              <Table  sx={{ minWidth: 400 }} aria-label="simple table" >
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        sx={{ backgroundColor: "#bdbdbd" }}
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
 
-                  <TableBody>
-                    {loading ? (
-                      <TableRow>
-                        <TableCell colSpan={columns.length}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              py: 2,
-                            }}
-                          >
-                            <CircularProgress />
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ) : filteredRooms.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={columns.length}>
-                          {/* <Typography variant="body1" align="center">
+                <TableBody>
+                  {loading ? (
+                    <TableRow>
+                      <TableCell colSpan={columns.length}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            py: 2,
+                          }}
+                        >
+                          <CircularProgress />
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ) : filteredRooms.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={columns.length}>
+                        {/* <Typography variant="body1" align="center">
                             No data
                           </Typography> */}
-                          <Box sx={{ display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",}}>
-
-                          <img style={{width:"50%"}} srcSet={imgNOdata}/>
-
-                          </Box>
-
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      filteredRooms
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                        .map((room: Data) => (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            tabIndex={-1}
-                            key={room.roomNumber}
-                          >
-                            <TableCell align="left">
-                              {room.roomNumber}
-                            </TableCell>
-                            <TableCell align="left">
-                              {room.images && room.images.length > 0 ? (
-                                <img
-                                  className="rounded-3"
-                                  src={room.images[0]}
-                                  alt={room.roomNumber}
-                                  style={{ width: "4rem", height: "4rem" }}
-                                />
-                              ) : (
-                                <img
-                                  className="rounded-3"
-                                  src={NoImg}
-                                  alt={"not img"}
-                                  style={{ width: "4rem", height: "4rem" }}
-                                />
-                              )}
-                            </TableCell>
-                            <TableCell align="left">{room.price}</TableCell>
-                            <TableCell align="left">{room.discount}</TableCell>
-                            <TableCell align="left">{room.capacity}</TableCell>
-                            <TableCell align="left">
-                              {room.updatedAt.split("T")[0]}
-                            </TableCell>
-                            <TableCell align="left">
-                              <Button
-                                aria-controls={`menu-${room._id}`}
-                                aria-haspopup="true"
-                                onClick={() => toggleBox(room._id)}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img style={{ width: "50%" }} srcSet={imgNOdata} />
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredRooms
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((room: Data) => (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={room.roomNumber}
+                        >
+                          <TableCell align="left">{room.roomNumber}</TableCell>
+                          <TableCell align="left">
+                            {room.images && room.images.length > 0 ? (
+                              <img
+                                className="rounded-3"
+                                src={room.images[0]}
+                                alt={room.roomNumber}
+                                style={{ width: "4rem", height: "4rem" }}
+                              />
+                            ) : (
+                              <img
+                                className="rounded-3"
+                                src={NoImg}
+                                alt={"not img"}
+                                style={{ width: "4rem", height: "4rem" }}
+                              />
+                            )}
+                          </TableCell>
+                          <TableCell align="left">{room.price}</TableCell>
+                          <TableCell align="left">{room.discount}</TableCell>
+                          <TableCell align="left">{room.capacity}</TableCell>
+                          <TableCell align="left">
+                            {room.updatedAt.split("T")[0]}
+                          </TableCell>
+                          <TableCell align="left">
+                            <Button
+                              aria-controls={`menu-${room._id}`}
+                              aria-haspopup="true"
+                              onClick={() => toggleBox(room._id)}
+                            >
+                              <MoreHorizIcon
+                                className={`${styleRooms.iconDropdown}`}
+                              />
+                            </Button>
+                            <Box sx={{ position: "relative" }}>
+                              <Box
+                                sx={{
+                                  display: isOpen[room._id] ? "block" : "none",
+                                  backgroundColor: "#fff",
+                                  position: "absolute",
+                                  top: "0px",
+                                  right: "0",
+                                  zIndex: "1000",
+                                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
+                                  borderRadius: "8px",
+                                  padding: "8px",
+                                }}
                               >
-                                <MoreHorizIcon
-                                  className={`${styleRooms.iconDropdown}`}
-                                />
-                              </Button>
-                              <Box sx={{ position: "relative" }}>
-                                <Box
-                                  sx={{
-                                    display: isOpen[room._id]
-                                      ? "block"
-                                      : "none",
-                                    backgroundColor: "#fff",
-                                    position: "absolute",
-                                    top: "0px",
-                                    right: "0",
-                                    zIndex: "1000",
-                                    boxShadow:
-                                      "0px 8px 16px 0px rgba(0,0,0,0.2)",
-                                    borderRadius: "8px",
-                                    padding: "8px",
-                                  }}
+                                <MenuItem onClick={() => handleViewRoom(room)}>
+                                  <RemoveRedEyeIcon
+                                    sx={{ me: 1 }}
+                                    className={`${styleRooms.iconsAction} `}
+                                  />
+                                  View
+                                </MenuItem>
+
+                                <MenuItem
+                                  onClick={() => handleSelectRoom(room._id)}
                                 >
-                                 <MenuItem onClick={() => handleViewRoom(room)}>
-    <RemoveRedEyeIcon
-      sx={{ me: 1 }}
-      className={`${styleRooms.iconsAction} `}
-    />
-    View
-  </MenuItem>
-
-                                  <MenuItem
-                                    onClick={() => handleSelectRoom(room._id)}
-                                  >
-                                    <BorderColorIcon
-                                      sx={{ me: 1 }}
-                                      className={`${styleRooms.iconsAction}`}
-                                    />
-                                    Edit
-                                  </MenuItem>
-                                  <MenuItem
-                                    onClick={() => handleDeleteRoom(room._id)}
-                                  >
-                                    <DeleteOutlineIcon
-                                      className={`${styleRooms.iconsAction} me-1`}
-                                    />
-                                    Delete
-                                  </MenuItem>
-                                </Box>
+                                  <BorderColorIcon
+                                    sx={{ me: 1 }}
+                                    className={`${styleRooms.iconsAction}`}
+                                  />
+                                  Edit
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => handleDeleteRoom(room._id)}
+                                >
+                                  <DeleteOutlineIcon
+                                    className={`${styleRooms.iconsAction} me-1`}
+                                  />
+                                  Delete
+                                </MenuItem>
                               </Box>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={filteredRooms.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </Box>
-        </Form>
-      </Container>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={filteredRooms.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            {/* </Paper> */}
+         
+       
+      {/* </Container> */}
 
-{/* delete */}
+      {/* delete */}
       <Container>
         <Box>
           <Modal
@@ -514,24 +514,21 @@ export default function Rooms() {
                   }}
                 >
                   <img srcSet={imgDelete} alt=" delete" />
-
-
                 </Box>
 
-<Box   sx={{ textAlign:"center " ,marginTop:"1.3rem" , marginBottom:"1.3rem"
-                  }}>
-
-Delete This Room ?
-
-<Typography variant="caption" display="block" gutterBottom>
-                are you sure you want to delete this item ? if you are sure just click on delete it      </Typography>
-
-
-</Box>
-
-
-                
-
+                <Box
+                  sx={{
+                    textAlign: "center ",
+                    marginTop: "1.3rem",
+                    marginBottom: "1.3rem",
+                  }}
+                >
+                  Delete This Room ?
+                  <Typography variant="caption" display="block" gutterBottom>
+                    are you sure you want to delete this item ? if you are sure
+                    just click on delete it{" "}
+                  </Typography>
+                </Box>
               </Typography>
               <Button onClick={handleDeleteConfirmed}>Delete</Button>
               <Button onClick={handleCloseDeleteModal}>Cancel</Button>
@@ -542,46 +539,45 @@ Delete This Room ?
 
       {/* view */}
 
-  <Modal
-    open={viewModalOpen}
-    onClose={() => setViewModalOpen(false)}
-  >
-    <Box
-      sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        bgcolor: "background.paper",
-        boxShadow: 24,
-        p: 4,
-        minWidth: 400,
-      }}
-    >
-      {selectedRoomData && (
-        <>
-          <Typography sx={{        textAlign :"center" , color:"#01579b"
-}} variant="h6" gutterBottom>
-            Room Details
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Room Number: {selectedRoomData.roomNumber}
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Price: {selectedRoomData.price}
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Discount: {selectedRoomData.discount}
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Capacity: {selectedRoomData.capacity}
-          </Typography>
-          {/* Add more details as needed */}
-        </>
-      )}
-    </Box>
-  </Modal>
-
+      <Modal open={viewModalOpen} onClose={() => setViewModalOpen(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            minWidth: 400,
+          }}
+        >
+          {selectedRoomData && (
+            <>
+              <Typography
+                sx={{ textAlign: "center", color: "#01579b" }}
+                variant="h6"
+                gutterBottom
+              >
+                Room Details
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                Room Number: {selectedRoomData.roomNumber}
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                Price: {selectedRoomData.price}
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                Discount: {selectedRoomData.discount}
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                Capacity: {selectedRoomData.capacity}
+              </Typography>
+              {/* Add more details as needed */}
+            </>
+          )}
+        </Box>
+      </Modal>
     </>
   );
 }

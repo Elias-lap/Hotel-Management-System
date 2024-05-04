@@ -34,8 +34,8 @@ import { AllRooms } from "./ContextForRooms/AllRooms";
 import RoomsData from "./Rooms/RoomsData";
 import { RoomFacility } from "./RoomFacilityContext/RoomFacility";
 import UpdateRoom from "./Rooms/UpdateRoom";
-import { RoomBooking } from "./BookingRoomContext/BookingRoom";
  
+
 function App() {
   const routes = createBrowserRouter([
     {
@@ -92,8 +92,12 @@ function App() {
     <>
       <Elements stripe={stripePromise}>
         <DashBoardRoom>
+          <RoomFacility>
+          <AllRooms>
           <ToastContainer />
           <RouterProvider router={routes} />
+          </AllRooms>
+          </RoomFacility>
         </DashBoardRoom>
       </Elements>
     </>
