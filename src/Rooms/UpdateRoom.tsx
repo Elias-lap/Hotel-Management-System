@@ -40,17 +40,21 @@ export default function UpdateRoom() {
   const { ListFacility } = useContext(contextFacility);
 
   const [images, setImages] = useState<File[]>([]);
-  const [currentImages, setCurrentImages] = useState<string[]>([]);
+  const [currentImages, setCurrentImages] = useState<File[]>([]);
   console.log(currentImages);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+
+    // Log the files to check if they are being captured correctly
+    console.log("Selected files:", files);
 
     // Replace the current images with the new ones
     setImages(files);
 
     // Create new image previews for the newly selected images
-    const newImagesPreview = files.map((file) => URL.createObjectURL(file));
-    setCurrentImages(newImagesPreview);
+    // const newImagesPreview = files.map((file) => URL.createObjectURL(file));
+  
+    setCurrentImages(prevImages => [...prevImages, ...files]);
   };
 
   const {
@@ -113,6 +117,7 @@ export default function UpdateRoom() {
             : [];
           setValue("facilities", selectedFacilities);
           setValue("imgs", roomData.images);
+          setCurrentImages(roomData.images);
         } else {
           console.log("Error retrieving room details:", response);
         }
@@ -190,6 +195,12 @@ export default function UpdateRoom() {
   //     toast.error(error.message);
   //   }
   // };
+  {
+    console.log("Current Images:", currentImages);
+  }
+  {
+    (" ");
+  }
   return (
     <>
       <Container>
@@ -340,43 +351,37 @@ export default function UpdateRoom() {
                   accept="image/*"
                   style={{ display: "none" }}
                 />
-                {/* <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={replaceImages}
-                      onChange={handleReplaceImagesChange}
-                    />
-                  }
-                  label="Replace Images"
-                /> */}
 
-                <div>
+                {/* <div>
                   {images.length > 0 && (
                     <div>
-                      {images.map((image, index) => (
+                      {currentImages.map((image, index) => (
                         <img
                           key={index}
-                          src={URL.createObjectURL(image)}
+                          src={image}
                           alt={`Selected Image ${index}`}
                           style={{ maxWidth: "100px", margin: "5px" }}
                         />
                       ))}
                     </div>
                   )}
-                </div>
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                {Array.from(watch("imgs")).map((img: File, index: number) => (
-                  <img
-                    key={index}
-                    src={URL.createObjectURL(img)}
-                    alt={`Current Image ${index}`}
-                    style={{ maxWidth: "100px", margin: "5px" }}
-                  />
-                ))}
+                </div> */}
+                {currentImages.length > 0 && (
+                  <div>
+                    {currentImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={
+                          typeof image === "string"
+                            ? image
+                            : URL.createObjectURL(image)
+                        }
+                        alt={`Previous Image ${index}`}
+                        style={{ maxWidth: "100px", margin: "5px" }}
+                      />
+                    ))}
+                  </div>
+                )}
               </Grid>
             </Grid>
 
