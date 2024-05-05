@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -6,10 +5,8 @@ import { AuthContext } from "../../Context/Components/AuthContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container } from "@mui/system";
 import Grid from "@mui/material/Grid";
-// import imgO from "../../Img/90d09327b53aab08ce3911a49cb2e305.png";
 import { Typography } from "@mui/material";
 import styleRoomDetails from "./RoomDetails.module.css";
-// import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BedIcon from "@mui/icons-material/Bed";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import BathtubIcon from "@mui/icons-material/Bathtub";
@@ -24,6 +21,7 @@ import dayjs, { Dayjs } from "dayjs";
 import Calendar from "../calendar";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
+import imgRooms from "../../Img/joshua-michaels-5SteU6iJIIE-unsplash.jpg";
 
 const RoomDetails = () => {
   const navigate = useNavigate();
@@ -64,7 +62,6 @@ const RoomDetails = () => {
     if (!token) {
       toast.error("hey you need to login first ");
       throw new Error("User is not authenticated");
-      
     }
     // setLoading(true)
     try {
@@ -86,10 +83,10 @@ const RoomDetails = () => {
       );
       console.log(response);
       toast.success("Booking created successfully");
-      navigate(`/checkout/${response.data.data.booking._id}`,{
-        state:{
-          id :price * dayjs(roomDateEnd).diff(roomDateStart, "day")
-        }
+      navigate(`/checkout/${response.data.data.booking._id}`, {
+        state: {
+          id: price * dayjs(roomDateEnd).diff(roomDateStart, "day"),
+        },
       });
     } catch (error) {
       console.log(error);
@@ -159,7 +156,7 @@ const RoomDetails = () => {
                   src={
                     roomDetails.images && roomDetails.images.length > 0
                       ? roomDetails.images[0]
-                      : roomDetails.images[0]
+                      : { imgRooms }
                   }
                   alt="Large Image"
                   style={{
@@ -169,20 +166,35 @@ const RoomDetails = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
-                {roomDetails.images &&
-                  roomDetails.images.slice(1, 3).map((img: any, index: any) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Small Image ${index + 1}`}
-                      style={{
-                        width: "80%",
-                        height: "500px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
+              <Grid item xs={12} md={4} lg={4}>
+                {roomDetails.images && roomDetails.images.length > 1 ? (
+                  <>
+                    {roomDetails.images
+                      .slice(1, 4)
+                      .map((img: any, index: any) => (
+                        <img
+                          key={index}
+                          src={img}
+                          alt={`Small Image ${index + 1}`}
+                          style={{
+                            width: "80%",
+                            height: "500px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ))}
+                  </>
+                ) : (
+                  <img
+                    src={imgRooms}
+                    alt="No additional images available"
+                    style={{
+                      width: "80%",
+                      height: "500px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
               </Grid>
             </Grid>
           </Container>
