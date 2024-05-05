@@ -90,14 +90,14 @@ function App() {
 
   return (
     <>
-      <Elements stripe={stripePromise}>
+         <Elements stripe={stripePromise}>
         <DashBoardRoom>
+        <AllRooms>
           <RoomFacility>
-          <AllRooms>
           <ToastContainer />
           <RouterProvider router={routes} />
-          </AllRooms>
           </RoomFacility>
+          </AllRooms>
         </DashBoardRoom>
       </Elements>
     </>

@@ -1,5 +1,8 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Context/Components/AuthContext";
+
+
 
 export const contextFacility = createContext<{
   getFacility: () => Promise<void>;
@@ -7,35 +10,38 @@ export const contextFacility = createContext<{
 }>({ getFacility: () => Promise.resolve(), ListFacility: [] });
 
 export function RoomFacility({ children }: React.PropsWithChildren<{}>) {
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { baseUrl, requestHeaders } = authContext;
+
   const [ListFacility, setListFacility] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 const getFacility = async () => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    throw new Error("User is not authenticated");
-  }
- 
+  setLoading(true);
   try {
     const response = await axios.get(
       `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities?pageSize=10&pageNumber=1`,
       {
-        headers: {
-          Authorization: token,
-        },
+        headers: requestHeaders,
+
       }
     );
     setListFacility(response?.data?.data?.facilities);
-    console.log (response);
-  
+    setLoading(false);
   } catch (error) {
-   
+    setLoading(false);
     console.log(error);
   }
 };
-  
+
   useEffect(() => {
     getFacility();
+    ListFacility
+
   }, []);
 
   // useEffect(() => {

@@ -20,12 +20,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
+  Typography
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { contextRoom } from "../ContextForRooms/AllRooms";
 import imgDelete from "../Img/Email.png";
@@ -113,33 +113,34 @@ interface Data {
   updatedAt: string;
 }
 
-// function createData(
-//   _id: string,
+function createData(
+  _id: string,
 
-//   roomNumber: string,
-//   images: string[],
-//   price: number,
-//   discount: string,
-//   capacity: string,
-//   updatedAt: string
-// ): Data {
-//   return { _id, roomNumber, images, price, discount, capacity, updatedAt };
-// }
+  roomNumber: string,
+  images: string[],
+  price: number,
+  discount: string,
+  capacity: string,
+  updatedAt: string
+): Data {
+  return { _id, roomNumber, images, price, discount, capacity, updatedAt };
+}
 
 export default function Rooms() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { listDataRooms, getRooms } = useContext(contextRoom);
   // const { ListBooking ,getBooking} = useContext(contextBooking);
-  // console.log(ListBooking)
+  // console.log(listDataRooms)
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  //
+  // 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
 
   const handleSelectRoom = (roomId: string) => {
     setSelectedRoomId(roomId);
@@ -151,7 +152,7 @@ export default function Rooms() {
     navigate("/dashboard/roomsData");
   };
 
-  const handleChangePage = (event: any, newPage: number) => {
+  const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -162,12 +163,12 @@ export default function Rooms() {
     setPage(0);
   };
 
-  // const createHandleMenuClick = (menuItem: string) => {
-  //   return () => {
-  //     console.log(`Clicked on ${menuItem}`);
-  //   };
-  // };
-  // Pagination
+  const createHandleMenuClick = (menuItem: string) => {
+    return () => {
+      console.log(`Clicked on ${menuItem}`);
+    };
+  };
+// Pagination
 
   useEffect(() => {
     setLoading(true);
@@ -226,28 +227,35 @@ export default function Rooms() {
   //   }
   // };
 
+
   const handleDeleteConfirmed = async () => {
-    setLoading(true);
-    try {
-      await axios.delete(
-        `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-          },
-        }
-      );
-      await getRooms(1, 10);
-      setDeleteModalOpen(false);
-      toast.success("Room deleted successfully!");
-    } catch (error: any) {
-      console.error("Error deleting room:", error);
-      toast.error(error?.response?.data.message);
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("room is not authenticated");
     }
-  };
+    
+    await axios.delete(
+      `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
+      {
+        headers: {
+          Authorization: token,
+
+        },
+      }
+    );
+    await getRooms(1, 10);
+    setDeleteModalOpen(false);
+    toast.success("Room deleted successfully!");
+  } catch (error:any) {
+    console.error("Error deleting room:", error);
+    toast.error(error?.response?.data.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false); // Close the delete modal
@@ -272,6 +280,7 @@ export default function Rooms() {
     setSelectedRoomData(roomData);
     setViewModalOpen(true);
   };
+
 
   return (
     <>
