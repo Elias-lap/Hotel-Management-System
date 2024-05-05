@@ -164,11 +164,7 @@ export default function Rooms() {
     setPage(0);
   };
 
-  // const createHandleMenuClick = (menuItem: string) => {
-  //   return () => {
-  //     console.log(`Clicked on ${menuItem}`);
-  //   };
-  // };
+
 // Pagination
 
   useEffect(() => {
@@ -177,10 +173,6 @@ export default function Rooms() {
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
   }, [rowsPerPage]);
-
-  // const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchInput(event.target.value);
-  // };
 
   const filteredRooms = listDataRooms.filter((room: any) => {
     return (
@@ -203,32 +195,6 @@ export default function Rooms() {
     setSelectedRoomId(roomId); // Set the selected room ID
     setDeleteModalOpen(true); // Open the delete modal
   };
-
-  // const handleDeleteConfirmed = async () => {
-  //   setLoading(true)
-  //   try {
-  //  let del= await axios.delete(
-  //       `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
-  //       {
-  //         headers: {
-  //           // Authorization: localStorage.getItem("Token"),
-  //           Authorization:
-  //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-  //         },
-  //       }
-  //     );
-  //     await getRooms(1, 10);
-  //     setDeleteModalOpen(false);
-  //     // console.log(del.data.message)
-  //     toast.success(del.data.message)
-  //   } catch (error) {
-  //     console.error("Error deleting room:", error);
-  //     toast.error(error?.response?.data.message)
-
-  //   }
-  // };
-
-
   const handleDeleteConfirmed = async () => {
   setLoading(true);
   try {

@@ -53,14 +53,6 @@ export default function UpdateRoom() {
     setCurrentImages(newImagesPreview);
   };
 
-  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = Array.from(e.target.files || []);
-  //   setImages((prevImages) => [...prevImages, ...files]);
-
-  //   const newImagesPreview = files.map((file) => URL.createObjectURL(file));
-  //   setCurrentImages(newImagesPreview);
-  // };
-
   const {
     register,
     handleSubmit,

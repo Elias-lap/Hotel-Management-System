@@ -34,7 +34,6 @@ import { AllRooms } from "./ContextForRooms/AllRooms";
 import RoomsData from "./Rooms/RoomsData";
 import { RoomFacility } from "./RoomFacilityContext/RoomFacility";
 import UpdateRoom from "./Rooms/UpdateRoom";
- 
 
 function App() {
   const routes = createBrowserRouter([
@@ -49,8 +48,7 @@ function App() {
         { path: "explore", element: <ExplorePage /> },
         { path: "Favorites", element: <Favorites /> },
         { path: "RoomDetails/:id", element: <RoomDetails /> },
-        { path: "checkout/:id", element: <Checkout/> },
-        
+        { path: "checkout/:id", element: <Checkout /> },
       ],
     },
 
@@ -79,24 +77,22 @@ function App() {
         { path: "ADS", element: <ADS /> },
         { path: "Booking", element: <Booking /> },
         { path: "home", element: <Home /> },
-      
-      { path: "rooms", element: <Rooms/> },
-      { path: "roomsData", element: <RoomsData/> },
-
-      { path: "updateRoom/:id?", element: <UpdateRoom/> },
-      ]
-      }
-    ])
+        { path: "rooms", element: <Rooms /> },
+        { path: "roomsData", element: <RoomsData /> },
+        { path: "updateRoom/:id?", element: <UpdateRoom /> },
+      ],
+    },
+  ]);
 
   return (
     <>
-         <Elements stripe={stripePromise}>
+      <Elements stripe={stripePromise}>
         <DashBoardRoom>
-        <AllRooms>
-          <RoomFacility>
-          <ToastContainer />
-          <RouterProvider router={routes} />
-          </RoomFacility>
+          <AllRooms>
+            <RoomFacility>
+              <ToastContainer />
+              <RouterProvider router={routes} />
+            </RoomFacility>
           </AllRooms>
         </DashBoardRoom>
       </Elements>
