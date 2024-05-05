@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Alert,
@@ -43,9 +44,10 @@ export default function RoomsData() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    setImages(files);
+  
+    // Append new files to the existing images array
+    setImages(prevImages => [...prevImages, ...files]);
   };
-
   const {
     register,
     handleSubmit,
@@ -117,7 +119,7 @@ export default function RoomsData() {
         }
       );
       console.log(response);
-      toast.success(`You Add a New Room`);
+      toast.success(`You Added a New Room`);
       navigate("/dashboard/rooms");
     } catch (error: any) {
       if (error.response) {
@@ -264,7 +266,7 @@ export default function RoomsData() {
                 )}
               </Grid>
             </Grid>
-
+{/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
             <div>
               <Box>
                 <label htmlFor="upload-input">
@@ -282,7 +284,7 @@ export default function RoomsData() {
                   onChange={handleImageChange}
                   type="file"
                   accept="image/*"
-                  multiple
+                  multiple  // Allow multiple files to be selected
                   style={{ display: "none" }}
                 />
                 {images.length > 0 && (

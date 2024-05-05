@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
@@ -6,16 +7,12 @@ import {
   Alert,
   Box,
   Checkbox,
-  FormControlLabel,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   ListItemText,
-  CircularProgress,
   Grid,
   Container,
-  Typography, // تضمين Typography
 } from "@mui/material";
 
 import styleRooms from "./Rooms.module.css";
@@ -39,20 +36,30 @@ interface FormData {
 export default function UpdateRoom() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedFacility, setSelectedFacility] = useState([]);
-  const { ListFacility, getFacility } = useContext(contextFacility);
+
+  const { ListFacility } = useContext(contextFacility);
 
   const [images, setImages] = useState<File[]>([]);
-const [currentImages, setCurrentImages] = useState<string[]>([]); 
+  const [currentImages, setCurrentImages] = useState<string[]>([]);
+  console.log(currentImages);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
 
-const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = Array.from(e.target.files || []);
-  setImages(files);
+    // Replace the current images with the new ones
+    setImages(files);
 
-  const newImagesPreview = files.map(file => URL.createObjectURL(file));
-  setCurrentImages(newImagesPreview);
-};
+    // Create new image previews for the newly selected images
+    const newImagesPreview = files.map((file) => URL.createObjectURL(file));
+    setCurrentImages(newImagesPreview);
+  };
+
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = Array.from(e.target.files || []);
+  //   setImages((prevImages) => [...prevImages, ...files]);
+
+  //   const newImagesPreview = files.map((file) => URL.createObjectURL(file));
+  //   setCurrentImages(newImagesPreview);
+  // };
 
   const {
     register,
@@ -64,7 +71,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   const onSubmit = async (data: FormData) => {
     const formData = await prepareFormData(data);
-    formData.append("currentImages", JSON.stringify(watch("imgs")));
+    // formData.append("currentImages", JSON.stringify(watch("imgs")));
     return formData;
   };
 
@@ -133,6 +140,13 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!token) {
         throw new Error("room is not authenticated");
       }
+      // If there are new images, replace the current images
+      if (images.length > 0) {
+        formData.delete("imgs"); // Remove existing images
+        for (let i = 0; i < images.length; i++) {
+          formData.append("imgs", images[i]); // Append new images
+        }
+      }
 
       const response = await axios.put(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
@@ -140,11 +154,10 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         {
           headers: {
             Authorization: token,
-            "Content-Type": "multipart/form-data",
           },
         }
       );
-
+      console.log(response);
       toast.success(`Room Updated Successfully`);
       navigate("/dashboard/rooms");
     } catch (error: any) {
@@ -152,11 +165,43 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       toast.error(error.message);
     }
   };
+  // Inside the onSubmit function
+  // const handleUpdate = async (data: FormData) => {
+  //   const formData = await onSubmit(data);
 
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) {
+  //       throw new Error("User is not authenticated");
+  //     }
+
+  //     const url = `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`;
+  //     const config = {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     };
+
+  //     // Replace or add images based on the user's selection
+  //     if (replaceImages) {
+  //       // If the user wants to replace images, send a PUT request with formData
+  //       await axios.put(url, formData, config);
+  //     } else {
+  //       // If the user wants to add new images, send a POST request with formData
+  //       await axios.post(url, formData, config);
+  //     }
+
+  //     toast.success(`Room Updated Successfully`);
+  //     navigate("/dashboard/rooms");
+  //   } catch (error: any) {
+  //     console.log("Error updating room: ", error.message);
+  //     toast.error(error.message);
+  //   }
+  // };
   return (
     <>
       <Container>
-        <Box sx={{marginTop:"3rem"}}>
+        <Box sx={{ marginTop: "3rem" }}>
           <Form onSubmit={handleSubmit(handleUpdate)}>
             <TextField
               sx={{ width: 1, mb: 4 }}
@@ -283,9 +328,8 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 )}
               </Grid>
             </Grid>
-
-            {/* <div>
-              <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
                 <label htmlFor="upload-input">
                   <Button
                     className={`${styleRooms.btnFile}`}
@@ -300,102 +344,52 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   id="upload-input"
                   onChange={handleImageChange}
                   type="file"
-                  accept="image/*"
                   multiple
+                  accept="image/*"
                   style={{ display: "none" }}
                 />
-             {images.length > 0 && (
-  <div style={{ marginTop: "20px" }}>
-    {images.map((file, index) => {
-      if (file) {
-        return (
-          <img
-            key={index}
-            src={URL.createObjectURL(file)}
-            alt={`Selected ${index + 1}`}
-            style={{
-              maxWidth: "80%",
-              maxHeight: "100px",
-              margin: "5px",
-            }}
-          />
-        );
-      }
-      return null;
-    })}
-  </div>
-)}
-
-              </Box>
-              {errors.imgs && (
-                <Alert sx={{ mt: 1 }} severity="error">
-                  {errors.imgs.message}
-                </Alert>
-              )}
-            </div> */}
-
-<Grid container spacing={2}>
-              <Grid item xs={12}>
-          
-
-              <label htmlFor="upload-input">
-  <Button
-    className={`${styleRooms.btnFile}`}
-    variant="contained"
-    startIcon={<CloudUploadIcon />}
-    component="span"
-  >
-    Upload Images
-  </Button>
-</label>
-<input
-  id="upload-input"
-  onChange={handleImageChange}
-  type="file"
-  multiple
-  accept="image/*"
-  style={{ display: "none" }}
-/>
-
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={replaceImages}
+                      onChange={handleReplaceImagesChange}
+                    />
+                  }
+                  label="Replace Images"
+                /> */}
 
                 <div>
-                {images.length > 0 && (
-  <div>
-    {images.map((image, index) => (
-      <img
-        key={index}
-        src={URL.createObjectURL(image)}
-        alt={`Selected Image ${index}`}
-        style={{ maxWidth: "100px", margin: "5px" }}
-      />
-    ))}
-  </div>
-)}
-
+                  {images.length > 0 && (
+                    <div>
+                      {images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={URL.createObjectURL(image)}
+                          alt={`Selected Image ${index}`}
+                          style={{ maxWidth: "100px", margin: "5px" }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </Grid>
             </Grid>
 
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                {watch("imgs") && (
-                  <div>
-                    {watch("imgs").map((img: string, index: number) => (
-                      <img
-                        key={index}
-                        src={img}
-                        alt={`Current Image ${index}`}
-                        style={{ maxWidth: "100px", margin: "5px" }}
-                      />
-                    ))}
-                  </div>
-                )}
+                {Array.from(watch("imgs")).map((img: File, index: number) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(img)}
+                    alt={`Current Image ${index}`}
+                    style={{ maxWidth: "100px", margin: "5px" }}
+                  />
+                ))}
               </Grid>
             </Grid>
 
-
-            <Box sx={{textAlign:"end"}}>
-              <Button  variant="contained" type="submit">
+            <Box sx={{ textAlign: "end" }}>
+              <Button variant="contained" type="submit">
                 Update
               </Button>
             </Box>
