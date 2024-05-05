@@ -20,8 +20,9 @@ import { AuthContext } from "../../../Context/Components/AuthContext";
 import Styles from "./Login.module.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import img from "../../../assets/images/resetPass.png";
-import logo from "../../../assets/images/Staycation.png";
 import { toast } from "react-toastify";
+import logo from "../../../assets/images/Staycation.png";
+
 
 
 export default function Login() {
