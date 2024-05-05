@@ -306,7 +306,7 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      {/* <ChangeLanguage /> */}
+      <ChangeLanguage />
     </>
   );
 }

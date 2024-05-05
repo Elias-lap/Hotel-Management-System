@@ -119,40 +119,10 @@ const RoomDetails = () => {
         </Typography>
       ) : (
         <>
-          <Typography
-            variant="h2"
-            style={{ textAlign: "center", marginBottom: "10px" }}
-          >
-            Room Details
-          </Typography>
+        
 
           <Container maxWidth="xl">
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "10px",
-                padding: "5px",
-              }}
-            >
-              <Typography variant="body1" style={{ marginRight: "5px" }}>
-                <Link
-                  to="/dashboard/home"
-                  style={{ color: "#B0B0B0", textDecoration: "none" }}
-                >
-                  Home
-                </Link>
-              </Typography>
-              <Typography
-                variant="body1"
-                style={{ marginRight: "5px", color: "#B0B0B0" }}
-              >
-                /
-              </Typography>
-              <Typography variant="body1" style={{ color: "#152C5B" }}>
-                Room Details
-              </Typography>
-            </Box>
+          
             <Grid container spacing={2}>
               <Grid item xs={12} md={8} lg={8}>
                 <img
