@@ -44,16 +44,10 @@ export default function UpdateRoom() {
   console.log(currentImages);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-
     // Log the files to check if they are being captured correctly
     console.log("Selected files:", files);
-
     // Replace the current images with the new ones
     setImages(files);
-
-    // Create new image previews for the newly selected images
-    // const newImagesPreview = files.map((file) => URL.createObjectURL(file));
-  
     setCurrentImages(prevImages => [...prevImages, ...files]);
   };
 
@@ -162,39 +156,7 @@ export default function UpdateRoom() {
       toast.error(error.message);
     }
   };
-  // Inside the onSubmit function
-  // const handleUpdate = async (data: FormData) => {
-  //   const formData = await onSubmit(data);
 
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) {
-  //       throw new Error("User is not authenticated");
-  //     }
-
-  //     const url = `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`;
-  //     const config = {
-  //       headers: {
-  //         Authorization: token,
-  //       },
-  //     };
-
-  //     // Replace or add images based on the user's selection
-  //     if (replaceImages) {
-  //       // If the user wants to replace images, send a PUT request with formData
-  //       await axios.put(url, formData, config);
-  //     } else {
-  //       // If the user wants to add new images, send a POST request with formData
-  //       await axios.post(url, formData, config);
-  //     }
-
-  //     toast.success(`Room Updated Successfully`);
-  //     navigate("/dashboard/rooms");
-  //   } catch (error: any) {
-  //     console.log("Error updating room: ", error.message);
-  //     toast.error(error.message);
-  //   }
-  // };
   {
     console.log("Current Images:", currentImages);
   }
@@ -351,21 +313,6 @@ export default function UpdateRoom() {
                   accept="image/*"
                   style={{ display: "none" }}
                 />
-
-                {/* <div>
-                  {images.length > 0 && (
-                    <div>
-                      {currentImages.map((image, index) => (
-                        <img
-                          key={index}
-                          src={image}
-                          alt={`Selected Image ${index}`}
-                          style={{ maxWidth: "100px", margin: "5px" }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div> */}
                 {currentImages.length > 0 && (
                   <div>
                     {currentImages.map((image, index) => (
