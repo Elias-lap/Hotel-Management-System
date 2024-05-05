@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export default function ChangeLanguage() {
   const locales: any = {
-    en: { title: "English" },
-    ar: { title: "العربيه" },
+    en: { title: "En" },
+    ar: { title: "Ar" },
   };
 
   //   console.log(locales.en.title)
@@ -21,12 +21,13 @@ export default function ChangeLanguage() {
           // right: "50px",
           direction: "rtl",
           backgroundColor: "inherit",
+          
        
         }}
       >
-        <ul>
+        <ul style={{  display:"inline-block"  , padding:" 14px 0 0 0" }}>
           {Object.keys(locales).map((locale) => (
-            <li style={{ listStyle: "none" }} key={locale}>
+            <li style={{ listStyle: "none" , display:"inline-block" }} key={locale}>
               <button
                 style={{
                   fontWeight:

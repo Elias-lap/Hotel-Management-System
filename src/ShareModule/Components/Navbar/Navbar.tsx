@@ -303,10 +303,11 @@ function ResponsiveAppBar() {
                 {/* </MenuItem> */}
               </Menu>
             </Box>
+      <ChangeLanguage />
+
           </Toolbar>
         </Container>
       </AppBar>
-      <ChangeLanguage />
     </>
   );
 }

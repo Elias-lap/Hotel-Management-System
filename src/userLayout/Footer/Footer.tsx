@@ -16,7 +16,7 @@ const Footer = () => {
  
   return (
     <ScopedCssBaseline
-      sx={{  direction: directionStyle === 'ar' ? 'rtl' : 'ltr', py: 5, backgroundColor: "#fff", marginTop: "auto" }}
+      sx={{  direction: directionStyle === 'ar' ? 'rtl' : 'ltr', py: 5, backgroundColor: "#fff", marginTop: "auto"  }}
     >
       <Container component="footer">
         <Grid

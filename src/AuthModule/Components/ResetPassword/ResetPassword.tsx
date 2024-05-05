@@ -6,7 +6,7 @@ import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Import image
-import imgForgotPass from "../../../Img/forgotPass.png";
+import imgForgotPass from "../../../assets/images/forgot.jpg";
 
 // Import components from MUI
 import Visibility from "@mui/icons-material/Visibility";

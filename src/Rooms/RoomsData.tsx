@@ -323,7 +323,7 @@ export default function RoomsData() {
                     Cancel
                   </Button>
                   <Button type="submit" variant="contained">
-                    {isLoading ? <CircularProgress color="inherit" /> : "Save"}
+                    {isLoading ? <CircularProgress size={25} color="inherit" /> : "Save"}
                   </Button>
                 </Stack>
               </Grid>

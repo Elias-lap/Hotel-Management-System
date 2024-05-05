@@ -15,7 +15,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Form, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import imgForgotPass from "../../../Img/forgotPass.png";
+import imgForgotPass from "../../../../src/assets/images/login.png";
 import StyleForgotPass from "./ForgotPassword.module.css";
 
 export interface FormDataRegister {

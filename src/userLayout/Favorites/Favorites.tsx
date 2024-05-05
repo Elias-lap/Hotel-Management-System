@@ -38,7 +38,7 @@ export default function Favorites() {
   const [isLoading, setIsLoading] = useState(false);
   // Pagination 
   const [page, setPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
 
   // add AllFavRooms
 

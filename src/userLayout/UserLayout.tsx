@@ -9,12 +9,14 @@ import ChangeLanguage from "../ShareModule/ChangeLanguage/ChangeLanguage";
 const UserLayout = () => {
     return (
         <> 
-            <Box   sx={{  width : "100%"  ,m:"auto" }  }>
+            <Box   sx={{  width : "100%"  , m:"auto"  }  }>
             <Navbar/>
-           {/* <ChangeLanguage/> */}
-            <Outlet/>
-            <Footer/>
+        <Box sx={{minHeight:"65vh"}}>
+            <Outlet />
             </Box>
+            </Box>
+            <Footer/>
+
             </> 
       
           
