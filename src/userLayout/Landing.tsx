@@ -78,7 +78,7 @@ const directionStyle=i18n.resolvedLanguage;
   }
   const { baseUrl } = authContext;
   return (
-    <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "90%", mx: "auto", mb: "100px"  }}>
+    <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "80%", mx: "auto", mb: "100px"  }}>
       <Box
         display="flex"
         sx={{

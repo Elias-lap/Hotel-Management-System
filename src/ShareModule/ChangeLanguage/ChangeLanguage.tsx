@@ -15,12 +15,13 @@ export default function ChangeLanguage() {
     <>
       <div
         style={{
-          padding: "0px 50px",
+          // padding: "0px 50px",
           margin: "0",
           position: "relative",
-          right: "50px",
+          // right: "50px",
           direction: "rtl",
           backgroundColor: "inherit",
+       
         }}
       >
         <ul>
@@ -32,6 +33,7 @@ export default function ChangeLanguage() {
                     i18n.resolvedLanguage === locale ? "bold" : "normal",
                   backgroundColor: "inherit",
                   border: "none",
+               
                 }}
                 type="submit"
                 onClick={() => {

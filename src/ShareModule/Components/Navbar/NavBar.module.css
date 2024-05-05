@@ -4,13 +4,28 @@
 
 
 
+
+
 .nav{
     background-color: #ffffff !important; 
-    padding: 0  0  0  50px !important;
+    /* padding: 0  0  0  50px !important; */
     box-shadow: none !important;
-    /* direction: rtl; */
-    
 }
+
+.logo{
+    color: rgb(0, 0, 0);
+}
+.hlogo{
+    color: rgb(102, 102, 246);
+    margin-top: 10px;
+
+}
+
+.avatar:hover{
+background-color: inherit !important;
+}
+
+
 .bottom{
     /* background-color: rgb(61, 10, 229) !important; */
     padding: 20px;

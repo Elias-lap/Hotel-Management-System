@@ -1,7 +1,8 @@
 import {
   CardContent,
   IconButton,
-  Pagination
+  Pagination,
+  Typography
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -16,7 +17,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Favorites() {

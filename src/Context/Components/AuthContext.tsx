@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 // Define the authentication data//
 export interface IAuth {
-  loginData: DecodedTokenType | null;
+  loginData: DecodedTokenType | null | any;
   savLoginData: () => void;
   userRole: string | null;
   requestHeaders: { Authorization:string},

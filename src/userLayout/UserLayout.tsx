@@ -11,7 +11,7 @@ const UserLayout = () => {
         <> 
             <Box   sx={{  width : "100%"  ,m:"auto" }  }>
             <Navbar/>
-           <ChangeLanguage/>
+           {/* <ChangeLanguage/> */}
             <Outlet/>
             <Footer/>
             </Box>
