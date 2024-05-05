@@ -359,7 +359,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
                 <div>
-                {/* {images.length > 0 && (
+                {images.length > 0 && (
   <div>
     {images.map((image, index) => (
       <img
@@ -370,7 +370,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       />
     ))}
   </div>
-)} */}
+)}
 
                 </div>
               </Grid>
