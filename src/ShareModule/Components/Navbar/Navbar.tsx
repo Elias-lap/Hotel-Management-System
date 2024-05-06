@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -6,13 +7,11 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import axios from "axios";
@@ -54,14 +53,7 @@ function ResponsiveAppBar() {
     navigate("/login");
   };
 
-  const authContext = React.useContext(AuthContext);
-  const navigate = useNavigate();
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
 
-  const { loginData, baseUrl } = authContext;
   // console.log(loginData?._id);
   // /////////// user data
   interface IUser {
@@ -118,7 +110,14 @@ function ResponsiveAppBar() {
     }
   }, []);
 
- 
+  const authContext = React.useContext(AuthContext);
+  const navigate = useNavigate();
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+
+  const { loginData, baseUrl } = authContext;
   return (
     <>
       <AppBar

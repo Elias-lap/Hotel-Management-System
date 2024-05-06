@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTranslation } from "react-i18next";
 
 export default function ChangeLanguage() {
@@ -8,7 +9,7 @@ export default function ChangeLanguage() {
 
   //   console.log(locales.en.title)
   const { t, i18n } = useTranslation();
-
+  console.log(t)
 //   console.log(i18n.resolvedLanguage);
 
   return (

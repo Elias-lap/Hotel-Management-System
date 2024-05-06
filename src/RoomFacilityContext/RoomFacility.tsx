@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/Components/AuthContext";
@@ -10,16 +13,11 @@ export const contextFacility = createContext<{
 }>({ getFacility: () => Promise.resolve(), ListFacility: [] });
 
 export function RoomFacility({ children }: React.PropsWithChildren<{}>) {
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    // Handle the case where AuthContext is null
-    return null;
-  }
-  const { baseUrl, requestHeaders } = authContext;
+
 
   const [ListFacility, setListFacility] = useState([]);
   const [loading, setLoading] = useState(false);
-
+ console.log(loading)
 const getFacility = async () => {
   setLoading(true);
   try {
@@ -43,10 +41,14 @@ const getFacility = async () => {
     ListFacility
 
   }, []);
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { requestHeaders } = authContext;
 
-  // useEffect(() => {
-  //   console.log(ListFacility);
-  // }, [ListFacility]);
+
 
   return (
     <contextFacility.Provider

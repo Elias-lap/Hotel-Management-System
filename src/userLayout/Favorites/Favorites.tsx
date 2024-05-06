@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CardContent,
@@ -86,7 +87,7 @@ export default function Favorites() {
     page * itemsPerPage
   );
 
-  const handlePageChange = (event:any, value:any) => {
+  const handlePageChange = (_event:any, value:any) => {
     setPage(value);
   };
 

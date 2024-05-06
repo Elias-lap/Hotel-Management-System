@@ -25,7 +25,7 @@ export const contextDashBoard = createContext<{
 export function DashBoardRoom({ children }: React.PropsWithChildren<unknown>) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+   console.log(loading ,error )
   const [dashboardData, setDashboardData] = useState<{
     dataDashboard: number[];
     numberForFacilities: number[];
