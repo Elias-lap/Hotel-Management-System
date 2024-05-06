@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
 import { Card } from "@mui/material";
 import BedIcon from "@mui/icons-material/Bed";
@@ -27,7 +27,7 @@ export default function Home() {
     theme.palette.warning.main,
     theme.palette.info.main,
     theme.palette.success.main,
-    theme.palette.text.primary, 
+    theme.palette.text.primary,
   ];
 
   const pieChartData = [
