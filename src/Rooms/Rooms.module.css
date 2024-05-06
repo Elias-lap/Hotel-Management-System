@@ -1,0 +1,48 @@
+.sameHightForSelect{
+    padding: 5px 4px !important;
+
+}
+
+.iconDropdown{
+    color: black !important;
+}
+
+.iconsAction{
+    color:#203FC7 ;
+}
+
+/* .btnAdd{
+    background-color: #203FC7 !important;
+
+
+} */
+
+
+.btnFile{
+    background-color: #F1FFF0 !important;
+    color: black !important;
+    border: 1px dashed #009247 !important;
+}
+
+.btnFile:hover{
+    background-color: #F1FFF0 !important;
+    color: black !important;
+    border: 1px dashed #009247 !important;
+}
+
+.chooseImg{
+    color: #009247;
+}
+
+.line{
+    margin: auto;
+    margin-top: 10rem;
+    /* border: 3px solid #F7F7F7; */
+    width:100%;
+    height: 0.2rem;
+    background-color:  #F7F7F7;
+}
+
+.imgs{
+    width: 50%;
+}

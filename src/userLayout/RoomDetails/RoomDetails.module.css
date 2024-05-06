@@ -1,0 +1,16 @@
+.WordPer{
+  margin-left: 0.6rem;
+  color: #B0B0B0;
+}
+
+.spaceInputs{
+
+}
+
+@media (min-width: 10px) and (max-width: 899px) {
+  .spaceInputs{
+
+    margin-top: 2.5rem !important;
+  }
+  
+}
