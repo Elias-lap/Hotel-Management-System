@@ -1,4 +1,5 @@
-import { Box, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material";
+import imgLogin from "../../assets/images/login PopUp.jpg";
 import defaultImage from "../Img/defaultImage.jpg";
 import React, { useContext } from "react";
 import "./MostPopular.scss";
@@ -8,6 +9,7 @@ import axios from "axios";
 import { AuthContext } from "../Context/Components/AuthContext";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from "react-router-dom";
+
 const style = {
   position: "absolute" ,
   top: "50%",
@@ -36,6 +38,10 @@ interface ADS {
 }
 
 const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
+  const goToLogin = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   const navigate =useNavigate()
   // ///////// Modal for user Not Login
   const [open, setOpen] = React.useState(false);
@@ -73,7 +79,9 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
   const {  loginData, requestHeaders } = authContext;
   return (
     <>
-            <Modal
+            <div>
+        {/* <Button onClick={handleOpen}>Open modal</Button> */}
+        <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -83,11 +91,28 @@ const MostPopularAds: React.FC<MostPopularAdsProps> = ({ ADSList }) => {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Hey you need to login first !
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <img
+              src={imgLogin}
+              style={{ width: "300px", height: "200px" }}
+              alt=""
+            />
+            <Button
+              onClick={goToLogin}
+              sx={{
+                p: 1,
+                width: "50%",
+                mt: 4,
+                alignItems: "center",
+                backgroundColor: "primary.dark",
+                color: "common.black",
+              }}
+              color={"inherit"}
+            >
+              Login Now
+            </Button>
           </Box>
         </Modal>
+      </div>
       <Box className={"grid"}>
         <Box
           className={"main  card"}

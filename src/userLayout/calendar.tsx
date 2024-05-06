@@ -94,7 +94,7 @@ const Calendar = ({ selectedDateRange, setSelectedDateRange  ,theme}: IProps) =>
       <TextField
   
   sx={{
-    width : { xs : "100%" ,sm : "87.5%" ,md :"84%" , lg :"84%"  , xl : "85%" },
+    width : { xs : "100%" ,sm : "87.5%" ,md :"100%" , lg :"84%"  , xl : "90%" },
     backgroundColor: theme?.palette.grey[100],
     border: 'none !important',
     display: 'flex',

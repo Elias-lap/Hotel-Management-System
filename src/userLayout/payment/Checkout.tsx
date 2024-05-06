@@ -22,6 +22,7 @@ const Checkout = () => {
   console.log(bookingDetails)
   const { id } = useParams<{ id: string }>();
   interface State {
+    id: any;
     range?: any;
     // range?: [Date, Date];
   }
@@ -73,7 +74,7 @@ const Checkout = () => {
   
   
   // Function to handle payment
-  const payBooking = async (id: string, tokenId: string | undefined) => {
+  const payBooking = async (id: string | undefined, tokenId: string | undefined) => {
     try {
       // Make POST request to pay booking
       const response = await axios.post(
@@ -166,7 +167,9 @@ const Checkout = () => {
             <form onSubmit={handleSubmit} >
               <AddressElement options={{ mode: "billing" }} />
 
-              <CardElement />
+              <div style={{margin :"1rem 0 1rem 0"}}>
+                <CardElement  />
+              </div>
               <Button  type="submit" sx={{width :"100%" , mt :"1rem"} } disabled={!stripe} variant="contained" color="primary">
               Submit
               </Button>

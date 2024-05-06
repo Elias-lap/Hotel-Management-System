@@ -42,17 +42,6 @@ const style = {
 };
 
 export default function ExplorePage() {
-  {
-    /*  // in commpontet explor you can use  //const { state } = useLocation();// this line of code to accses state and this piss of code 
-          // const bookingGuestCount = state?.persons;
-          // const [selectedDateRange, setSelectedDateRange] = useState<Range<Dayjs>>([
-         //   state?.range[0],
-         //   state?.range[1],
-         // ]);
-
-  // */
-  }
-
 
   interface IRoom {
     roomNumber:string
@@ -79,7 +68,7 @@ export default function ExplorePage() {
             },
           }
         );
-        // console.log(response.data.data.rooms);
+      
         setRoomsList(response.data.data.rooms);
       } catch (error) {
         // console.log(error);
@@ -94,7 +83,7 @@ export default function ExplorePage() {
           endDate: endDate,
         },
       });
-      // console.log(response.data.data.rooms);
+      
       setRoomsList(response.data.data.rooms);
     } catch (error) {
       // console.log(error);
@@ -168,36 +157,6 @@ export default function ExplorePage() {
       }
     }
   };
-
-  // useEffect(() => {
-  //   GetFav()
-  //   }, []);
-
-// /////////// get fav
-// const [favRoomsList, setFavRoomsList] = useState<{ images: string[]; roomNumber: string; price: number; _id: string; }[]>([]);
-
-// const GetFav = async () => {
-//   // if (!loginData) {
-//   // } else {
-//     try {
-//       const response = await axios.get(
-//         `https://upskilling-egypt.com:3000/api/v0/portal/favorite-rooms`,
-      
-//         {
-//           headers: requestHeaders,
-//         }
-//       );
-//       setFavRoomsList(response?.data?.data?.favoriteRooms[0].rooms);
-//       console.log(response?.data.data.favoriteRooms[0].rooms);
-//       // console.log(response);
-//     } catch (error) {
-//      console.log(error);
-     
-//     // }
-//   }
-// };
-
-
   const authContext = useContext(AuthContext);
   if (!authContext) {
     // Handle the case where AuthContext is null
@@ -213,6 +172,7 @@ export default function ExplorePage() {
 
   const { t, i18n } = useTranslation();
   const directionStyle=i18n.resolvedLanguage;
+  console.log(directionStyle)
     // 
 
   return (

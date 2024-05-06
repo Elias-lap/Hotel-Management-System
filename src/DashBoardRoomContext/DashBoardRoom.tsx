@@ -22,7 +22,7 @@ export const contextDashBoard = createContext<{
   completedBookings: [],
 });
 
-export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
+export function DashBoardRoom({ children }: React.PropsWithChildren<unknown>) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,4 +94,4 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
       {children}
     </contextDashBoard.Provider>
   );
-};
+}

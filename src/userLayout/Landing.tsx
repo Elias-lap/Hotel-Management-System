@@ -2,7 +2,7 @@ import { Box, Grid, Typography, useTheme } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { useContext, useEffect, useState } from "react";
 import Calendar from "./calendar";
-// import { IconButton } from 'material-ui';
+
 import { IconButton, TextField, Button } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { green, red } from "@mui/material/colors";
@@ -15,6 +15,7 @@ import family from "../Img/review.png";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
 import { useTranslation } from "react-i18next";
+
 interface ADS {
   _id: string;
   room: {
@@ -32,6 +33,8 @@ const Landing = () => {
 const directionStyle=i18n.resolvedLanguage;
   console.log(directionStyle);
 
+ 
+  
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -78,6 +81,7 @@ const directionStyle=i18n.resolvedLanguage;
   }
   const { baseUrl } = authContext;
   return (
+    <>
     <Box sx={{ direction: directionStyle === 'ar' ? 'rtl' : 'ltr', width: "80%", mx: "auto", mb: "100px"  }}>
       <Box
         display="flex"
@@ -173,10 +177,7 @@ const directionStyle=i18n.resolvedLanguage;
                   sx={{
                     backgroundColor: theme?.palette.grey[100],
                     border: "none !important",
-                    width: {
-                      sm: "80%",
-                      md: "80%",
-                    },
+                    width : { xs : "100%" ,sm : "87.5%" ,md :"100%" , lg :"84%"  , xl : "90%" },
                     mt: 2,
                     justifyContent: "center",
                     alignItems: "center",
@@ -228,14 +229,6 @@ const directionStyle=i18n.resolvedLanguage;
                 {t("main.Explor")}
               </Button>
 
-              {/*  // in commpontet explor you can use  //const { state } = useLocation();// this line of code to accses state and this piss of code 
-            // const bookingGuestCount = state?.persons;
-               // const [selectedDateRange, setSelectedDateRange] = useState<Range<Dayjs>>([
-         //   state?.range[0],
-         //   state?.range[1],
-         // ]);
-
-  // */}
             </Box>
           </Grid>
           <Grid
@@ -292,7 +285,7 @@ const directionStyle=i18n.resolvedLanguage;
         >
           {t("main.AdsTitle")}
         </Typography>
-        <MostPopularAds ADSList={ADSList} />
+        <MostPopularAds ADSList={ADSList}  />
       </Box>
 
       <Box>
@@ -378,6 +371,8 @@ const directionStyle=i18n.resolvedLanguage;
         </Grid>
       </Box>
     </Box>
+
+    </>
   );
 };
 
